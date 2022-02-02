@@ -25,14 +25,16 @@
   acc s
   ```
 
-5. 下記のような提出の確認が出てくるので確認の`abcd`を打つ．
+5. 下記のような提出の確認が出てくるので確認の`abc` + 問題番号．
   ```
+  the problem "https://atcoder.jp/contests/abc227/tasks/abc227_a" is specified to submit, but no samples were downloaded in this directory. this may be mis-operation
+  Are you sure? Please type "abca" // 確認コードの最後の文字が問題番号．今回は"a"
   ```
 
 ## テストケースの注意．
-- 浮動小数点で提出の際は引数`-e`と相対誤差`float`を決める．
+- 浮動小数点で提出の際は引数`-e`と相対誤差を決める．
   ```
-  oj t -e float
+  oj t -e 相対誤差
   ```
 
 - 解答が複数の際は引数`-N`（空白と改行を無視）を決める．
