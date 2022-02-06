@@ -1,4 +1,5 @@
 *.exe
 *.out
 *.
-*test/
+test/
+**contest.acc.json
