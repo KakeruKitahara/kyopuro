@@ -7,11 +7,15 @@ using namespace atcoder;
 #define REPR(i, n) for (int i = n - 1; 0 <= i; i--)
 #define REPR2(i, n, a) for (int i = n; a <= i; i--)
 using V = vector<int>;
+using Vl = vector<long long>;
 using VV = vector<vector<int>>;
+using VVl = vector<vector<long long>>;
 using P = pair<int, int>;
+using Pl = pair<long long, long long>;
 using S = string;
 using ll = long long;
-constexpr int INF = 1000000000 + 8;
+constexpr int IINF = 1000000000 + 8;
+constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
 
 int main()
@@ -23,36 +27,23 @@ int main()
   {
     cin >> a[i];
   }
-  mint times = 2, pretimes = 1;
-  vector<vector<mint>> dp(n, vector<mint>(2, 0));
-  REP2(i, 1, n)
+  V c(200);
+  set<int> b;
+  ll ans = 0;
+  REP(i, n)
   {
-    if (i == 1)
+    if (b.count(a[i] % 200) == 1)
     {
-      dp[i][0] = a[0] + a[1];
-      dp[i][1] = a[0] - a[1];
+      c[a[i] % 200]++;
+      ans += c[a[i] % 200];
     }
     else
     {
-      if (i > 2)
-      {
-        mint tmp = times;
-        times += pretimes;
-        pretimes = tmp;
-      }
-      dp[i][0] = dp[i - 1][0] + dp[i - 1][1] + a[i] * times;
-      dp[i][1] = dp[i - 1][0] - a[i] * pretimes;
+      b.insert(a[i] % 200);
     }
   }
 
-  //　n = 1 の時もある.
-  if (n == 1)
-  {
-    dp[0][0] = a[0];
-    dp[0][1] = 0;
-  }
+  cout << ans << endl;
 
-  mint b = dp[n - 1][0] + dp[n - 1][1];
-  cout << b.val() << endl;
   return 0;
 }
