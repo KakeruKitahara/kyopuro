@@ -1,4 +1,6 @@
+*
+!*/
+!*.*
 *.exe
 *.out
-m
 **contest.acc.json
