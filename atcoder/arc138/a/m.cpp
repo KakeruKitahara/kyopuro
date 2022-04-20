@@ -20,39 +20,41 @@ using mint = modint1000000007;
 
 int main()
 {
-  ll n, m;
-  cin >> n >> m;
-
-  Vl a(n + 1), c(n + m + 1);
-
-  REPR(i, n + 1) // これは逆順にしているが，そのままでも良い．
+  int n, k;
+  cin >> n >> k;
+  V a(k);
+  vector<P> b;
+  int aa;
+  REP(i, k)
   {
-    cin >> a[i];
+
+    cin >> aa;
+    a[k - i - 1] = aa;
   }
-  REPR(i, n + m + 1)
+  int o = 0;
+  REP2(i, k, n)
   {
-    cin >> c[i];
+    int bb;
+    cin >> bb;
+    b.push_back(make_pair(bb, o));
+    o++;
   }
 
-  Vl b(m + 1);
+  sort(b.begin(), b.end());
 
-  ll wa = 0;
-  REP(i, m + 1)
+  int ans = IINF;
+  REP(i, k)
   {
-    wa = 0;
-    int k = i - 1;
-    for (int j = 1; j <= i && j < n + 1; j++, k--) // AよりもBのほうが項数が多い時があるのでj < nが必要．
+    auto it = lower_bound(b.begin(), b.end(), make_pair(a[i] + 1, 0));
+    REP2(j, it - b.begin(), b.size())
     {
-      wa += b[k] * a[j];
+      ans = min(b[j].second + i + 1, ans);
     }
-    b[i] = (c[i] - wa) / a[0];
   }
-
-  REPR(i, m + 1)
-  {
-    cout << b[i] << " ";
-  }
-  cout << endl;
+  if (ans == IINF)
+    cout << -1 << endl;
+  else
+    cout << ans << endl;
 
   return 0;
 }

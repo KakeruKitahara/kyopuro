@@ -20,39 +20,34 @@ using mint = modint1000000007;
 
 int main()
 {
-  ll n, m;
-  cin >> n >> m;
 
-  Vl a(n + 1), c(n + m + 1);
-
-  REPR(i, n + 1) // これは逆順にしているが，そのままでも良い．
+  int n;
+  cin >> n;
+  fenwick_tree<int> ff[200000];
+  V a(n);
+  REP(i, n)
   {
     cin >> a[i];
   }
-  REPR(i, n + m + 1)
+
+  REP(i, n)
   {
-    cin >> c[i];
+    ff[a[i]].add(i + 1, 1);
   }
 
-  Vl b(m + 1);
+  int q;
+  cin >> q;
 
-  ll wa = 0;
-  REP(i, m + 1)
+  VV qu(q, V(3, 0));
+  REP(i, q)
   {
-    wa = 0;
-    int k = i - 1;
-    for (int j = 1; j <= i && j < n + 1; j++, k--) // AよりもBのほうが項数が多い時があるのでj < nが必要．
-    {
-      wa += b[k] * a[j];
-    }
-    b[i] = (c[i] - wa) / a[0];
+    cin >> qu[i][0] >> qu[i][1] >> qu[i][2];
   }
 
-  REPR(i, m + 1)
+  REP(i, q)
   {
-    cout << b[i] << " ";
+    cout << ff[qu[i][2]].sum(qu[i][0] - 1, qu[i][1] - 1) << endl;
   }
-  cout << endl;
 
   return 0;
 }

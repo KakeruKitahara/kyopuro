@@ -18,41 +18,46 @@ constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
 
+ll f(ll a, ll b)
+{
+	return a * a * a + a * a * b + a * b * b + b * b * b;
+}
+
 int main()
 {
-  ll n, m;
-  cin >> n >> m;
+	ll n;
+	cin >> n;
 
-  Vl a(n + 1), c(n + m + 1);
+	int a = 0;
+	ll ans = LINF;
 
-  REPR(i, n + 1) // これは逆順にしているが，そのままでも良い．
-  {
-    cin >> a[i];
-  }
-  REPR(i, n + m + 1)
-  {
-    cin >> c[i];
-  }
+	REP(a, 1000001)
+	{
+		ll l = -1, r = 1000001;
+		ll b;
+		while (r - l > 1)
+		{
+			b = (l + r) / 2;
+			if (n == f(a, b))
+			{
+				break;
+			}
+			else if (n < f(a, b))
+			{
+				r = b;
+			}
+			else
+			{
+				l = b;
+			}
+		}
+		if (f(a, b) < n)
+		{
+			b++;
+		}
 
-  Vl b(m + 1);
+		ans = min(ans, f(a, b));
+	}
 
-  ll wa = 0;
-  REP(i, m + 1)
-  {
-    wa = 0;
-    int k = i - 1;
-    for (int j = 1; j <= i && j < n + 1; j++, k--) // AよりもBのほうが項数が多い時があるのでj < nが必要．
-    {
-      wa += b[k] * a[j];
-    }
-    b[i] = (c[i] - wa) / a[0];
-  }
-
-  REPR(i, m + 1)
-  {
-    cout << b[i] << " ";
-  }
-  cout << endl;
-
-  return 0;
+	cout << ans << endl;
 }

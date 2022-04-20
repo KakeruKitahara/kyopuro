@@ -20,39 +20,30 @@ using mint = modint1000000007;
 
 int main()
 {
-  ll n, m;
-  cin >> n >> m;
+  int n;
+  cin >> n;
+  vector<S> s(n), t(n);
+  map<S, int> mp;
 
-  Vl a(n + 1), c(n + m + 1);
-
-  REPR(i, n + 1) // これは逆順にしているが，そのままでも良い．
+  REP(i, n)
   {
-    cin >> a[i];
-  }
-  REPR(i, n + m + 1)
-  {
-    cin >> c[i];
-  }
-
-  Vl b(m + 1);
-
-  ll wa = 0;
-  REP(i, m + 1)
-  {
-    wa = 0;
-    int k = i - 1;
-    for (int j = 1; j <= i && j < n + 1; j++, k--) // AよりもBのほうが項数が多い時があるのでj < nが必要．
+    cin >> s[i] >> t[i];
+    mp[s[i]]++;
+    if (s[i] != t[i])
     {
-      wa += b[k] * a[j];
+      mp[t[i]]++;
     }
-    b[i] = (c[i] - wa) / a[0];
   }
 
-  REPR(i, m + 1)
+  REP(i, n)
   {
-    cout << b[i] << " ";
+    if (mp[s[i]] >= 2 && mp[t[i]] >= 2)
+    {
+      cout << "No" << endl;
+      return 0;
+    }
   }
-  cout << endl;
+  cout << "Yes" << endl;
 
   return 0;
 }

@@ -20,39 +20,59 @@ using mint = modint1000000007;
 
 int main()
 {
-  ll n, m;
-  cin >> n >> m;
+  ll n, k, x;
+  cin >> n >> k >> x;
 
-  Vl a(n + 1), c(n + m + 1);
-
-  REPR(i, n + 1) // これは逆順にしているが，そのままでも良い．
+  Vl a(n);
+  REP(i, n)
   {
     cin >> a[i];
   }
-  REPR(i, n + m + 1)
-  {
-    cin >> c[i];
-  }
+  int tmp = IINF;
 
-  Vl b(m + 1);
-
-  ll wa = 0;
-  REP(i, m + 1)
+  REP(i, n)
   {
-    wa = 0;
-    int k = i - 1;
-    for (int j = 1; j <= i && j < n + 1; j++, k--) // AよりもBのほうが項数が多い時があるのでj < nが必要．
+    if (a[i] / x > k)
     {
-      wa += b[k] * a[j];
+      tmp = i;
+      break;
     }
-    b[i] = (c[i] - wa) / a[0];
+    k -= a[i] / x;
+    a[i] %= x;
   }
 
-  REPR(i, m + 1)
+  if (tmp == IINF)
   {
-    cout << b[i] << " ";
-  }
-  cout << endl;
 
+    sort(a.rbegin(), a.rend());
+
+    REP(i, n)
+    {
+      if (k == 0)
+      {
+        tmp = i;
+        break;
+      }
+      else
+      {
+        a[i] = 0;
+        k--;
+      }
+    }
+  }
+
+  ll ans = 0;
+  REP(i, n)
+  {
+    if (i == tmp)
+    {
+      ans += max(a[i] - k * x, 0ll);
+    }
+    else
+    {
+      ans += a[i];
+    }
+  }
+  cout << ans << endl;
   return 0;
 }

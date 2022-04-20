@@ -16,43 +16,34 @@ using S = string;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint1000000007;
+using mint = modint998244353;
 
 int main()
 {
-  ll n, m;
-  cin >> n >> m;
+  int n, m, k;
+  cin >> n >> m >> k;
 
-  Vl a(n + 1), c(n + m + 1);
+  mint ans = 0;
 
-  REPR(i, n + 1) // これは逆順にしているが，そのままでも良い．
+  vector<vector<mint>> cb(2500, vector<mint>(2500, 0));
+  for (int j = 0; j < 2500; j++)
+    cb[j][0] = 1;
+  for (int i = 1; i < 2500; i++)
   {
-    cin >> a[i];
-  }
-  REPR(i, n + m + 1)
-  {
-    cin >> c[i];
-  }
-
-  Vl b(m + 1);
-
-  ll wa = 0;
-  REP(i, m + 1)
-  {
-    wa = 0;
-    int k = i - 1;
-    for (int j = 1; j <= i && j < n + 1; j++, k--) // AよりもBのほうが項数が多い時があるのでj < nが必要．
+    for (int j = 1; j < 2500; j++)
     {
-      wa += b[k] * a[j];
+      cb[i][j] = cb[i - 1][j - 1] + cb[i - 1][j];
     }
-    b[i] = (c[i] - wa) / a[0];
   }
 
-  REPR(i, m + 1)
+  REP2(i, n, k + 1)
   {
-    cout << b[i] << " ";
+    int a = i - 1;
+    int b = n - 1;
+    ans += cb[a][b];
   }
-  cout << endl;
+
+  cout << ans.val() << endl;
 
   return 0;
 }

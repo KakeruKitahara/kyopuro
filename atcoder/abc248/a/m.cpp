@@ -20,39 +20,22 @@ using mint = modint1000000007;
 
 int main()
 {
-  ll n, m;
-  cin >> n >> m;
-
-  Vl a(n + 1), c(n + m + 1);
-
-  REPR(i, n + 1) // これは逆順にしているが，そのままでも良い．
+  S n;
+  cin >> n;
+  V a(10);
+  REP(i, 10)
   {
-    cin >> a[i];
-  }
-  REPR(i, n + m + 1)
-  {
-    cin >> c[i];
+    int k = n[i] - '0';
+    a[k] = 1;
   }
 
-  Vl b(m + 1);
-
-  ll wa = 0;
-  REP(i, m + 1)
+  REP(i, 10)
   {
-    wa = 0;
-    int k = i - 1;
-    for (int j = 1; j <= i && j < n + 1; j++, k--) // AよりもBのほうが項数が多い時があるのでj < nが必要．
+    if (a[i] == 0)
     {
-      wa += b[k] * a[j];
+      cout << i << endl;
     }
-    b[i] = (c[i] - wa) / a[0];
   }
-
-  REPR(i, m + 1)
-  {
-    cout << b[i] << " ";
-  }
-  cout << endl;
 
   return 0;
 }
