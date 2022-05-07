@@ -16,39 +16,47 @@ using S = string;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint998244353;
+using mint = modint1000000007;
+
+ll pow(ll a, ll b)
+{
+  ll c = 1;
+  REP(i, b)
+  {
+    c *= a;
+  }
+  return c;
+}
 
 int main()
 {
-  int n, m, k;
-  cin >> n >> m >> k;
-
-
-  vector<vector<mint>> dp(n + 1, vector<mint>(k + 1, 0));
-
-  dp[0][0] = 1;
+  int n;
+  cin >> n;
+  Vl t(n);
 
   REP(i, n)
   {
-    REP(l, k)
-    {
-      REP(j, m)
-      {
-        if (l + j + 1<= k)
-        {
-          dp[i + 1][l + j + 1] += dp[i][l];
-        }
-      }
-    }
+    cin >> t[i];
   }
 
-  mint ans = 0;
-  REP(i, k + 1)
+  ll a = 0;
+
+  REP(i, n)
   {
-    ans += dp[n][i];
+    ll left = 0, right = (LINF / pow(2, t[i]) + 1) / 2 + 100;
+
+    while (right - left > 1)
+    {
+      ll mid = left + (right - left) / 2;
+      if ((mid * 2 - 1) * pow(2, t[i]) > a)
+        right = mid;
+      else
+        left = mid;
+    }
+    a = (right * 2 - 1) * pow(2, t[i]);
   }
 
-  cout << ans.val() << endl;
+  cout << a << endl;
 
   return 0;
 }

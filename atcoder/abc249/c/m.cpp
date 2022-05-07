@@ -16,39 +16,52 @@ using S = string;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint998244353;
+using mint = modint1000000007;
 
 int main()
 {
-  int n, m, k;
-  cin >> n >> m >> k;
-
-
-  vector<vector<mint>> dp(n + 1, vector<mint>(k + 1, 0));
-
-  dp[0][0] = 1;
+  int n, k;
+  cin >> n >> k;
+  vector<S> s(n);
 
   REP(i, n)
   {
-    REP(l, k)
-    {
-      REP(j, m)
+    cin >> s[i];
+  }
+
+  int ans = 0;
+  for (int bit = 0; bit < (1 << n); bit++) // 1 << n = 2^n通り.
+  {
+    V st;
+    V a(1000);
+    int in = 0;
+    for (int i = 0; i < n; i++)
+    { // bit桁までi桁を調べる.
+      if (bit & (1 << i))
       {
-        if (l + j + 1<= k)
-        {
-          dp[i + 1][l + j + 1] += dp[i][l];
-        }
+        st.push_back(i);
       }
     }
-  }
 
-  mint ans = 0;
-  REP(i, k + 1)
-  {
-    ans += dp[n][i];
-  }
+    REP(i, st.size())
+    {
+      REP(j, s[st[i]].size())
+      {
+        a[s[st[i]][j]]++;
+      }
+    }
 
-  cout << ans.val() << endl;
+    REP(i, 1000)
+    {
+      if (a[i] == k)
+      {
+        in++;
+      }
+    }
+
+    ans = max(ans, in);
+  }
+  cout << ans << endl;
 
   return 0;
 }

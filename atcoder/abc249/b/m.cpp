@@ -16,39 +16,54 @@ using S = string;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint998244353;
+using mint = modint1000000007;
 
 int main()
 {
-  int n, m, k;
-  cin >> n >> m >> k;
+  S s;
+  cin >> s;
+  V a(10000);
 
-
-  vector<vector<mint>> dp(n + 1, vector<mint>(k + 1, 0));
-
-  dp[0][0] = 1;
-
-  REP(i, n)
+  REP(i, s.size())
   {
-    REP(l, k)
+    a[s[i]]++;
+  }
+
+  REP(i, 10000)
+  {
+    if (a[i] >= 2)
     {
-      REP(j, m)
+      cout << "No" << endl;
+      return 0;
+    }
+  }
+  int f = 0, f1 = 0;
+  REP(i, 10000)
+  {
+    if ('a' <= i && i<= 'z')
+    {
+      if (a[i] == 1)
       {
-        if (l + j + 1<= k)
-        {
-          dp[i + 1][l + j + 1] += dp[i][l];
-        }
+        f = 1;
+      }
+    }
+    if ('A' <= i && i <= 'Z')
+    {
+      if (a[i] == 1)
+      {
+        f1 = 1;
       }
     }
   }
 
-  mint ans = 0;
-  REP(i, k + 1)
+  if (f == 1 && f1 == 1)
   {
-    ans += dp[n][i];
+    cout << "Yes" << endl;
   }
-
-  cout << ans.val() << endl;
+  else
+  {
+    cout << "No" << endl;
+  }
 
   return 0;
 }

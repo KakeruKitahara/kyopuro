@@ -20,33 +20,37 @@ using mint = modint1000000007;
 
 int main()
 {
-
-  int n;
+  int n, q;
   cin >> n;
-  fenwick_tree<int> ff[200000];
-  V a(n);
+  vector<P> a(n);
   REP(i, n)
   {
-    cin >> a[i];
+    cin >> a[i].first;
+    a[i].second = i;
   }
-
-  REP(i, n)
-  {
-    ff[a[i]].add(i + 1, 1);
-  }
-
-  int q;
+  sort(a.begin(), a.end());
   cin >> q;
 
-  VV qu(q, V(3, 0));
+  VV qu(q, V(3));
+
   REP(i, q)
   {
-    cin >> qu[i][0] >> qu[i][1] >> qu[i][2];
+    int x, l, r;
+    cin >> l >> r >> x;
+    qu[i][0] = x;
+    qu[i][1] = l - 1;
+    qu[i][2] = r - 1;
   }
 
   REP(i, q)
   {
-    cout << ff[qu[i][2]].sum(qu[i][0] - 1, qu[i][1] - 1) << endl;
+    auto it = lower_bound(a.begin(), a.end(), make_pair(qu[i][0], -IINF));
+    auto it2 = upper_bound(a.begin(), a.end(), make_pair(qu[i][0], IINF));
+
+    auto ansit = upper_bound(it, it2, make_pair(qu[i][0], qu[i][1] - 1));
+    auto ansit2 = upper_bound(it, it2, make_pair(qu[i][0], qu[i][2]));
+    ansit2--;
+    cout << ansit2 - ansit + 1 << endl;
   }
 
   return 0;

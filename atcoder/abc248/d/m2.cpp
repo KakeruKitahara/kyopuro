@@ -16,39 +16,40 @@ using S = string;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint998244353;
+using mint = modint1000000007;
 
 int main()
 {
-  int n, m, k;
-  cin >> n >> m >> k;
 
-
-  vector<vector<mint>> dp(n + 1, vector<mint>(k + 1, 0));
-
-  dp[0][0] = 1;
+  int n;
+  cin >> n;
+  fenwick_tree<int> ff[200000];
+  V a(n);
+  REP(i, n)
+  {
+    cin >> a[i];
+  }
 
   REP(i, n)
   {
-    REP(l, k)
-    {
-      REP(j, m)
-      {
-        if (l + j + 1<= k)
-        {
-          dp[i + 1][l + j + 1] += dp[i][l];
-        }
-      }
-    }
+    ff[a[i]].add(i + 1, 1);
   }
 
-  mint ans = 0;
-  REP(i, k + 1)
+  int q;
+  cin >> q;
+
+  VV qu(q, V(3, 0));
+  REP(i, q)
   {
-    ans += dp[n][i];
+    cin >> qu[i][0] >> qu[i][1] >> qu[i][2];
   }
 
-  cout << ans.val() << endl;
+  REP(i, q)
+  {
+    cout << ff[qu[i][2]].sum(qu[i][0] - 1, qu[i][1] - 1) << endl;
+  }
 
   return 0;
 }
+
+// メモリオーバーでWA
