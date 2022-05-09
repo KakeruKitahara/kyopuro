@@ -44,3 +44,26 @@
 
 ## その他
 - online-judge-toolsのランダム生成器実装はまた今度．
+
+# codeforces toolの設定
+0. `cf config`で初期設定をする．
+  ```
+  Configure the tool
+  0) login
+  1) add a template
+  2) delete a template
+  3) set default template
+  4) run "cf gen" after "cf parse"
+  5) set host domain
+  6) set proxy
+  7) set folders' name
+  Please choose one (index): \\ ここに数字を入れてセレクト．
+  ```
+
+  1. `0`をセレクトしてユーザー名（メールアドレス）とパスワードを入力して設定する．
+    ```
+    Configure handle/email and password
+    Note: The password is invisible, just type it correctly.
+    handle/email: 
+    password: 
+    ```
