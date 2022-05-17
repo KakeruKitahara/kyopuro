@@ -26,73 +26,29 @@ int main()
   S s;
   cin >> s;
 
-  s.push_back('X');
-  n++;
-
-  V se;
   V sma;
   REP(i, n - 2)
   {
+    int l = i, r = i + 2;
     if (s[i] == 'A' && s[i + 1] == 'R' && s[i + 2] == 'C')
     {
-      se.push_back(i);
+      while (s[l] == 'A' && 0 <= l)
+      {
+        l--;
+      }
+      while (s[r] == 'C' && r <= n - 1)
+      {
+        r++;
+      }
+      sma.push_back(min(r - i + 1, i - l - 1) + 1);
     }
   }
 
-  se.push_back(IINF);
-
-  sma.resize(se.size() - 1);
-
-  int a = 0;
-  int c = 0;
-  int j = 0;
-  int aa, cc;
-  int f = 0;
-  REP(i, n)
-  {
-    if (s[i] == 'A')
-    {
-      if (i == se[j])
-      {
-        aa = a;
-      }
-      a++;
-      continue;
-    }
-    else
-    {
-      a = 0;
-    }
-
-    if (s[i] == 'C')
-    {
-      if (f == 1)
-      {
-        c++;
-      }
-      if (i == se[j] + 2)
-      {
-        f = 1;
-      }
-      continue;
-    }
-    else
-    {
-      if (f == 1)
-      {
-        cc = c;
-        f = 0;
-        sma[j] = min(aa, cc);
-        j++;
-      }
-    }
-  }
-
-  sort(sma.rbegin(), sma.rend());
+  sort(sma.begin(), sma.end());
 
   int ans = 0;
-  int i = 0;
-  j = sma.size() - 1;
+  int i = sma.size() - 1;
+  int j = lower_bound(sma.begin(), sma.end(), 2) - sma.begin();
   int ccc = 0;
   if (sma.size() != 0)
   {
@@ -101,29 +57,33 @@ int main()
       ccc++;
       if (ccc % 2 == 1)
       {
+        if (sma[i] == 1 && i == j)
+        {
+          break;
+        }
+        else
+        {
+        }
         ans++;
         sma[i]--;
-        if (sma[i] == -1)
+        if (sma[i] == 1 )
         {
-          if (i == j)
+          i++;
+          if (i == n)
           {
+            ans += sma.size() - j;
             break;
           }
-          i++;
         }
       }
       else
       {
         ans++;
-        sma[j]--;
-        if (sma[j] == -1)
+        if (i == j)
         {
-          if (i == j)
-          {
-            break;
-          }
-          j--;
+          break;
         }
+        j++;
       }
     }
   }
