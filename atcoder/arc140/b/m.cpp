@@ -47,8 +47,8 @@ int main()
   sort(sma.begin(), sma.end());
 
   int ans = 0;
-  int i = sma.size() - 1;
-  int j = lower_bound(sma.begin(), sma.end(), 2) - sma.begin();
+  int j = 0;
+  int i = lower_bound(sma.begin(), sma.end(), 2) - sma.begin();
   int ccc = 0;
   if (sma.size() != 0)
   {
@@ -57,23 +57,32 @@ int main()
       ccc++;
       if (ccc % 2 == 1)
       {
-        if (sma[i] == 1 && i == j)
+        if (i == sma.size())
         {
+          ans += sma.size() - j;
           break;
         }
-        else
-        {
-        }
-        ans++;
-        sma[i]--;
-        if (sma[i] == 1 )
+        while (sma[i] == 1)
         {
           i++;
-          if (i == n)
-          {
-            ans += sma.size() - j;
-            break;
-          }
+        }
+        if (i == sma.size())
+        {
+          ans += sma.size() - j;
+          break;
+        }
+
+        ans++;
+        sma[i]--;
+        
+        if (sma[i] == 1)
+        {
+          i++;
+        }
+        if (i == sma.size())
+        {
+          ans += sma.size() - j;
+          break;
         }
       }
       else
