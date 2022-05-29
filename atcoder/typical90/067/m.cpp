@@ -14,69 +14,77 @@ using P = pair<int, int>;
 using Pl = pair<long long, long long>;
 using S = string;
 using ll = long long;
-constexpr int INF = 1000000000 + 8;
+constexpr int IINF = 1000000000 + 8;
+constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
-
-ll pow(ll a, ll b)
-{
-  ll sum = 1;
-  REP2(i, 1, b + 1)
-  {
-    sum *= a;
-  }
-  return sum;
-}
 
 int main()
 {
-  ll tn, n;
+  S n;
   int k;
-  ll ans;
   cin >> n >> k;
-  tn = n;
+  S ns8 = n;
 
-  ll cnt = 0;
-
-  REP(i, k)
+  REP(j, k)
   {
-    if (0 < i)
+    V nv;
+    int lala = ns8.size();
+    REP(i, lala)
     {
-      tn = ans;
+      nv.push_back(ns8.back() - '0');
+      ns8.pop_back();
     }
-
-    ll n10 = 0;
-    cnt = 0;
-    while (0 < tn)
+    reverse(nv.begin(), nv.end());
+    V n10(20);
+    
+    ll d = 1;
+    REPR(i, nv.size())
     {
-      n10 += (tn % 10) * pow(8L, cnt);
-      tn /= 10;
-      cnt++;
-    }
-
-    ll n9 = 0;
-    cnt = 0;
-    while (0 != n10 / 9)
-    {
-      n9 += n10 % 9 * pow(10, cnt);
-      n10 /= 9;
-      cnt++;
-    }
-    n9 += n10 % 9 * pow(10, cnt);
-
-    ll cnt2 = 0;
-    ans = 0;
-    while (0 < n9)
-    {
-      int a = n9 % 10;
-      if (a == 8)
+      int k = nv[i];
+      ll t = d * k;
+      int l = 19;
+      while (t != 0)
       {
-        a = 5;
+        n10[l] += t % 10;
+        t /= 10;
+
+        l--;
       }
-      ans += a * pow(10, cnt2);
-      n9 /= 10;
-      cnt2++;
+      d *= 8;
+    }
+    REPR2(i, n10.size(), 1)
+    {
+      n10[i - 1] += n10[i] / 10;
+      n10[i] = n10[i] % 10;
+    }
+    d = 1;
+    ll n8 = 0, n102 = 0;
+    ;
+    REPR(i, 20)
+    {
+      n102 += d * n10[i];
+      d *= 10;
+    }
+    d = 1;
+    while (n102 != 0)
+    {
+      ll k = n102 % 9;
+      n8 += d * k;
+      n102 /= 9;
+      d *= 10;
+    }
+
+    ns8 = to_string(n8);
+
+    REP(i, ns8.size())
+    {
+      if (ns8[i] == '8')
+      {
+        ns8[i] = '5';
+      }
     }
   }
-  cout << ans << endl;
+  cout << ns8 << endl;
+
   return 0;
 }
