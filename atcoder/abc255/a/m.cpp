@@ -14,19 +14,24 @@ using P = pair<int, int>;
 using Pl = pair<long long, long long>;
 using S = string;
 using ll = long long;
-constexpr int INF = 1000000000 + 8;
+constexpr int IINF = 1000000000 + 8;
+constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
 
 int main()
 {
-  int n;
-  cin >> n;
-  V f(n);
-  REP(i, n){
-    cin >> f[i];
+  int r, c;
+  cin >> r >> c;
+  VV a(2, V(2));
+  REP(i, 2)
+  {
+    REP(j, 2)
+    {
+      cin >> a[i][j];
+    }
   }
 
-  
+  cout << a[r - 1][c - 1] << endl;
 
   return 0;
 }

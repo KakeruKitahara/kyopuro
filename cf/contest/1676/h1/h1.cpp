@@ -17,6 +17,36 @@ constexpr long long LINF = 1000000000000000000LL + 8;
 
 int main()
 {
+  int t;
+  cin >> t;
+
+  VV a(t);
+  REP(i, t)
+  {
+    int n;
+    cin >> n;
+    a[i].resize(n);
+    REP(j, n)
+    {
+      cin >> a[i][j];
+    }
+  }
+
+  REP(i, t)
+  {
+    int cnt = 0;
+    REP(j, a[i].size())
+    {
+      REP2(k, j + 1, a[i].size())
+      {
+        if (a[i][k] <= a[i][j])
+        {
+          cnt++;
+        }
+      }
+    }
+    cout << cnt << endl;
+  }
 
   return 0;
 }

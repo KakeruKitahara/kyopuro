@@ -18,6 +18,7 @@ constexpr int INF = 1000000000 + 8;
 using mint = modint1000000007;
  
 int main(){
+  
 
 return 0;
 }

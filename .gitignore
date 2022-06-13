@@ -4,3 +4,4 @@
 *.exe
 a.out
 **contest.acc.json
+!/other/icpc/**/dataset/**

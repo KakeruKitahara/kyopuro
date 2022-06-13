@@ -17,6 +17,64 @@ constexpr long long LINF = 1000000000000000000LL + 8;
 
 int main()
 {
+  int t;
+  cin >> t;
+  V n(t), k(t);
+  VVl a(t);
+  REP(i, t)
+  {
+    cin >> n[i] >> k[i];
+    a[i].resize(n[i]);
+    REP(j, n[i])
+    {
+      cin >> a[i][j];
+    }
+  }
+
+  REP(i, t)
+  {
+    VV one(32);
+    V f(32);
+
+    REP(j, n[i])
+    {
+      int tm = a[i][j];
+      int c = 0;
+      while (tm != 0)
+      {
+        if (tm & 1 == 1)
+        {
+          one[c].push_back(j);
+        }
+        tm = tm >> 1;
+        c++;
+      }
+    }
+
+    REPR(j, 31)
+    {
+      if (one[j].size() + k[i] >= a[i].size())
+      {
+        k[i] -= (a[i].size() - one[j].size());
+        f[j] = 1;
+      }
+    }
+    ll ans = 0;
+    REPR(j, 31)
+    {
+      if (f[j] == 1)
+      {
+        ans = ans | 1;
+      }
+      if (j == 0)
+      {
+        break;
+      }
+      ans = ans << 1;
+    }
+
+    cout << ans << endl;
+  }
 
   return 0;
 }
