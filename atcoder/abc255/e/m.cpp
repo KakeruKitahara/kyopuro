@@ -17,6 +17,7 @@ using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
+/*WA*/
 
 int main()
 {
@@ -33,36 +34,60 @@ int main()
     cin >> x[i];
   }
 
-  VV sa(m, V(m));
+  map<int, ll> cnt;
+  V ao(n);
+  V ae(n);
+  REP2(i, 1, n)
+  {
+    if (i % 2 == 0)
+      ae[i] = s[i - 1] - ao[i - 1];
+    else
+      ao[i] = s[i - 1] - ae[i - 1];
+  }
 
+  map<int, int> cnto;
+  map<int, int> cnte;
+
+  REP2(i, 1, n)
+  {
+    if (i % 2 == 0)
+      cnte[ae[i]]++;
+    else
+      cnto[ao[i]]++;
+  }
+
+  V eo;
+  V ee;
+
+  for (P c : cnto)
+  {
+    eo.push_back(c.second);
+  }
+
+  for (P k : cnte)
+  {
+    ee.push_back(k.second);
+  }
+
+  sort(ee.rbegin(), ee.rend());
+  sort(eo.rbegin(), eo.rend());
+  V max;
+  REP(j, m)
+  {
+    if (eo.size() > j)
+      max.push_back(eo[j]);
+    if (ee.size() > j)
+      max.push_back(ee[j]);
+  }
+  sort(max.rbegin(), max.rend());
+
+  ll ans = 0;
   REP(i, m)
   {
-    REP(j, m)
-    {
-      sa[i][j] = x[i] - x[j];
-    }
+    ans += max[i];
   }
 
-  vector<VV> e(n - 1, VV(m, V(m)));
-
-  REP(i, n - 1)
-  {
-    REP(j, m)
-    {
-      REP(k, m)
-      {
-        if (sa[j][k] == s[i])
-        {
-          e[i][j][k] = 1;
-        }
-      }
-    }
-  }
-
-  VV edge(m, V(n - 1));
-  REP(i, m){
-    
-  }
+  cout << ans << endl;
 
   return 0;
 }
