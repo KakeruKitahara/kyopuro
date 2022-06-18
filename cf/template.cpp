@@ -15,8 +15,17 @@ using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
 
+void solve()
+{
+  
+}
+
 int main()
 {
-
+  int t;
+  cin >> t;
+  REP(i, t){
+    solve();
+  }
   return 0;
 }

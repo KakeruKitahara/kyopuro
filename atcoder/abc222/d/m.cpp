@@ -23,29 +23,40 @@ int main()
   int n;
   cin >> n;
   V a(n), b(n);
-  mint ans = 0;
-
   REP(i, n)
   {
     cin >> a[i];
   }
-
   REP(i, n)
   {
     cin >> b[i];
   }
 
-  V rs(3001);
+  vector<vector<mint>> dp(n, vector<mint>(3001));
+  mint ans = 0;
 
-  REP2(i, 1, 3001)
+  REP2(i, a[0], b[0] + 1)
   {
-    rs[i] = rs[i - 1] + i;
+    dp[0][i] = 1;
   }
 
-
-  REPR(i, n){
-    
+  REP(i, n - 1)
+  {
+    REP2(j, a[i], b[i + 1] + 1)
+    {
+      if (j == a[i])
+        dp[i + 1][j] += dp[i][j];
+      else
+        dp[i + 1][j] += dp[i][j] + dp[i + 1][j - 1];
+    }
   }
+
+  REP2(i, a[n - 1], b[n - 1] + 1)
+  {
+    ans += dp[n - 1][i];
+  }
+
+  cout << ans.val() << endl;
 
   return 0;
 }
