@@ -18,50 +18,51 @@ constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
 
-struct Edge
-{
-  long long from;
-  long long to;
-  long long cost;
-};
-using Edges = vector<Edge>;
-const long long INF = 1LL << 60;
-bool bellman_ford(const Edges &Es, int V, int s, vector<long long> &dis)
-{
-  dis.resize(V, INF);
-  dis[s] = 0;
-  int cnt = 0;
-  while (cnt < V)
-  {
-    bool end = true;
-    for (auto e : Es)
-    {
-      if (dis[e.from] != INF && dis[e.from] + e.cost < dis[e.to])
-      {
-        dis[e.to] = dis[e.from] + e.cost;
-        end = false;
-      }
-    }
-    if (end)
-      break;
-    cnt++;
-  }
-  return (cnt == V);
-}
-
 int main()
 {
-  int n, m;
-  V h(n);
+  int n;
+  cin >> n;
+  V a(n);
   REP(i, n)
   {
-    cin >> h[i];
+    cin >> a[i];
   }
-  V u(m), v(m);
-  REP(i, m)
+
+  sort(a.begin(), a.end());
+
+  int ans = 0;
+  REP(i, n)
   {
-    cin >> u[i] >> v[i];
+    vector<int> res;
+
+    for (int j = 1; j * j <= a[i]; ++j)
+    {
+      if (a[i] % j != 0)
+        continue;
+
+      res.push_back(j);
+
+      if (a[i] / j != j)
+        res.push_back(a[i] / j);
+    }
+
+    int f = 0;
+    REP(j, res.size())
+    {
+      auto it = lower_bound(a.begin(), a.end(), res[j]);
+      auto it2 = upper_bound(a.begin(), a.end(), res[j]);
+      if (*it == res[j])
+      {
+        f += it2 - it;
+      }
+    }
+    if (f == 1)
+    {
+      ans++;
+    }
   }
+
+  cout << ans << endl;
 
   return 0;
 }
