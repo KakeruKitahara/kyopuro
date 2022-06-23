@@ -44,28 +44,31 @@ void solve(int n, int m)
   VV a(m, V(2000));
 
   int k = 0, f = 0;
-  REP2(i, 540, 1261)  {
+  REP2(i, 540, 1261)
+  {
+    if (i == 678)
+    {
+      cout << "";
+    }
     REP(j, m)
     {
-      if (f == 0 && aaa[k][1] == j && i == aaa[k][0])
+      a[j][i] = a[j][i - 1];
+      while (f == 0 && aaa[k][1] == j && i == aaa[k][0])
       {
         if (aaa[k][3] == 1)
         {
-          a[j][i] = a[j][i - 1] + 1;
+          a[j][i]++;
         }
         else
         {
-          a[j][i] = a[j][i - 1] - 1;
+          a[j][i]--;
         }
         k++;
         if (k == r)
         {
           f = 1;
+          break;
         }
-      }
-      else
-      {
-        a[j][i] = a[j][i - 1];
       }
     }
   }

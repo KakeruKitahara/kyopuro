@@ -49,16 +49,16 @@ void solve(int w, int h)
   P d[4] = {make_pair(1, 0), make_pair(-1, 0), make_pair(0, 1), make_pair(0, -1)};
 
   queue<pair<P, int>> q;
+  VV jd(h, V(w));
   int ans = -1;
   q.push(make_pair(make_pair(0, 0), 0));
-  VV jd(h, V(w));
+  jd[0][0] = 1;
+
   while (q.size() != 0)
   {
     P ptr = q.front().first;
     int num = q.front().second;
     q.pop();
-
-    jd[ptr.first][ptr.second] = 1;
 
     if (ptr.first == h - 1 && ptr.second == w - 1)
     {
@@ -75,18 +75,22 @@ void solve(int w, int h)
         {
           if (i == 0 && b[ptr.first + 1][ptr.second] == 0)
           {
-            q.push(make_pair(next, num + 1));
+            jd[next.first][next.second] = 1;
+            q.push(make_pair(next, num + 1)); // 幅優先探索は次の場所をもう探索済みにする．
           }
           else if (i == 1 && b[ptr.first][ptr.second] == 0)
           {
+            jd[next.first][next.second] = 1;
             q.push(make_pair(next, num + 1));
           }
           else if (i == 2 && a[ptr.first][ptr.second + 1] == 0)
           {
+            jd[next.first][next.second] = 1;
             q.push(make_pair(next, num + 1));
           }
           else if (i == 3 && a[ptr.first][ptr.second] == 0)
           {
+            jd[next.first][next.second] = 1;
             q.push(make_pair(next, num + 1));
           }
         }
