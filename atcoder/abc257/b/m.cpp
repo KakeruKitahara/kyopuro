@@ -20,20 +20,37 @@ using mint = modint1000000007;
 
 int main()
 {
-  int n;
-  cin >> n;
-
-  V a(n);
-  REP(i, n)
+  int n, k, q;
+  cin >> n >> k >> q;
+  V a(k);
+  V l(q);
+  REP(i, k)
   {
     cin >> a[i];
   }
-
-  while (!(a.size() == 1 && a.size() == 0))
+  REP(i, q)
   {
-    if (a.back() == 1)
+    cin >> l[i];
+    l[i]--;
+  }
+
+  REP(i, q)
+  {
+    if (l[i] != k - 1 && a[l[i]] + 1 != a[l[i] + 1])
     {
+      a[l[i]]++;
+    }
+    else if (l[i] == k - 1 && a[l[i]] != n)
+    {
+      a[l[i]]++;
     }
   }
+
+  REP(i, k)
+  {
+    cout << a[i] << " ";
+  }
+  cout << endl;
+
   return 0;
 }

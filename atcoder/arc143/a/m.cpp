@@ -20,20 +20,16 @@ using mint = modint1000000007;
 
 int main()
 {
-  int n;
-  cin >> n;
-
-  V a(n);
-  REP(i, n)
+  Vl a(3);
+  cin >> a[0] >> a[1] >> a[2];
+  sort(a.rbegin(), a.rend());
+  if (a[0] > a[1] + a[2])
   {
-    cin >> a[i];
+    cout << -1 << endl;
   }
-
-  while (!(a.size() == 1 && a.size() == 0))
+  else
   {
-    if (a.back() == 1)
-    {
-    }
+    cout << a[0] << endl;
   }
   return 0;
 }

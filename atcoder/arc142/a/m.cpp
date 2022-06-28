@@ -20,20 +20,45 @@ using mint = modint1000000007;
 
 int main()
 {
-  int n;
-  cin >> n;
-
-  V a(n);
-  REP(i, n)
+  ll n;
+  S k;
+  cin >> n >> k;
+  ll k3 = stol(k);
+  reverse(k.begin(), k.end());
+  ll k2 = stol(k);
+  if (k[0] == '0')
   {
-    cin >> a[i];
+    k2 = k3;
   }
 
-  while (!(a.size() == 1 && a.size() == 0))
+  if(k3 > k2){
+    cout << 0 << endl;
+    return 0;
+  }
+
+  ll a = k2;
+  ll b = k3;
+
+  ll ans = 0;
+  REP(i, 20)
   {
-    if (a.back() == 1)
+    if (k3 <= n)
     {
+      ans++;
+      k3 *= 10;
+    }
+    if (k2 <= n)
+    {
+      ans++;
+      k2 *= 10;
     }
   }
+  if (a == b)
+  {
+    cout << ans / 2 << endl;
+  }
+  else
+    cout << ans << endl;
+
   return 0;
 }

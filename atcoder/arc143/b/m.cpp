@@ -16,24 +16,29 @@ using S = string;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint1000000007;
+using mint = modint998244353;
 
 int main()
 {
   int n;
   cin >> n;
-
-  V a(n);
-  REP(i, n)
+  vector<mint> u(n * n + 1);
+  u[1] = 1;
+  REP2(i, 2, n * n + 1)
   {
-    cin >> a[i];
+    u[i] = u[i - 1] * i;
   }
 
-  while (!(a.size() == 1 && a.size() == 0))
+  mint no = 0;
+  REP2(i, n, n * n - n + 2)
   {
-    if (a.back() == 1)
-    {
-    }
+    no += u[n * n - (2 * n - 1)] * (i - 1) * (n * n - i) * u[n - 1] * u[n - 1];
   }
+
+  no *= n * n;
+
+  mint ans = u[n * n] - no;
+  cout << ans.val() << endl;
+
   return 0;
 }

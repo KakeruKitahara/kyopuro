@@ -22,18 +22,62 @@ int main()
 {
   int n;
   cin >> n;
+  VV aa, bb;
 
-  V a(n);
   REP(i, n)
   {
-    cin >> a[i];
-  }
-
-  while (!(a.size() == 1 && a.size() == 0))
-  {
-    if (a.back() == 1)
+    V a;
+    REP2(j, 1, n + 1)
     {
+      a.push_back(i * n + j);
+    }
+
+    if (n % 2 == 1)
+    {
+      if (i <= n / 2)
+      {
+        aa.push_back(a);
+      }
+      else
+      {
+        bb.push_back(a);
+      }
+    }
+    else
+    {
+      if (i < n / 2)
+      {
+        aa.push_back(a);
+      }
+      else
+      {
+        bb.push_back(a);
+      }
     }
   }
+
+  int ai = 0, bi = 0;
+
+  REP(i, n)
+  {
+    if (i % 2 == 0)
+    {
+      REP(j, n)
+      {
+        cout << aa[ai][j] << " ";
+      }
+      ai++;
+    }
+    else
+    {
+      REP(j, n)
+      {
+        cout << bb[bi][j] << " ";
+      }
+      bi++;
+    }
+    cout << endl;
+  }
+
   return 0;
 }

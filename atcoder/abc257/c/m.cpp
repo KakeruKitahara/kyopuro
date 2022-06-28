@@ -22,18 +22,65 @@ int main()
 {
   int n;
   cin >> n;
-
-  V a(n);
+  S s;
+  cin >> s;
+  V w(n);
   REP(i, n)
   {
-    cin >> a[i];
+    cin >> w[i];
   }
 
-  while (!(a.size() == 1 && a.size() == 0))
+  map<int, int> a, b;
+  int bsum = 0;
+  REP(i, n)
   {
-    if (a.back() == 1)
+    if (s[i] == '0')
     {
+      w[i]++;
+      a[w[i]]++;
+    }
+    else
+    {
+      b[w[i]]++;
+      bsum++;
     }
   }
+
+  map<int, int> t;
+  REP(i, n)
+  {
+    t[w[i]] = 0;
+  }
+
+  int cnt = 0;
+
+  for (P i : t)
+  {
+    if (a.count(i.first) == 1)
+    {
+      cnt += a[i.first];
+    }
+    t[i.first] += cnt;
+  }
+
+  cnt = bsum;
+  for (P i : t)
+  {
+    t[i.first] += cnt;
+    if (b.count(i.first) == 1)
+    {
+      cnt -= b[i.first];
+    }
+  }
+
+  int ans = -1;
+
+  for (P i : t)
+  {
+    ans = max(ans, i.second);
+  }
+
+  cout << ans << endl;
+
   return 0;
 }

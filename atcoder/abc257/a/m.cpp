@@ -20,20 +20,10 @@ using mint = modint1000000007;
 
 int main()
 {
-  int n;
-  cin >> n;
+  int n, k;
+  cin >> n >> k;
+  k--;
+  cout << (char)('A' + k / n) << endl;
 
-  V a(n);
-  REP(i, n)
-  {
-    cin >> a[i];
-  }
-
-  while (!(a.size() == 1 && a.size() == 0))
-  {
-    if (a.back() == 1)
-    {
-    }
-  }
   return 0;
 }
