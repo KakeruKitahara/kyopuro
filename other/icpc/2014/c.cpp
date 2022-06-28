@@ -22,13 +22,29 @@ void solve(int r, int n)
 {
   V x(n), y(n), h(n);
 
-  map<int, int> w;
   REP(i, n)
   {
     cin >> x[i] >> y[i] >> h[i];
   }
 
+  map<int, int> w;
   map<int, double> mp;
+  REP2(j, -r * 2, 2 * r + 1)
+  {
+    w[j] = 0;
+  }
+
+  REP(i, n)
+  {
+    REP2(j, -r * 2, 2 * r + 1)
+    {
+
+      if (x[i] * 2 < j && j < y[i] * 2)
+      {
+        w[j] = max(w[j], h[i]);
+      }
+    }
+  }
 
   REP2(i, -r * 2, 2 * r + 1)
   {
@@ -39,12 +55,9 @@ void solve(int r, int n)
   {
     REP2(j, -r * 2, 2 * r + 1)
     {
-      if (x[i] < j / 2.0 && j/ 2.0 < y[i])
+      if (w[i] < i + mp[i])
       {
-        if (h[i] < i + mp[i])
-        {
-          cout << mp[j / 2] << endl;
-        }
+        cout << i + mp[j / 2] << endl;
       }
     }
   }
