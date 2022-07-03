@@ -42,7 +42,7 @@ void solve(int m, int t, int p, int r)
   VV sum(t, V(p));
   REP(i, r)
   {
-    if (j2[i] == 1)
+    if (j2[i] != 0)
     {
       sum[t2[i]][p2[i]] += 20;
     }
@@ -50,6 +50,7 @@ void solve(int m, int t, int p, int r)
     {
       get<0>(mon[t2[i]])++;
       get<1>(mon[t2[i]]) += sum[t2[i]][p2[i]] + m2[i];
+      sum[t2[i]][p2[i]] = 0;
     }
   }
 

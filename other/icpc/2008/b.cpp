@@ -20,6 +20,45 @@ using mint = modint1000000007;
 
 void solve(int a)
 {
+  int num = a;
+  // {{first, second}, {2, n_1}, {3, n_2}, {5, n_3}}のような配列を返す．
+  set<int> prime;
+  for (long long ind = 2; ind <= a; ind++)
+  {
+    if (a % ind != 0 || (ind % 7 != 1 && ind % 7 != 6))
+      continue;
+    if ((a / ind) % 7 == 1 || (a / ind) % 7 == 6)
+    {
+      prime.insert(ind);
+      prime.insert(a / ind);
+    }
+  }
+
+  V jd(prime.size());
+  int c = 0;
+  for (int k : prime)
+  {
+    for (long long ind = 2; ind < k; ind++)
+    {
+      if (k % ind != 0 || (ind % 7 != 1 && ind % 7 != 6))
+        continue;
+      if ((k / ind) % 7 == 1 || (k / ind) % 7 == 6)
+      {
+        jd[c] = 1;
+      }
+    }
+    c++;
+  }
+
+  cout << num << ":";
+  c = 0;
+  for (int k : prime)
+  {
+    if (jd[c] == 0 && 0 < c)
+      cout << " " << k;
+    c++;
+  }
+  cout << endl;
 }
 
 int main()
@@ -28,7 +67,7 @@ int main()
   {
     int a;
     cin >> a;
-    if (a == 0)
+    if (a == 1)
     {
       break;
     }
