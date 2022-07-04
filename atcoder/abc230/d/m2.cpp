@@ -22,24 +22,45 @@ int main()
 {
   int n, d;
   cin >> n >> d;
-  vector<P> lr;
+  V l(n), r(n);
+  map<int, int> mp;
   REP(i, n)
   {
-    int r2, l2;
-    cin >> l2 >> r2;
-    lr.push_back(make_pair(r2 + d - 1, max(0, l2)));
+    cin >> l[i] >> r[i];
   }
 
-  sort(lr.begin(), lr.end());
-
-  int last = 0;
-  int ans = 0;
   REP(i, n)
   {
-    if (lr[i].second <= last)
-      continue;
-    ans++;
-    last = lr[i].first;
+    if (mp[l[i] -1] == 2)
+      mp[l[i] - 1] = 3;
+    else
+      mp[l[i] - 1] = 1;
+
+    if (mp[r[i] + d - 1] == 1)
+      mp[r[i] + d - 1] = 3;
+    else
+      mp[r[i] + d - 1] = 2;
+  }
+
+  int ans = 0;
+
+  int pre = -1;
+  int f = 0;
+  for (P k : mp)
+  {
+    if (k.second == 3)
+    {
+    }
+    else if (pre == 1 && k.second == 2)
+    {
+      ans++;
+      f = 1;
+      pre = k.second;
+    }
+    else
+    {
+      pre = k.second;
+    }
   }
 
   cout << ans << endl;
