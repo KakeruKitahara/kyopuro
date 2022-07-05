@@ -14,34 +14,46 @@ using P = pair<int, int>;
 using Pl = pair<long long, long long>;
 using S = string;
 using ll = long long;
-constexpr int INF = 1000000000 + 8;
+constexpr int IINF = 1000000000 + 8;
+constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
 
 int main()
 {
   int n;
   cin >> n;
-  vector<int> t(n);
-  for (int i = 0; i < n; i++)
-  {
-    cin >> t[i];
-  }
 
-  VV dp((n, accumulate(t.begin(), t.end)));
-
+  V t(n);
+  int sum = 0;
   REP(i, n)
   {
-    if (sum1 <= sum2)
+    cin >> t[i];
+    sum += t[i];
+  }
+
+  VV dp(n + 1, V(100001));
+
+  dp[0][0] = 1;
+  REP(i, n)
+  {
+    REP(j, 100001)
     {
-      sum1 += t[i];
-    }
-    else
-    {
-      sum2 += t[i];
+      if (dp[i][j] == 1)
+      {
+        dp[i + 1][j] = 1;
+        dp[i + 1][j + t[i]] = 1;
+      }
     }
   }
 
-  cout << sum1 << sum2  << endl;
+  REP2(i, (sum + 1) / 2, sum + 1)
+  {
+    if (1 == dp[n][i])
+    {
+      cout << i << endl;
+      return 0;
+    }
+  }
 
   return 0;
 }
