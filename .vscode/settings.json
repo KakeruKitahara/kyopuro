@@ -4,6 +4,7 @@
     "*.java": "java",
     "ostream": "cpp",
     "*.tcc": "cpp",
-    "list": "cpp"
+    "list": "cpp",
+    "random": "cpp"
   }
 }
