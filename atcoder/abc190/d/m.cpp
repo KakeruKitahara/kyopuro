@@ -22,42 +22,31 @@ int main()
 {
   ll n;
   cin >> n;
-  vector<ll> k;
-  ll ans = 0;
-  ll p = n;
-  if (n % 2 == 0)
-  {
-    for (ll i = 1; i * i <= p; i++)
-    {
-      if (p % i == 0)
-      {
-        k.push_back(i);
-        if (i * i != p)
-          k.push_back(p / i);
-      }
-    }
 
-    REP(i, k.size())
-    {
-      if (k[i] % 2 == 1)
-      {
-        ans += 2;
-      }
-    }
-  }
-  else
+  ll sum = 0;
+  int cnt;
+  REP2(i, 1, IINF)
   {
-    for (ll i = 2; i <= n; i += 2)
+    sum += i;
+    if (sum > 1000000000000LL)
     {
-      if (p % i == 0)
-      {
-        k.push_back(i);
-        if (i * i != p)
-          k.push_back(p / i);
-      }
+      cnt = i;
+      break;
     }
   }
 
-  cout << ans << endl;
+  int ans = 0;
+
+  REP2(j, 1, cnt)
+  {
+    ll i = j;
+    if ((2 * n + i * (1 - i)) >= (2 * i) && (2 * n + i * (1 - i)) % (2 * i) == 0)
+    {
+      ans++;
+    }
+  }
+
+  cout << ans * 2 << endl;
+
   return 0;
 }

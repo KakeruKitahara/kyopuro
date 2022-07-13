@@ -5,7 +5,7 @@ using namespace atcoder;
 #define REP(i, n) for (int i = 0; i < n; i++)
 #define REP2(i, a, n) for (int i = a; i < n; i++)
 #define REPR(i, n) for (int i = n - 1; 0 <= i; i--)
-#define REPR2(i, n, a) for (int i = n ; a <= i; i--)
+#define REPR2(i, n, a) for (int i = n; a <= i; i--)
 using V = vector<int>;
 using Vl = vector<long long>;
 using VV = vector<vector<int>>;
@@ -17,17 +17,52 @@ using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
- 
-int main(){
-  priority_queue<int> q;
-  q.push(1);
-  q.push(3);
-  q.push(2);
 
-
-  for(int a:q){
-    cout << a << endl;
+int main()
+{
+  int q;
+  cin >> q;
+  V x(q), t(q);
+  REP(i, q)
+  {
+    cin >> t[i];
+    if (t[i] == 1)
+    {
+      cin >> x[i];
+    }
   }
 
-return 0;
+  deque<int> d;
+  priority_queue<int, vector<int>, greater<int>> p;
+  REP(i, q)
+  {
+    if (t[i] == 1)
+    {
+      d.push_back(x[i]);
+    }
+    else if (t[i] == 2)
+    {
+      if (p.size() == 0)
+      {
+        cout << d.front() << endl;
+        d.pop_front();
+      }
+      else
+      {
+        cout << p.top() << endl;
+        p.pop();
+      }
+    }
+    else
+    {
+      int jj = d.size();
+      REP(j, jj)
+      {
+        p.push(d.front());
+        d.pop_front();
+      }
+    }
+  }
+
+  return 0;
 }
