@@ -63,36 +63,86 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int n;
-  cin >> n;
-  set<pair<ll, ll>> s;
+  int n, k;
+  cin >> n >> k;
+
+  V p(n);
   REP(i, n)
   {
-    int x, y;
-    cin >> x >> y;
-    s.insert(make_pair(x, y));
+    cin >> p[i];
+    p[i]--;
   }
+  V ans(n, -1);
 
-  if (s.size() == 1)
+  if (k == 1)
   {
-    cout << 0 << endl;
+    REP(i, n)
+    {
+      ans[p[i]] = i + 1;
+    }
+
+    REP(i, n)
+    {
+      cout << ans[i] << endl;
+    }
+
     return 0;
   }
 
-  Vl xy1, xy2, xy3;
+  set<P> m;
+  dsu d(n);
 
-  for (P i : s)
+  VP so;
+
+  REP(i, n)
   {
-    xy1.push_back(i.first + i.second);
-    xy2.push_back(i.first - i.second);
-    xy3.push_back(-i.first + i.second);
+    if (m.size() == 0)
+    {
+      m.insert(make_pair(p[i], 1));
+      continue;
+    }
+
+    auto it = m.upper_bound(make_pair(p[i], 0));
+    if (it != m.end())
+    {
+      d.merge(it->first, p[i]);
+      if (it->second != k - 1)
+      {
+        m.insert(make_pair(p[i], it->second + 1));
+      }
+      else
+      {
+        so.push_back(make_pair(d.leader(it->first), i + 1));
+      }
+
+      m.erase(it);
+    }
+    else
+    {
+      m.insert(make_pair(p[i], 1));
+    }
   }
 
-  sort(xy1.begin(), xy1.end());
-  sort(xy2.begin(), xy2.end());
-  sort(xy3.begin(), xy3.end());
+  VV gro = d.groups();
 
-  cout << max(xy1[s.size() - 1] - xy1[0], xy2[s.size() - 1] + xy3[s.size() - 1]) << endl;
+  map<int, V> gro2;
+  REP(i, gro.size())
+  {
+    gro2[d.leader(gro[i][0])] = gro[i];
+  }
+
+  REP(k, so.size())
+  {
+    REP(j, gro2[so[k].first].size())
+    {
+      ans[gro2[so[k].first][j]] = so[k].second;
+    }
+  }
+
+  REP(i, n)
+  {
+    cout << ans[i] << endl;
+  }
 
   return 0;
 }

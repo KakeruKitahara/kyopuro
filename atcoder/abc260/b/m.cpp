@@ -63,36 +63,84 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int n;
-  cin >> n;
-  set<pair<ll, ll>> s;
+
+  int n, x, y, z;
+  cin >> n >> x >> y >> z;
+
+  VP a(n), b(n), c(n);
   REP(i, n)
   {
-    int x, y;
-    cin >> x >> y;
-    s.insert(make_pair(x, y));
+    cin >> a[i].first;
+    a[i].second = -i;
   }
 
-  if (s.size() == 1)
+  REP(i, n)
   {
-    cout << 0 << endl;
-    return 0;
+    cin >> b[i].first;
+    b[i].second = -i;
   }
 
-  Vl xy1, xy2, xy3;
-
-  for (P i : s)
+  REP(i, n)
   {
-    xy1.push_back(i.first + i.second);
-    xy2.push_back(i.first - i.second);
-    xy3.push_back(-i.first + i.second);
+    c[i].first = a[i].first + b[i].first;
+    c[i].second = -i;
   }
 
-  sort(xy1.begin(), xy1.end());
-  sort(xy2.begin(), xy2.end());
-  sort(xy3.begin(), xy3.end());
+  sort(a.rbegin(), a.rend());
 
-  cout << max(xy1[s.size() - 1] - xy1[0], xy2[s.size() - 1] + xy3[s.size() - 1]) << endl;
+  sort(b.rbegin(), b.rend());
+  sort(c.rbegin(), c.rend());
+
+  int cnt = 0;
+
+  V o(n);
+  while (cnt != x)
+  {
+    REP(i, n)
+    {
+      if (o[-a[i].second] == 0)
+      {
+        o[-a[i].second] = 1;
+        cnt++;
+        break;
+      }
+    }
+  }
+  cnt = 0;
+  while (cnt != y)
+  {
+    REP(i, n)
+    {
+      if (o[-b[i].second] == 0)
+      {
+        o[-b[i].second] = 1;
+        cnt++;
+        break;
+      }
+    }
+  }
+
+  cnt = 0;
+  while (cnt != z)
+  {
+    REP(i, n)
+    {
+      if (o[-c[i].second] == 0)
+      {
+        o[-c[i].second] = 1;
+        cnt++;
+        break;
+      }
+    }
+  }
+
+  REP(i, n)
+  {
+    if (o[i] == 1)
+    {
+      cout << i + 1 << endl;
+    }
+  }
 
   return 0;
 }

@@ -63,36 +63,24 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int n;
-  cin >> n;
-  set<pair<ll, ll>> s;
-  REP(i, n)
+  S s;
+  cin >> s;
+
+  map<char, int> mp;
+  REP(i, 3)
   {
-    int x, y;
-    cin >> x >> y;
-    s.insert(make_pair(x, y));
+    mp[s[i]]++;
   }
 
-  if (s.size() == 1)
+  for (pair<char, int> a : mp)
   {
-    cout << 0 << endl;
-    return 0;
+    if (a.second == 1)
+    {
+      cout << a.first << endl;
+      return 0;
+    }
   }
-
-  Vl xy1, xy2, xy3;
-
-  for (P i : s)
-  {
-    xy1.push_back(i.first + i.second);
-    xy2.push_back(i.first - i.second);
-    xy3.push_back(-i.first + i.second);
-  }
-
-  sort(xy1.begin(), xy1.end());
-  sort(xy2.begin(), xy2.end());
-  sort(xy3.begin(), xy3.end());
-
-  cout << max(xy1[s.size() - 1] - xy1[0], xy2[s.size() - 1] + xy3[s.size() - 1]) << endl;
+  cout << -1 << endl;
 
   return 0;
 }

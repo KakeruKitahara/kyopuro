@@ -65,34 +65,18 @@ int main()
 {
   int n;
   cin >> n;
-  set<pair<ll, ll>> s;
-  REP(i, n)
+
+  int k = n / 4;
+  int r = n % 4;
+  cout << n * 2 << endl;
+  if (r != 0)
   {
-    int x, y;
-    cin >> x >> y;
-    s.insert(make_pair(x, y));
+    cout << r;
   }
-
-  if (s.size() == 1)
+  REP(i, k)
   {
-    cout << 0 << endl;
-    return 0;
+    cout << 4;
   }
-
-  Vl xy1, xy2, xy3;
-
-  for (P i : s)
-  {
-    xy1.push_back(i.first + i.second);
-    xy2.push_back(i.first - i.second);
-    xy3.push_back(-i.first + i.second);
-  }
-
-  sort(xy1.begin(), xy1.end());
-  sort(xy2.begin(), xy2.end());
-  sort(xy3.begin(), xy3.end());
-
-  cout << max(xy1[s.size() - 1] - xy1[0], xy2[s.size() - 1] + xy3[s.size() - 1]) << endl;
-
+  cout << endl;
   return 0;
 }

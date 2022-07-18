@@ -61,38 +61,55 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
+VV ed;
+V jd;
+V cost;
+
+void dfs(int p, int c)
+{
+
+  jd[p] = 1;
+  cost[p] += c;
+
+  REP(i, ed[p].size())
+  {
+    if (jd[ed[p][i]] == 0)
+    {
+      dfs(ed[p][i], cost[p]);
+    }
+  }
+
+}
+
 int main()
 {
-  int n;
-  cin >> n;
-  set<pair<ll, ll>> s;
+  int n, q;
+  cin >> n >> q;
+  jd.resize(n);
+  ed.resize(n);
+  cost.resize(n);
+  REP(i, n - 1)
+  {
+    int a, b;
+    cin >> a >> b;
+    ed[a - 1].push_back(b - 1);
+    ed[b - 1].push_back(a - 1);
+  }
+  REP(i, q)
+  {
+    int p, x;
+    cin >> p >> x;
+
+    cost[p - 1] += x;
+  }
+
+  dfs(0, 0);
+
   REP(i, n)
   {
-    int x, y;
-    cin >> x >> y;
-    s.insert(make_pair(x, y));
+    cout << cost[i] << " ";
   }
-
-  if (s.size() == 1)
-  {
-    cout << 0 << endl;
-    return 0;
-  }
-
-  Vl xy1, xy2, xy3;
-
-  for (P i : s)
-  {
-    xy1.push_back(i.first + i.second);
-    xy2.push_back(i.first - i.second);
-    xy3.push_back(-i.first + i.second);
-  }
-
-  sort(xy1.begin(), xy1.end());
-  sort(xy2.begin(), xy2.end());
-  sort(xy3.begin(), xy3.end());
-
-  cout << max(xy1[s.size() - 1] - xy1[0], xy2[s.size() - 1] + xy3[s.size() - 1]) << endl;
+  cout << endl;
 
   return 0;
 }

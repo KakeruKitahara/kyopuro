@@ -60,39 +60,65 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   res.second = ob1.second / ob2.second;
   return res;
 }
+int a, b;
+V aa, bb;
+
+bool fx(int m)
+{
+  ll mi = 0;
+  ll pu = 0;
+  REP(i, aa.size())
+  {
+
+    int t = aa[i] - m;
+    if (t > 0)
+    {
+      pu += t / b;
+    }
+    else
+    {
+      mi += (-t + a - 1) / a;
+    }
+  }
+
+  if (pu < mi)
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
 
 int main()
 {
   int n;
-  cin >> n;
-  set<pair<ll, ll>> s;
+  cin >> n >> a >> b;
+
+  aa.resize(n);
+  bb.resize(n);
   REP(i, n)
   {
-    int x, y;
-    cin >> x >> y;
-    s.insert(make_pair(x, y));
+    cin >> aa[i];
   }
+  int ans;
 
-  if (s.size() == 1)
+  /* left + 1 ~ right - 1を探索するが，
+  これが偶数のみやsの倍数のみなど，数値が飛んでいる数直線上でおこなうとき，
+  if文のmidをmid * s としてansの代入数値をright * sとする．このとき捜索範囲が1/sとなる．*/
+  
+  ll left = 0, right = IINF;
+  
+  while (right - left > 1)
   {
-    cout << 0 << endl;
-    return 0;
+    ll mid = left + (right - left) / 2;
+    if (fx(mid)) // f(mid)の値とkeyを比較してkey以上だったらac
+      right = mid; // ac
+    else
+      left = mid; // wa
   }
-
-  Vl xy1, xy2, xy3;
-
-  for (P i : s)
-  {
-    xy1.push_back(i.first + i.second);
-    xy2.push_back(i.first - i.second);
-    xy3.push_back(-i.first + i.second);
-  }
-
-  sort(xy1.begin(), xy1.end());
-  sort(xy2.begin(), xy2.end());
-  sort(xy3.begin(), xy3.end());
-
-  cout << max(xy1[s.size() - 1] - xy1[0], xy2[s.size() - 1] + xy3[s.size() - 1]) << endl;
+  ans = right; // ansがacを満たす最小値となる．
 
   return 0;
 }
