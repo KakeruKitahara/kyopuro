@@ -61,7 +61,35 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
+int x, y;
+
+ll dfs(int nr, ll r, int nb, ll b)
+{
+
+  ll sum = 0;
+  if (nr > 1)
+  {
+    sum += r * dfs(nr - 1, 1, nr, x);
+  }
+
+  if (nb > 1)
+  {
+    sum += b * dfs(nb - 1, 1, nb - 1, y);
+  }
+  else
+  {
+    sum += b;
+  }
+
+  return sum;
+}
+
 int main()
 {
+  int n;
+  cin >> n >> x >> y;
+
+  cout << dfs(n, 1, 0, 0) << endl;
+
   return 0;
 }

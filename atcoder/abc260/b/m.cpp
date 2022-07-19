@@ -63,5 +63,84 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+
+  int n, x, y, z;
+  cin >> n >> x >> y >> z;
+
+  VP a(n), b(n), c(n);
+  REP(i, n)
+  {
+    cin >> a[i].first;
+    a[i].second = -i;
+  }
+
+  REP(i, n)
+  {
+    cin >> b[i].first;
+    b[i].second = -i;
+  }
+
+  REP(i, n)
+  {
+    c[i].first = a[i].first + b[i].first;
+    c[i].second = -i;
+  }
+
+  sort(a.rbegin(), a.rend());
+
+  sort(b.rbegin(), b.rend());
+  sort(c.rbegin(), c.rend());
+
+  int cnt = 0;
+
+  V o(n);
+  while (cnt != x)
+  {
+    REP(i, n)
+    {
+      if (o[-a[i].second] == 0)
+      {
+        o[-a[i].second] = 1;
+        cnt++;
+        break;
+      }
+    }
+  }
+  cnt = 0;
+  while (cnt != y)
+  {
+    REP(i, n)
+    {
+      if (o[-b[i].second] == 0)
+      {
+        o[-b[i].second] = 1;
+        cnt++;
+        break;
+      }
+    }
+  }
+
+  cnt = 0;
+  while (cnt != z)
+  {
+    REP(i, n)
+    {
+      if (o[-c[i].second] == 0)
+      {
+        o[-c[i].second] = 1;
+        cnt++;
+        break;
+      }
+    }
+  }
+
+  REP(i, n)
+  {
+    if (o[i] == 1)
+    {
+      cout << i + 1 << endl;
+    }
+  }
+
   return 0;
 }

@@ -63,5 +63,86 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+  int n, k;
+  cin >> n >> k;
+
+  V p(n);
+  REP(i, n)
+  {
+    cin >> p[i];
+    p[i]--;
+  }
+  V ans(n, -1);
+
+  if (k == 1)
+  {
+    REP(i, n)
+    {
+      ans[p[i]] = i + 1;
+    }
+
+    REP(i, n)
+    {
+      cout << ans[i] << endl;
+    }
+
+    return 0;
+  }
+
+  set<P> m;
+  dsu d(n);
+
+  VP so;
+
+  REP(i, n)
+  {
+    if (m.size() == 0)
+    {
+      m.insert(make_pair(p[i], 1));
+      continue;
+    }
+
+    auto it = m.upper_bound(make_pair(p[i], 0));
+    if (it != m.end())
+    {
+      d.merge(it->first, p[i]);
+      if (it->second != k - 1)
+      {
+        m.insert(make_pair(p[i], it->second + 1));
+      }
+      else
+      {
+        so.push_back(make_pair(d.leader(it->first), i + 1));
+      }
+
+      m.erase(it);
+    }
+    else
+    {
+      m.insert(make_pair(p[i], 1));
+    }
+  }
+
+  VV gro = d.groups();
+
+  map<int, V> gro2;
+  REP(i, gro.size())
+  {
+    gro2[d.leader(gro[i][0])] = gro[i];
+  }
+
+  REP(k, so.size())
+  {
+    REP(j, gro2[so[k].first].size())
+    {
+      ans[gro2[so[k].first][j]] = so[k].second;
+    }
+  }
+
+  REP(i, n)
+  {
+    cout << ans[i] << endl;
+  }
+
   return 0;
 }

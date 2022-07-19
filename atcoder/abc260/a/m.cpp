@@ -63,5 +63,24 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+  S s;
+  cin >> s;
+
+  map<char, int> mp;
+  REP(i, 3)
+  {
+    mp[s[i]]++;
+  }
+
+  for (pair<char, int> a : mp)
+  {
+    if (a.second == 1)
+    {
+      cout << a.first << endl;
+      return 0;
+    }
+  }
+  cout << -1 << endl;
+
   return 0;
 }

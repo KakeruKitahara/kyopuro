@@ -63,5 +63,20 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+  int n;
+  cin >> n;
+
+  int k = n / 4;
+  int r = n % 4;
+  cout << n * 2 << endl;
+  if (r != 0)
+  {
+    cout << r;
+  }
+  REP(i, k)
+  {
+    cout << 4;
+  }
+  cout << endl;
   return 0;
 }
