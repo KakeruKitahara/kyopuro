@@ -2,25 +2,12 @@
 #include <atcoder/all>
 using namespace std;
 using namespace atcoder;
-<<<<<<< HEAD
-#define REP(i, n) for (int i = 0; i < n; i++)
-#define REP2(i, a, n) for (int i = a; i < n; i++)
-#define REPR(i, n) for (int i = n - 1; 0 <= i; i--)
-#define REPR2(i, n, a) for (int i = n; a <= i; i--)
-using V = vector<int>;
-using Vl = vector<long long>;
-using VV = vector<vector<int>>;
-using VVl = vector<vector<long long>>;
-using P = pair<int, int>;
-using Pl = pair<long long, long long>;
-using S = string;
-== == == =
 
 /* macro */
 #define REP(i, n) for (int i = 0; i < n; i++)
 #define REP2(i, a, n) for (int i = a; i < n; i++)
 #define REPR(i, n) for (int i = n - 1; 0 <= i; i--)
-             using V = vector<int>;
+using V = vector<int>;
 using VV = vector<vector<int>>;
 using VVV = vector<vector<vector<int>>>;
 using Vl = vector<long long>;
