@@ -18,49 +18,27 @@ constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
 
+ll ans;
+
+VV ed;
+
+ll dfs(){
+
+}
+
 int main()
 {
-  int n, l, k;
-  cin >> n >> l >> k;
-  V a(n + 2);
-  a[0] = 0;
-  REP2(i, 1, n + 1)
-  {
-    cin >> a[i];
-  }
-  a[n + 1] = l;
+  int h, w, a, b;
+  cin >> h >> w >> a >> b;
 
-  int r = l;
-  int ll = 1;
-  int c;
+ans = 0;
 
-  while (1)
-  {
-    c = (r + ll) / 2;
-    if(c == r || c == ll){ // 最小化の最大化の際はcとr，lが隣り合わせ（最後）になるまで2分探索．
-      break;
-    }
-    int k2 = 0;
-    int j = 0;
-    REP2(i, 1, n + 2)
-    {
-      if (a[i] - a[j] >= c)
-      {
-        k2++;
-        j = i;
-      }
-    }
-    if (k2 < k + 1)
-    {
-      r = c;
-    }
-    else
-    {
-      ll = c;
-    }
-  }
+w1.resize(h + 1);
+w2.resize(h + 1);
 
-  cout << c << endl;
+
+
+
 
   return 0;
 }
