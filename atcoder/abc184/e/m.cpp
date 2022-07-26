@@ -66,6 +66,7 @@ int main()
   int h, w;
   cin >> h >> w;
   vector<S> m(h);
+  VVP ae(26);
   V al(26);
   P s, g;
   REP(i, h)
@@ -75,6 +76,7 @@ int main()
     {
       if (0 <= m[i][j] - 'a' && m[i][j] - 'a' < 26)
       {
+        ae[m[i][j] - 'a'].push_back(make_pair(j, i));
         al[m[i][j] - 'a'] = 1;
       }
       if (m[i][j] == 'S')
@@ -88,18 +90,38 @@ int main()
     }
   }
 
-  V sa(27, -1);
-  V ag(26, -1);
-
   queue<pair<P, int>> q;
   q.push(make_pair(s, 0));
   VV used(h, V(w));
   P wa[4] = {make_pair(-1, 0), make_pair(0, -1), make_pair(1, 0), make_pair(0, 1)};
+  int ans = -1;
   while (q.size() != 0)
   {
     P p = q.front().first;
     int num = q.front().second;
     q.pop();
+
+    if (m[p.second][p.first] == 'G')
+    {
+      ans = num;
+      break;
+    }
+
+    if (0 <= m[p.second][p.first] - 'a' && m[p.second][p.first] - 'a' < 26)
+    {
+      if (al[m[p.second][p.first] - 'a'] == 1 && ae[m[p.second][p.first] - 'a'].size() != 1)
+      {
+        REP(j, ae[m[p.second][p.first] - 'a'].size())
+        {
+          if (p != ae[m[p.second][p.first] - 'a'][j])
+          {
+            q.push(make_pair(ae[m[p.second][p.first] - 'a'][j], num + 1));
+            used[ae[m[p.second][p.first] - 'a'][j].second][ae[m[p.second][p.first] - 'a'][j].first] = 1;
+          }
+        }
+        al[m[p.second][p.first] - 'a'] = 0;
+      }
+    }
 
     REP(i, 4)
     {
@@ -110,83 +132,11 @@ int main()
         {
           used[ne.second][ne.first] = 1;
           q.push(make_pair(ne, num + 1));
-
-          if (0 <= m[ne.second][ne.first] - 'a' && m[ne.second][ne.first] - 'a' < 26)
-          {
-            REP(i, 26)
-            {
-              if (al[m[ne.second][ne.first] - 'a'] == 1 && sa[m[ne.second][ne.first] - 'a'] == -1)
-              {
-                sa[m[ne.second][ne.first] - 'a'] = num + 1;
-                break;
-              }
-            }
-          }
-          if (m[ne.second][ne.first] == 'G' && sa[26] == -1)
-          {
-            sa[26] = num + 1;
-          }
         }
       }
     }
   }
-
-  used.clear();
-  used.resize(h);
-  REP(i, h)
-  {
-    used[i].resize(w);
-  }
-  q.push(make_pair(g, 0));
-  while (q.size() != 0)
-  {
-    P p = q.front().first;
-    int num = q.front().second;
-    q.pop();
-
-    REP(i, 4)
-    {
-      P ne = wa[i] + p;
-      if (0 <= ne.first && ne.first < w && 0 <= ne.second && ne.second < h)
-      {
-        if (m[ne.second][ne.first] != '#' && used[ne.second][ne.first] == 0)
-        {
-          used[ne.second][ne.first] = 1;
-          q.push(make_pair(ne, num + 1));
-
-          if (0 <= m[ne.second][ne.first] - 'a' && m[ne.second][ne.first] - 'a' < 26)
-          {
-            REP(i, 26)
-            {
-              if (al[m[ne.second][ne.first] - 'a'] == 1 && ag[m[ne.second][ne.first] - 'a'] == -1)
-              {
-                ag[m[ne.second][ne.first] - 'a'] = num + 1;
-                break;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  int ans = IINF;
-
-  REP(i, 26)
-  {
-    if (sa[i] != -1 && ag[i] != -1)
-    {
-      ans = min(sa[i] + ag[i] + 1, ans);
-    }
-  }
-  if (sa[26] == -1 && ans == IINF)
-  {
-    cout << -1 << endl;
-  }
-  else
-  {
-    cout << min(sa[26], ans) << endl;
-  }
+  cout << ans << endl;
 
   return 0;
 }
