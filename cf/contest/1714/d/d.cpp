@@ -58,17 +58,30 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
-void solve()
+void solve(S t)
 {
+  int n;
+  cin >> n;
+  VS s(n);
+  REP(i, n)
+  {
+    cin >> s[i];
+  }
+
   
+
+  cout << cnt;
 }
 
 int main()
 {
-  int t;
+  int q;
+  cin >> q;
+  S t;
   cin >> t;
-  REP(i, t){
-    solve();
+  REP(i, q)
+  {
+    solve(t);
   }
   return 0;
 }

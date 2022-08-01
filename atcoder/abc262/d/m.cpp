@@ -22,7 +22,7 @@ using VVS = vector<vector<string>>;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint1000000007;
+using mint = modint998244353;
 
 /* pair operator */
 template <class X>
@@ -63,25 +63,39 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int h, w;
-  cin >> h >> w;
-  VS s(h);
-  REP(i, h)
+  int n;
+  cin >> n;
+  V a(n);
+  int al = 0;
+  REP(i, n)
   {
-    cin >> s[i];
+    cin >> a[i];
+    al += a[i];
   }
-  VP o;
-  REP(i, h)
+  int ans1 = 0, ans2 = 0;
+
+  for (int bit = 0; bit < (1 << n); bit++) // 1 << n = 2^n通り.
   {
-    REP(j, w)
-    {
-      if (s[i][j] == 'o')
+    int sum = 0;
+    int c = 0;
+    for (int i = 0; i < n; i++)
+    { // bit桁までi桁を調べる.
+      if (bit & (1 << i))
       {
-        o.push_back(make_pair(i, j));
-      }
+        sum += a[i];
+        c++;
+      } // case1 i桁が1かどうか.
+    }
+    if (n - c != 0 && (al - sum) % (n - c) == 0)
+    {
+      ans1++;
+    }
+    if (c != 0 &&sum % c == 0)
+    {
+      ans2++;
     }
   }
+  cout << ans1 << "  " << ans2 << endl;
 
-  cout << abs(o[0].first - o[1].first) + abs(o[0].second - o[1].second) << endl;
   return 0;
 }

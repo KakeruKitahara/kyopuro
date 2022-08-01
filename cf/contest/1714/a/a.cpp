@@ -60,14 +60,58 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 void solve()
 {
-  
+  int n, h, m;
+  cin >> n >> h >> m;
+  VP hm(n);
+  REP(i, n)
+  {
+    cin >> hm[i].first >> hm[i].second;
+  }
+
+  sort(hm.begin(), hm.end());
+
+  auto p = lower_bound(hm.begin(), hm.end(), make_pair(h, m));
+  if (p == hm.end())
+  {
+    int ah = hm.begin()->first + 24 - h;
+    int m2 = hm.begin()->second - m;
+    int am;
+    if (m2 < 0)
+    {
+      am = 60 + m2;
+      ah--;
+    }
+    else
+    {
+      am = m2;
+    }
+
+    cout << ah << " " << am << endl;
+  }
+  else
+  {
+    int ah = p->first - h;
+    int m2 = p->second - m;
+    int am;
+    if (m2 < 0)
+    {
+      am = 60 + m2;
+      ah--;
+    }
+    else
+    {
+      am = m2;
+    }
+    cout << ah << " " << am << endl;
+  }
 }
 
 int main()
 {
   int t;
   cin >> t;
-  REP(i, t){
+  REP(i, t)
+  {
     solve();
   }
   return 0;

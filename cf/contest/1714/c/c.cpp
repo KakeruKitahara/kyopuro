@@ -60,14 +60,27 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 void solve()
 {
-  
+  int s;
+  cin >> s;
+  int ts = s;
+  S ans;
+  int j = 9;
+  while (ts > j)
+  {
+    ts -= j;
+    ans = to_string(j) + ans;
+    j--;
+  }
+  ans = to_string(ts) + ans;
+  cout << ans << endl;
 }
 
 int main()
 {
   int t;
   cin >> t;
-  REP(i, t){
+  REP(i, t)
+  {
     solve();
   }
   return 0;

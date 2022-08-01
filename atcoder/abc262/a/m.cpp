@@ -63,25 +63,26 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int h, w;
-  cin >> h >> w;
-  VS s(h);
-  REP(i, h)
-  {
-    cin >> s[i];
-  }
-  VP o;
-  REP(i, h)
-  {
-    REP(j, w)
-    {
-      if (s[i][j] == 'o')
-      {
-        o.push_back(make_pair(i, j));
-      }
-    }
-  }
+  int u;
+  cin >> u;
 
-  cout << abs(o[0].first - o[1].first) + abs(o[0].second - o[1].second) << endl;
+  int a = u % 4;
+
+  if (a == 0)
+  {
+    cout << u + 2 << endl;
+  }
+  else if (a == 1)
+  {
+    cout << u + 1 << endl;
+  }
+  else if (a == 2)
+  {
+    cout << u << endl;
+  }
+  else if (a == 3)
+  {
+    cout << u + 3 << endl;
+  }
   return 0;
 }

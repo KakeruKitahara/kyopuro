@@ -60,14 +60,48 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 void solve()
 {
-  
+  int n;
+  cin >> n;
+  V a(n);
+  map<int, int> cnt;
+  set<int> s;
+  REP(i, n)
+  {
+    cin >> a[i];
+
+    cnt[a[i]]++;
+    if (cnt[a[i]] == 2)
+    {
+      s.insert(a[i]);
+    }
+  }
+  int ans = 0;
+  if (s.size() > 0)
+  {
+    REP(i, n)
+    {
+      cnt[a[i]]--;
+      if (cnt[a[i]] == 1)
+      {
+        s.erase(a[i]);
+      }
+      if (s.size() == 0)
+      {
+        ans = i + 1;
+        break;
+      }
+    }
+  }
+
+  cout << ans << endl;
 }
 
 int main()
 {
   int t;
   cin >> t;
-  REP(i, t){
+  REP(i, t)
+  {
     solve();
   }
   return 0;

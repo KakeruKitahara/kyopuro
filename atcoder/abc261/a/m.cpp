@@ -23,6 +23,8 @@ int main()
   int l1, r1, l2, r2;
   cin >> l1 >> r1 >> l2 >> r2;
 
+  mint a = 232;
+
   cout << max(min(r2, r1) - max(l2, l1), 0) << endl;
 
   return 0;
