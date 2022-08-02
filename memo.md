@@ -73,41 +73,55 @@
 - 提出する言語を決める．
   ```
   Select a language (e.g. "42"): 
+
+  54
   ```
 
 - テンプレートのファイルを指定する．
   ```
   Template absolute path(e.g. "~/template/io.cpp"): 
+
+  /root/work/kyopuro/cf/template.cpp
   ```
 
 - これはパス．
   ```
   Other suffix? (e.g. "cxx cc"), empty is ok: 
   ```
-  
-- 拡張子の設定．
-  ```
-  Template's alias (e.g. "cpp" "py"):
-  ```
 
 - 拡張子の設定． 
   ```
   Template's alias (e.g. "cpp" "py"):
+
+  cpp
   ```
 
 - コンパイラコマンドを入力．（Pythonなどは不要．） 
   ```
   Before script (e.g. "g++ $%full%$ -o $%file%$.exe -std=c++11"), empty is ok:
+
+  g++ $%full%$
   ```
 
 - 実行ファイルを入力． 
   ```
   Script (e.g. "./$%file%$.exe" "python3 $%full%$"): 
+
+  ./a.out
   ```
 
 - 実行ファイルの削除などのコマンドを入力．（Pythonなどは不要．） 
   ```
   After script (e.g. "rm $%file%$.exe" or "cmd.exe /C del $%file%$.exe" in windows), empty is ok: 
+
+  rm a.out
+  ```
+
+  3. `4`をセレクトして`cf race` や`cf parse`の後に`cf gen`を自動的に実行させる．`cf gen`はテンプレートファイルを作るコマンドであり，これを設定しないと`cf race`だけではテンプレートファイルは作られない．
+    ```
+  Run "cf gen" after "cf parse" (y/n)? 
+
+  yes
   ```
 
 3. サンプルケースが入っているディレクトリの作成．`cf race` + URLの数字．<u>問題番号ではないので注意．</u> `cf parse`だと，問題サイトは同時に表示されない．
