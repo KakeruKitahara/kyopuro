@@ -63,5 +63,39 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+  int n;
+  cin >> n;
+  V p(n);
+  int sum = 0;
+  REP(i, n)
+  {
+    cin >> p[i];
+    sum += p[i];
+  }
+
+  V dp(sum + 1, -1);
+  dp[0] = 1;
+
+  REP(i, n)
+  {
+    REPR(j, sum + 1)
+    {
+      if (j + p[i] <= sum && dp[j] != -1)
+      {
+        dp[j + p[i]] = 1;
+      }
+    }
+  }
+  int ans = 0;
+  REP(i, sum + 1)
+  {
+    if (dp[i] == 1)
+    {
+      ans++;
+    }
+  }
+
+  cout << ans << endl;
+
   return 0;
 }
