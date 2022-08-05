@@ -2,57 +2,86 @@
 #include <atcoder/all>
 using namespace std;
 using namespace atcoder;
+
+/* macro */
 #define REP(i, n) for (int i = 0; i < n; i++)
 #define REP2(i, a, n) for (int i = a; i < n; i++)
 #define REPR(i, n) for (int i = n - 1; 0 <= i; i--)
-#define REPR2(i, n, a) for (int i = n; a <= i; i--)
 using V = vector<int>;
 using VV = vector<vector<int>>;
+using VVV = vector<vector<vector<int>>>;
+using Vl = vector<long long>;
+using VVl = vector<vector<long long>>;
+using VVVl = vector<vector<vector<long long>>>;
 using P = pair<int, int>;
+using VP = vector<pair<int, int>>;
+using VVP = vector<vector<pair<int, int>>>;
 using S = string;
+using VS = vector<string>;
+using VVS = vector<vector<string>>;
 using ll = long long;
-constexpr int INF = 1000000000 + 8;
+constexpr int IINF = 1000000000 + 8;
+constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
+
+/* pair operator */
+template <class X>
+pair<X, X> operator+(pair<X, X> &ob1, pair<X, X> &ob2)
+{
+  pair<X, X> res;
+  res.first = ob1.first + ob2.first;
+  res.second = ob1.second + ob2.second;
+  return res;
+}
+
+template <class X>
+pair<X, X> operator-(pair<X, X> &ob1, pair<X, X> &ob2)
+{
+  pair<X, X> res;
+  res.first = ob1.first - ob2.first;
+  res.second = ob1.second - ob2.second;
+  return res;
+}
+
+template <class X>
+pair<X, X> operator*(pair<X, X> &ob1, pair<X, X> &ob2)
+{
+  pair<X, X> res;
+  res.first = ob1.first * ob2.first;
+  res.second = ob1.second * ob2.second;
+  return res;
+}
+
+template <class X>
+pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
+{
+  pair<X, X> res;
+  res.first = ob1.first / ob2.first;
+  res.second = ob1.second / ob2.second;
+  return res;
+}
 
 int main()
 {
-  int n;
-  cin >> n;
-  V a(n);
-  REP(i, n)
+  S s;
+  cin >> s;
+  map<char, int> m;
+  REP(i, 3)
   {
-    cin >> a[i];
-  }
-  mint times = 2, pretimes = 1;
-  vector<vector<mint>> dp(n, vector<mint>(2, 0));
-  REP2(i, 1, n)
-  {
-    if (i == 1)
-    {
-      dp[i][0] = a[0] + a[1];
-      dp[i][1] = a[0] - a[1];
-    }
-    else
-    {
-      if (i > 2)
-      {
-        mint tmp = times;
-        times += pretimes;
-        pretimes = tmp;
-      }
-      dp[i][0] = dp[i - 1][0] + dp[i - 1][1] + a[i] * times;
-      dp[i][1] = dp[i - 1][0] - a[i] * pretimes;
-    }
+    m[s[i]] = 1;
   }
 
-  //　n = 1 の時もある.
-  if (n == 1)
+  if (m.size() == 1)
   {
-    dp[0][0] = a[0];
-    dp[0][1] = 0;
+    cout << 1 << endl;
   }
-
-  mint b = dp[n - 1][0] + dp[n - 1][1];
-  cout << b.val() << endl;
+  else if (m.size() == 3)
+  {
+    cout << 6 << endl;
+  }
+  else
+  {
+    cout << 3 << endl;
+  }
   return 0;
 }
