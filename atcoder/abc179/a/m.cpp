@@ -60,20 +60,8 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   res.second = ob1.second / ob2.second;
   return res;
 }
+ 
+int main(){
 
-int main()
-{
-  S s;
-  cin >> s;
-
-  set<S> a;
-  REP(i, s.size()){
-a.insert(s);
-s = s.substr(1, s.size() - 1) + s[0];
-  }
-  auto it = a.end();
-  it--;
-  cout <<  *a.begin() << endl;
-  cout << *it << endl;
-  return 0;
+return 0;
 }

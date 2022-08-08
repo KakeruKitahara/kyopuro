@@ -63,17 +63,60 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  S s;
-  cin >> s;
+  ll n;
+  int x, m;
 
-  set<S> a;
-  REP(i, s.size()){
-a.insert(s);
-s = s.substr(1, s.size() - 1) + s[0];
+  cin >> n >> x >> m;
+
+  V dp(m, -1);
+  V lp;
+  ll now = x;
+  ll sum = 0;
+
+  while (n != 0)
+  {
+    lp.push_back(now);
+    sum += now;
+    dp[now] = 1;
+    now = (now * now) % m;
+    n--;
+    if (dp[(now * now) % m] == 1)
+    {
+      lp.push_back(now);
+      sum += now;
+      dp[now] = 1;
+      now = (now * now) % m;
+      n--;
+      break;
+    }
+  };
+
+  ll pu = 0;
+  int en = 0;
+  int j = lp.size();
+  REP(i, lp.size())
+  {
+    if (now == lp[i])
+    {
+      pu = n / (lp.size() - i);
+      en = n % (lp.size() - i);
+      j = i;
+      break;
+    }
   }
-  auto it = a.end();
-  it--;
-  cout <<  *a.begin() << endl;
-  cout << *it << endl;
+  ll lsum = 0;
+  ll ensum = 0;
+  int st = j;
+  for (j; j < lp.size(); j++)
+  {
+    lsum += lp[j];
+    if (j < en + st)
+    {
+      ensum += lp[j];
+    }
+  }
+
+  cout << sum + lsum * pu + ensum << endl;
+
   return 0;
 }

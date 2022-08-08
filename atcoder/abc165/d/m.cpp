@@ -63,17 +63,37 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  S s;
-  cin >> s;
-
-  set<S> a;
-  REP(i, s.size()){
-a.insert(s);
-s = s.substr(1, s.size() - 1) + s[0];
+  ll a, b, n;
+  cin >> a >> b >> n;
+  if (a == 1 || b == 1)
+  {
+    cout << 0 << endl;
+    return 0;
   }
-  auto it = a.end();
-  it--;
-  cout <<  *a.begin() << endl;
-  cout << *it << endl;
+
+  if (n < b)
+  {
+    cout << (a * n) / b - a * (n / b) << endl;
+  }
+  else if (n == b)
+  {
+    cout << (a * (n - 1)) / b - a * ((n - 1) / b) << endl;
+  }
+  else
+  {
+    // 場合分けせずどちらも求めてmin
+    if (a < b)
+    {
+      cout << a - 1 << endl;
+    }
+    else
+    {
+      cout << a << endl;
+    }
+  }
+
+
+  
+
   return 0;
 }

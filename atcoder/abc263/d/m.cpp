@@ -63,38 +63,123 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int n;
-  cin >> n;
-  vector<double> a(n), b(n);
+  ll n, l, r;
+  cin >> n >> l >> r;
+  Vl a(n);
   REP(i, n)
   {
-    cin >> a[i] >> b[i];
+    cin >> a[i];
   }
-  double t = 0;
+
+  Vl sumx(n), sumy(n);
+  ll bx = l, by = r;
+  sumx[0] = a[0];
+  REP2(i, 1, n)
+  {
+    sumx[i] = sumx[i - 1] + a[i];
+  }
+
+  ll x = -1, y = -1;
+  Vl minsumx(n, sumx[n - 1]);
+
   REP(i, n)
   {
-    t += a[i] / b[i];
-  }
 
-  t /= 2;
-
-  double ans = 0;
-  int i = 0;
-  while (1)
-  {
-    if (t <= a[i] / b[i])
+    if (i == 0)
     {
-      ans += b[i] * t;
-      break;
+      if (sumx[n - 1] - sumx[i] + bx < minsumx[0])
+      {
+        minsumx[i] = sumx[n - 1] - sumx[i] + bx;
+        x = i;
+      }
+      continue;
+    }
+    if (sumx[n - 1] - sumx[i] + bx < minsumx[i - 1])
+    {
+      minsumx[i] = sumx[n - 1] - sumx[i] + bx;
+      x = i;
+    }
+    else
+    {
+      minsumx[i] = minsumx[i - 1];
+    }
+
+    bx += l;
+  }
+  reverse(a.begin(), a.end());
+  x = n - x - 1;
+  if (x == 0)
+  {
+    sumy[0] = l;
+  }
+  else
+  {
+    sumy[0] = a[0];
+  }
+
+  REP2(i, 1, n)
+  {
+    if (i >= x)
+    {
+      sumy[i] = sumy[i - 1] + l;
+    }
+    else
+    {
+      sumy[i] = sumy[i - 1] + a[i];
+    }
+  }
+
+  Vl minsumy(n, sumy[n - 1]);
+
+  REP(i, n)
+  {
+    if (i == 0)
+    {
+      if (sumy[n - 1] - sumy[i] + by < minsumy[0])
+      {
+        minsumy[i] = sumy[n - 1] - sumy[i] + by;
+        y = i;
+      }
+      continue;
+    }
+    if (sumy[n - 1] - sumy[i] + by < minsumy[i - 1])
+    {
+      minsumy[i] = sumy[n - 1] - sumy[i] + by;
+      y = i;
+    }
+    else
+    {
+      minsumy[i] = minsumy[i - 1];
+    }
+
+    by += r;
+  }
+  ll ans = 0;
+  REP(i, n)
+  {
+    if (i <= y)
+    {
+      ans += r;
+    }
+    else if (x <= i)
+    {
+      ans += l;
     }
     else
     {
       ans += a[i];
-      t -= a[i] / b[i];
     }
-    i++;
   }
-
-  cout << fixed << setprecision(10) << ans << endl;
+  cout << ans << endl;
   return 0;
 }
+
+/*
+3
+1 5 
+0 0 10
+-------
+3
+になるので，xとyのときでともに最小になるxとyを選出する解放は無理．
+逐次的におこなってminと比較するしかない．
+*/

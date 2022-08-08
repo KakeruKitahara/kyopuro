@@ -63,17 +63,61 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  S s;
-  cin >> s;
-
-  set<S> a;
-  REP(i, s.size()){
-a.insert(s);
-s = s.substr(1, s.size() - 1) + s[0];
+  int n;
+  cin >> n;
+  int x, y;
+  cin >> x >> y;
+  V a(n), b(n);
+  REP(i, n)
+  {
+    cin >> a[i] >> b[i];
   }
-  auto it = a.end();
-  it--;
-  cout <<  *a.begin() << endl;
-  cout << *it << endl;
+  VVV dp(n, VV(301, V(301, IINF)));
+
+  REP(i, n)
+  {
+    dp[i][0][0] = 0;
+    if (i == 0)
+    {
+
+      dp[0][a[0]][b[0]] = 1;
+    }
+    else
+    {
+      REP(j, 301)
+      {
+        REP(k, 301)
+        {
+          dp[i][j][k] = min(dp[i - 1][j][k], dp[i][j][k]);
+          int jn = min(300, j + a[i]), kn = min(300, k + b[i]);
+          if (jn == 300 | kn == 300)
+          {
+            dp[i][jn][kn] = min(dp[i - 1][jn][kn], min(dp[i - 1][j][k] + 1, dp[i][jn][kn]));
+          }
+          else
+          {
+            dp[i][jn][kn] = min(dp[i - 1][jn][kn], dp[i - 1][j][k] + 1);
+          }
+        }
+      }
+    }
+  }
+
+  int ans = IINF;
+  REP2(j, x, 301)
+  {
+    REP2(k, y, 301)
+    {
+      ans = min(ans, dp[n - 1][j][k]);
+    }
+  }
+  if (ans == IINF)
+  {
+    cout << -1 << endl;
+  }
+  else
+  {
+    cout << ans << endl;
+  }
   return 0;
 }

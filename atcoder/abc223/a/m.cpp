@@ -60,8 +60,22 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   res.second = ob1.second / ob2.second;
   return res;
 }
- 
-int main(){
 
-return 0;
+int main()
+{
+  int x;
+  cin >> x;
+  int a = x / 100;
+  if (a >= 1)
+  {
+    if (x % 100 == 0)
+    {
+      cout << "Yes" << endl;
+      return 0;
+    }
+  }
+
+  cout << "No" << endl;
+
+  return 0;
 }

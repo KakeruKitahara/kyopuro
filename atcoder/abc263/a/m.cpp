@@ -63,17 +63,19 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  S s;
-  cin >> s;
-
-  set<S> a;
-  REP(i, s.size()){
-a.insert(s);
-s = s.substr(1, s.size() - 1) + s[0];
+  V a(5);
+  REP(i, 5)
+  {
+    cin >> a[i];
   }
-  auto it = a.end();
-  it--;
-  cout <<  *a.begin() << endl;
-  cout << *it << endl;
+  sort(a.begin(), a.end());
+  if ((a[0] == a[1] && a[1] == a[2] && a[2] != a[3] && a[3] == a[4]) || (a[0] == a[1] && a[1] != a[2] && a[2] == a[3] && a[3] == a[4]))
+  {
+    cout << "Yes" << endl;
+  }
+  else
+  {
+    cout << "No" << endl;
+  }
   return 0;
 }

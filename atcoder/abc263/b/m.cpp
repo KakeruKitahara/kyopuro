@@ -63,17 +63,30 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  S s;
-  cin >> s;
-
-  set<S> a;
-  REP(i, s.size()){
-a.insert(s);
-s = s.substr(1, s.size() - 1) + s[0];
+  int n;
+  cin >> n;
+  V p(n);
+  int ind = -1;
+  int maxs = -1;
+  REP(i, n)
+  {
+    cin >> p[i];
+    if (p[i] > maxs)
+    {
+      ind = i;
+      maxs = p[i];
+    }
   }
-  auto it = a.end();
-  it--;
-  cout <<  *a.begin() << endl;
-  cout << *it << endl;
+  int ans = 0;
+  int now = n;
+  while (now != 1)
+  {
+    now -= 2;
+    now = p[now];
+    ans++;
+  }
+
+  cout << ans  << endl;
+
   return 0;
 }

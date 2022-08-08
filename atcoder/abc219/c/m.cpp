@@ -63,17 +63,31 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  S s;
-  cin >> s;
-
-  set<S> a;
-  REP(i, s.size()){
-a.insert(s);
-s = s.substr(1, s.size() - 1) + s[0];
+  S x;
+  cin >> x;
+  int n;
+  cin >> n;
+  map<S, int> mp;
+  map<char, char> al;
+  REP(i, 26)
+  {
+    al[x[i]] = (char)(i + 'a');
   }
-  auto it = a.end();
-  it--;
-  cout <<  *a.begin() << endl;
-  cout << *it << endl;
+  VS s(n);
+  REP(i, n)
+  {
+    cin >> s[i];
+    S t = s[i];
+    REP(i, t.size())
+    {
+      t[i] = al[t[i]];
+    }
+    mp[t] = i;
+  }
+
+  for (auto b : mp)
+  {
+    cout << s[b.second] << endl;
+  }
   return 0;
 }

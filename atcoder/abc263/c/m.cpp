@@ -60,20 +60,46 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   res.second = ob1.second / ob2.second;
   return res;
 }
-
 int main()
 {
-  S s;
-  cin >> s;
-
-  set<S> a;
-  REP(i, s.size()){
-a.insert(s);
-s = s.substr(1, s.size() - 1) + s[0];
+  int n, m;
+  cin >> n >> m;
+  V a;
+  a.resize(m);
+  REP(i, m)
+  {
+    a[i] = i + 1;
   }
-  auto it = a.end();
-  it--;
-  cout <<  *a.begin() << endl;
-  cout << *it << endl;
+  set<V> s;
+  do
+  {
+    int f = 0;
+    REP(i, n - 1)
+    {
+      if (a[i] > a[i + 1])
+      {
+        f = 1;
+      }
+    }
+
+    if (f == 0)
+    {
+      V tmp(n);
+      REP(i, n)
+      {
+        tmp[i] = a[i];
+      }
+      s.insert(tmp);
+    }
+  } while (next_permutation(a.begin(), a.end()));
+
+  for (V k : s)
+  {
+    REP(i, n)
+    {
+      cout << k[i] << " ";
+    }
+    cout << endl;
+  }
   return 0;
 }
