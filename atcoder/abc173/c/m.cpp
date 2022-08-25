@@ -2,96 +2,129 @@
 #include <atcoder/all>
 using namespace std;
 using namespace atcoder;
+
+/* macro */
 #define REP(i, n) for (int i = 0; i < n; i++)
 #define REP2(i, a, n) for (int i = a; i < n; i++)
 #define REPR(i, n) for (int i = n - 1; 0 <= i; i--)
-#define REPR2(i, n, a) for (int i = n; a <= i; i--)
 using V = vector<int>;
-using Vl = vector<long long>;
 using VV = vector<vector<int>>;
+using VVV = vector<vector<vector<int>>>;
+using Vl = vector<long long>;
 using VVl = vector<vector<long long>>;
+using VVVl = vector<vector<vector<long long>>>;
 using P = pair<int, int>;
-using Pl = pair<long long, long long>;
+using VP = vector<pair<int, int>>;
+using VVP = vector<vector<pair<int, int>>>;
 using S = string;
+using VS = vector<string>;
+using VVS = vector<vector<string>>;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
 
+/* pair operator */
+template <class X>
+pair<X, X> operator+(pair<X, X> &ob1, pair<X, X> &ob2)
+{
+  pair<X, X> res;
+  res.first = ob1.first + ob2.first;
+  res.second = ob1.second + ob2.second;
+  return res;
+}
+
+template <class X>
+pair<X, X> operator-(pair<X, X> &ob1, pair<X, X> &ob2)
+{
+  pair<X, X> res;
+  res.first = ob1.first - ob2.first;
+  res.second = ob1.second - ob2.second;
+  return res;
+}
+
+template <class X>
+pair<X, X> operator*(pair<X, X> &ob1, pair<X, X> &ob2)
+{
+  pair<X, X> res;
+  res.first = ob1.first * ob2.first;
+  res.second = ob1.second * ob2.second;
+  return res;
+}
+
+template <class X>
+pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
+{
+  pair<X, X> res;
+  res.first = ob1.first / ob2.first;
+  res.second = ob1.second / ob2.second;
+  return res;
+}
+
+V bit;
+
+void up(int i, ll x)
+{
+  i++;
+  while (i <= bit.size())
+  {
+    bit[i - 1] = bit[i - 1] ^ x;
+    i += (i & -i);
+  }
+}
+
+ll sum(int i)
+{
+  ll ans = 0;
+  while (i > 0)
+  {
+    ans = bit[i - 1] ^ ans;
+    i -= (i & -i);
+  }
+  return ans;
+}
+
 int main()
 {
-  int h, w, k;
-  cin >> h >> w >> k;
-  vector<S> c(h);
-  REP(i, h)
+  int n, q;
+  cin >> n >> q;
+
+  V a(n);
+  REP(i, n)
   {
-    cin >> c[i];
+    cin >> a[i];
+  }
+  bit.resize(n);
+  Vl t(q), x(q), y(q);
+
+  REP(i, q)
+  {
+    cin >> t[i] >> x[i] >> y[i];
   }
 
-  int ans = 0;
-
-  for (int bit = 0; bit < (1 << h + w); bit++) // 1 << n = 2^n通り.
+  REP(i, n)
   {
-    V hv, wv;
-    for (int i = 0; i < h + w; i++)
-    { // bit桁までi桁を調べる.
-      if (bit & (1 << i))
-      {
-        if (i < h)
-        {
-          hv.push_back(i);
-        }
-        else
-        {
-          wv.push_back(i - h);
-        }
-      }
-    }
-
-    int cnt = 0;
-
-    REP(hj, h)
-    {
-      int f = 0;
-      REP(hvi, hv.size())
-      {
-        if (hv[hvi] == hj)
-        {
-          f = 1;
-        }
-      }
-
-      if (f == 0)
-      {
-        REP(wj, w)
-        {
-          int g = 0;
-          REP(wvi, wv.size())
-          {
-            if (wv[wvi] == wj)
-            {
-              g = 1;
-            }
-          }
-
-          if (g == 0)
-          {
-            if (c[hj][wj] == '#')
-            {
-              cnt++;
-            }
-          }
-        }
-      }
-    }
-
-    if (cnt == k)
-    {
-      ans++;
-    }
+    up(i, a[i]);
   }
 
-  cout << ans << endl;
+  REP(i, q)
+  {
+    if (t[i] == 1)
+    {
+      x[i]--;
+      up(x[i], y[i]);
+    }
+    else
+    {
+      y[i]--;
+      x[i]--;
+
+      ll a2 = sum(y[i]);
+      ll b2 = sum(max(0ll, x[i] - 1));
+      a2 ^= b2;
+      cout << a2 << endl;
+    }
+  }
 
   return 0;
 }

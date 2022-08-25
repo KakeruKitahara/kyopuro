@@ -21,14 +21,44 @@ using mint = modint1000000007;
 int main()
 {
   int n;
-  V x(n), y(n);
-
+  cin >> n;
+  Vl x(n), y(n);
   REP(i, n)
   {
     cin >> x[i] >> y[i];
   }
 
-  
+  sort(x.begin(), x.end());
+  sort(y.begin(), y.end());
+
+  ll sumx = 0;
+
+  ll minx = x[0], miny = y[0];
+
+  REP(i, n)
+  {
+    x[i] -= minx;
+    sumx += x[i];
+  }
+  sumx -= x[0];
+
+  ll sumy = 0;
+  REP(i, n)
+  {
+    y[i] -= miny;
+    sumy += y[i];
+  }
+  sumy -= y[0];
+
+  ll ans = sumy + sumx;
+  REP(i, n - 1)
+  {
+    sumx += (-n + 2 + 2 * i) * (x[i + 1] - x[i]);
+    sumy += (-n + 2 + 2 * i) * (y[i + 1] - y[i]);
+    ans = min(ans, sumy + sumx);
+  }
+
+  cout << ans << endl;
 
   return 0;
 }
