@@ -20,18 +20,16 @@ using mint = modint1000000007;
 
 int main()
 {
-
   ll n;
   cin >> n;
   ll ans = 0;
-  for (ll i = 1; n >= i * i * i; i++)
+  for (ll a = 1; a * a * a <= n; a++)
   {
-    for (ll j = i; n / i >= (j * j); j++)
+    for (ll b = a; a * b * b <= n; b++)
     {
-      ans += n / (i * j) - (j - 1);
+      ans += n / (a * b) - b + 1;
     }
   }
-
   cout << ans << endl;
   return 0;
 }
