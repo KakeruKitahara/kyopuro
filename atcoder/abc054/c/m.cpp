@@ -2,85 +2,107 @@
 #include <atcoder/all>
 using namespace std;
 using namespace atcoder;
+
+/* macro */
 #define REP(i, n) for (int i = 0; i < n; i++)
 #define REP2(i, a, n) for (int i = a; i < n; i++)
 #define REPR(i, n) for (int i = n - 1; 0 <= i; i--)
-#define REPR2(i, n, a) for (int i = n; a <= i; i--)
 using V = vector<int>;
-using Vl = vector<long long>;
 using VV = vector<vector<int>>;
+using VVV = vector<vector<vector<int>>>;
+using Vl = vector<long long>;
 using VVl = vector<vector<long long>>;
+using VVVl = vector<vector<vector<long long>>>;
 using P = pair<int, int>;
-using Pl = pair<long long, long long>;
+using VP = vector<pair<int, int>>;
+using VVP = vector<vector<pair<int, int>>>;
 using S = string;
+using VS = vector<string>;
+using VVS = vector<vector<string>>;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
-int n;
-int ans = 0;
-VV e(n);
 
-void f(int p, V jd)
+/* Euclid  */
+template <class X>
+X gcd(X a, X b)
 {
-  if (p == n - 1)
+  if (b == 0)
+    return a;
+  else
+    return gcd(b, a % b);
+}
+
+/* pow  */
+template <class X>
+X pow(X x, X n)
+{
+  X ret = 1;
+  while (n > 0)
   {
-    int f = 0;
-    int f1 = 0;
-    REP(i, n)
-    {
-      if (jd[i] == 2)
-      {
-        f++;
-      }
-      else if (jd[i] == 1)
-      {
-        f1++;
-      }
-    }
-    if (jd[0] == 1 && f == n - 2 && f1 == 2)
-    {
-      ans++;
-    }
-    return;
+    if (n & 1)
+      ret *= x;
+    x *= x;
+    n >>= 1;
+  }
+  return ret;
+}
+
+/* fenick tree */
+
+VV edge;
+V used;
+int n, m;
+
+int dfs(int ptr, int num)
+{
+  ll cnt = 0;
+  used[ptr] = 1;
+  if (n == num)
+  {
+    cnt++;
   }
 
-  f(p + 1, jd);
-
-  jd[p]++;
-  REP(i, e[p].size())
+  REP(i, edge[ptr].size())
   {
-    jd[e[p][i]]++;
-    f(p + 1, jd);
-    jd[p]++;
-    REP2(j, i + 1, e[p].size())
+    if (used[edge[ptr][i]] == 0)
     {
-      jd[e[p][j]]++;
-      f(p + 1, jd);
-      jd[e[p][j]]--;
+      cnt += dfs(edge[ptr][i], num + 1);
     }
-    jd[p]--;
-    jd[e[p][i]]--;
   }
-  jd[p]--;
 
-  return;
+  used[ptr] = 0;
+
+  return cnt;
 }
 
 int main()
 {
-  int m;
-  cin >> n >> m;
-  e.resize(n);
 
+  cin >> n >> m;
+  edge.resize(n);
+  set<P> k;
   REP(i, m)
   {
     int a, b;
     cin >> a >> b;
-    e[a - 1].push_back(b - 1);
+    a--;
+    b--;
+    if (a != b)
+    {
+      k.insert(make_pair(a, b));
+      k.insert(make_pair(b, a));
+    }
   }
-  V jd(n);
-  f(0, jd);
+
+  for (P i : k)
+  {
+    edge[i.first].push_back(i.second);
+  }
+  ll ans = 0;
+  used.resize(n);
+  ans += dfs(0, 1);
 
   cout << ans << endl;
 
