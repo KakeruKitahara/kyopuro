@@ -61,68 +61,77 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
-/* Euclid  */
-template <class X>
-X gcd(X a, X b)
-{
-  if (b == 0)
-    return a;
-  else
-    return gcd(b, a % b);
-}
-
-/* pow  */
-template <class X>
-X pow(X x, X n)
-{
-  X ret = 1;
-  while (n > 0)
-  {
-    if (n & 1)
-      ret *= x;
-    x *= x;
-    n >>= 1;
-  }
-  return ret;
-}
-
-/* fenick tree */
-class fenick
-{
-  vector<ll> bit;
-  fenick(int n)
-  {
-    bit.resize(n);
-  }
-
-public:
-  void add(int i, ll x)
-  {
-    i++;
-    for (int idx = i; idx <= bit.size(); idx += (idx & -idx))
-    {
-      bit[idx - 1] += x;
-    }
-  }
-
-  ll sum(int i)
-  {
-    ll ans = 0;
-    for (int idx = i; idx > 0; idx -= (idx & -idx))
-    {
-      ans += bit[idx - 1];
-    }
-    return ans;
-  }
-
-  ll sum(int a, int b)
-  {
-    return sum(b) - sum(a - 1);
-  }
-};
-
 int main()
 {
-  
+  S s;
+  cin >> s;
+
+  deque<char> ans;
+
+  REP(i, s.size())
+  {
+    ans.push_back(s[i]);
+  }
+
+  int q;
+  cin >> q;
+  vector<tuple<int, int, char>> qu(q);
+  REP(i, q)
+  {
+    cin >> get<0>(qu[i]);
+    if (get<0>(qu[i]) == 2)
+    {
+      cin >> get<1>(qu[i]) >> get<2>(qu[i]);
+    }
+  }
+  int f = 0;
+  REP(i, q)
+  {
+    if (get<0>(qu[i]) == 1)
+    {
+      f = (f + 1) % 2;
+    }
+    else
+    {
+      if (f == 0)
+      {
+        if (get<1>(qu[i]) == 1)
+        {
+          ans.push_front(get<2>(qu[i]));
+        }
+        else
+        {
+          ans.push_back(get<2>(qu[i]));
+        }
+      }
+      else
+      {
+        if (get<1>(qu[i]) == 2)
+        {
+          ans.push_front(get<2>(qu[i]));
+        }
+        else
+        {
+          ans.push_back(get<2>(qu[i]));
+        }
+      }
+    }
+  }
+
+  if (f == 0)
+  {
+    REP(i, ans.size())
+    {
+      cout << ans[i];
+    }
+  }
+  else
+  {
+    REPR(i, ans.size())
+    {
+      cout << ans[i];
+    }
+  }
+  cout << endl;
   return 0;
 }
