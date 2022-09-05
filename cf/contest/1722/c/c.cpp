@@ -84,51 +84,108 @@ X pow(X x, X n)
 }
 
 /* fenick tree */
-template <typename T>
-class Fenick
+class fenick
 {
-  vector<T> bit;
-
-public:
-  Fenick(int n)
+  vector<ll> bit;
+  fenick(int n)
   {
     bit.resize(n);
   }
 
-  void add(int i, T x)
+public:
+  void add(int i, ll x)
   {
-    for (int idx = i + 1; idx <= bit.size(); idx += idx & (-idx))
+    i++;
+    for (int idx = i; idx <= bit.size(); idx += (idx & -idx))
     {
       bit[idx - 1] += x;
     }
   }
 
-  T sum(int i)
+  ll sum(int i)
   {
-    T ans = 0;
-    for (int idx = i + 1; idx > 0; idx -= idx & (-idx))
+    ll ans = 0;
+    for (int idx = i; idx > 0; idx -= (idx & -idx))
     {
       ans += bit[idx - 1];
     }
     return ans;
   }
 
-  T sum(int l, int r)
+  ll sum(int a, int b)
   {
-    return sum(r) - sum(l - 1);
+    return sum(b) - sum(a - 1);
   }
 };
 
 void solve()
 {
-  
+  int n;
+  cin >> n;
+  VS a(n), b(n), c(n);
+
+  map<S, int> m;
+  REP(i, n)
+  {
+    cin >> a[i];
+    m[a[i]]++;
+  }
+  REP(i, n)
+  {
+    cin >> b[i];
+    m[b[i]]++;
+  }
+  REP(i, n)
+  {
+    cin >> c[i];
+    m[c[i]]++;
+  }
+
+  int ansa = 0, ansb = 0, ansc = 0;
+
+  REP(i, n)
+  {
+    if (m[a[i]] == 1)
+    {
+      ansa += 3;
+    }
+    else if (m[a[i]] == 2)
+    {
+      ansa += 1;
+    }
+  }
+  REP(i, n)
+  {
+    if (m[b[i]] == 1)
+    {
+      ansb += 3;
+    }
+    else if (m[b[i]] == 2)
+    {
+      ansb += 1;
+    }
+  }
+  REP(i, n)
+  {
+    if (m[c[i]] == 1)
+    {
+      ansc += 3;
+    }
+    else if (m[c[i]] == 2)
+    {
+      ansc += 1;
+    }
+  }
+
+  cout << ansa << " " << ansb << " " << ansc << endl;
 }
 
 int main()
 {
   int t;
   cin >> t;
-  REP(i, t){
+  REP(i, t)
+  {
     solve();
   }
   return 0;

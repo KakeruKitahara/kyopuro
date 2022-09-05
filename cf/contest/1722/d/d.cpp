@@ -84,51 +84,92 @@ X pow(X x, X n)
 }
 
 /* fenick tree */
-template <typename T>
-class Fenick
+class fenick
 {
-  vector<T> bit;
-
-public:
-  Fenick(int n)
+  vector<ll> bit;
+  fenick(int n)
   {
     bit.resize(n);
   }
 
-  void add(int i, T x)
+public:
+  void add(int i, ll x)
   {
-    for (int idx = i + 1; idx <= bit.size(); idx += idx & (-idx))
+    i++;
+    for (int idx = i; idx <= bit.size(); idx += (idx & -idx))
     {
       bit[idx - 1] += x;
     }
   }
 
-  T sum(int i)
+  ll sum(int i)
   {
-    T ans = 0;
-    for (int idx = i + 1; idx > 0; idx -= idx & (-idx))
+    ll ans = 0;
+    for (int idx = i; idx > 0; idx -= (idx & -idx))
     {
       ans += bit[idx - 1];
     }
     return ans;
   }
 
-  T sum(int l, int r)
+  ll sum(int a, int b)
   {
-    return sum(r) - sum(l - 1);
+    return sum(b) - sum(a - 1);
   }
 };
 
 void solve()
 {
-  
+  int n;
+  cin >> n;
+  S s;
+  cin >> s;
+  ll sum = 0;
+  REP(i, n)
+  {
+    if (s[i] == 'L')
+    {
+      sum += i;
+    }
+    else
+    {
+      sum += n - i - 1;
+    }
+  }
+  ll tr = sum;
+  int cnt = 0;
+  Vl ans(n + 1, sum);
+  REP(i, n / 2)
+  {
+    if (s[i] == 'L')
+    {
+      sum += n - 2 * i - 1;
+      cnt++;
+    }
+    ans[cnt] = max(sum, ans[cnt]);
+    if (s[n - i - 1] == 'R')
+    {
+      sum += n - 2 * i - 1;
+      cnt++;
+    }
+
+    ans[cnt] = max(sum, ans[cnt]);
+  }
+
+  REP2(i, 1, n + 1)
+  {
+    tr = max(ans[i], tr);
+    cout << tr << " ";
+  }
+  cout << endl;
 }
 
 int main()
 {
   int t;
   cin >> t;
-  REP(i, t){
+  REP(i, t)
+  {
     solve();
   }
   return 0;

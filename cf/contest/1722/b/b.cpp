@@ -84,51 +84,75 @@ X pow(X x, X n)
 }
 
 /* fenick tree */
-template <typename T>
-class Fenick
+class fenick
 {
-  vector<T> bit;
-
-public:
-  Fenick(int n)
+  vector<ll> bit;
+  fenick(int n)
   {
     bit.resize(n);
   }
 
-  void add(int i, T x)
+public:
+  void add(int i, ll x)
   {
-    for (int idx = i + 1; idx <= bit.size(); idx += idx & (-idx))
+    i++;
+    for (int idx = i; idx <= bit.size(); idx += (idx & -idx))
     {
       bit[idx - 1] += x;
     }
   }
 
-  T sum(int i)
+  ll sum(int i)
   {
-    T ans = 0;
-    for (int idx = i + 1; idx > 0; idx -= idx & (-idx))
+    ll ans = 0;
+    for (int idx = i; idx > 0; idx -= (idx & -idx))
     {
       ans += bit[idx - 1];
     }
     return ans;
   }
 
-  T sum(int l, int r)
+  ll sum(int a, int b)
   {
-    return sum(r) - sum(l - 1);
+    return sum(b) - sum(a - 1);
   }
 };
 
 void solve()
 {
-  
+  int n;
+  cin >> n;
+  S a, b;
+  cin >> a >> b;
+
+  REP(i, n)
+  {
+    if (a[i] == 'G')
+    {
+      a[i] = 'B';
+    }
+    if (b[i] == 'G')
+    {
+      b[i] = 'B';
+    }
+  }
+
+  if (a == b)
+  {
+    cout << "YES" << endl;
+  }
+  else
+  {
+    cout << "NO" << endl;
+  }
 }
 
 int main()
 {
   int t;
   cin >> t;
-  REP(i, t){
+  REP(i, t)
+  {
     solve();
   }
   return 0;
