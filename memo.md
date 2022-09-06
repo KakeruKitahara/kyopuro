@@ -1,4 +1,4 @@
-# online-judge-tools, atcoder-cliの注意
+# online-judge-tools, atcoder-cli
 
 ## サンプルケースDLから提出の流れ
 0. 2つのツールを使うためにどちら共にログインしておく．`acc session`でログイン状況を確認している．
@@ -45,7 +45,16 @@
 ## その他
 - online-judge-toolsのランダム生成器実装はまた今度．
 
-# codeforces toolの設定
+# ac-library-python
+pythonのaclなので最適化が完全にできてないので，TLEになる可能性もあるので注意が必要．  
+使用方法がわからなくなったときは以下のリポジトリから**example**の例を見ること．
+https://github.com/not522/ac-library-python
+- `import #{クラス名} from atcoder.#{ファイル名}`でインポートする．
+- ローカル環境内では通常と同じく`python hoge.py`で実行できるが，提出の際は`python -m #{元のファイル} -o #{結合後のファイル名}`でac-library-pythonと元ファイルを結合する．そのファイルを提出すること．
+- pypyには使用不可能．
+
+# codeforces tool
+## 初期設定
 0. `cf config`で初期設定をする．
   ```
   Configure the tool
@@ -144,3 +153,5 @@
 
 ## その他
 - `cf list`で問題の正解情報などがわかる．
+
+# atcoder-library-python
