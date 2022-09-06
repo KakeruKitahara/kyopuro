@@ -153,5 +153,3 @@ https://github.com/not522/ac-library-python
 
 ## その他
 - `cf list`で問題の正解情報などがわかる．
-
-# atcoder-library-python
