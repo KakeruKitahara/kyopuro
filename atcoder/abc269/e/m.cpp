@@ -81,14 +81,14 @@ int main()
       if (h == t)
       {
         a = a + h;
-        h = (preh - h) / 2;
+        h = (preh - a + 1) / 2;
       }
       else
       {
-
+        preh = a + h - 1;
         h /= 2;
       }
-      preh = h;
+
       if (h == 0)
       {
         ansy = a;
@@ -103,13 +103,13 @@ int main()
       if (w == t)
       {
         c = c + w;
-        w = (prew - w) / 2;
+        w = (prew - c + 1) / 2;
       }
       else
       {
+        prew = w + c - 1;
         w /= 2;
       }
-      prew = w;
       if (w == 0)
       {
         ansx = c;
@@ -118,7 +118,7 @@ int main()
 
     if (w == 0)
     {
-      cout << "! " << ansx << " " << ansy << endl;
+      cout << "! " << ansy << " " << ansx << endl;
       return 0;
     }
   }
