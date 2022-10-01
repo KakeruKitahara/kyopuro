@@ -19,6 +19,7 @@ constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
  
 int main(){
+  
 
 return 0;
 }

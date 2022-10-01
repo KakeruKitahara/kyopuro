@@ -61,99 +61,150 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
-struct edge
+/* Euclid  */
+template <class X>
+X gcd(X a, X b)
 {
-  int to;
-  int cost;
-};
-vector<int> dijkstra(vector<vector<edge>> graph, int n, int start)
+  if (b == 0)
+    return a;
+  else
+    return gcd(b, a % b);
+}
+
+/* pow  */
+template <class X>
+X pow(X x, X n)
 {
-  priority_queue<P, vector<P>, greater<P>> que;
-  vector<int> dst(n, IINF);
-  dst[start] = 0;
-  que.push(P(0, start));
-  while (que.size())
+  X ret = 1;
+  while (n > 0)
   {
-    int d = que.top().first;
-    int u = que.top().second;
-    que.pop();
-    if (dst[u] < d)
-      continue;
-    for (int i = 0; i < graph[u].size(); ++i)
+    if (n & 1)
+      ret *= x;
+    x *= x;
+    n >>= 1;
+  }
+  return ret;
+}
+
+/* fenick tree */
+template <typename T>
+class Fenick
+{
+  vector<T> bit;
+
+public:
+  Fenick(int n)
+  {
+    bit.resize(n);
+  }
+
+  void add(int i, T x)
+  {
+    for (int idx = i + 1; idx <= bit.size(); idx += idx & (-idx))
     {
-      int v = graph[u][i].to;
-      int cost = graph[u][i].cost;
-      if (dst[v] > d + cost)
-      {
-        dst[v] = d + cost;
-        que.push(P(dst[v], v));
-      }
+      bit[idx - 1] += x;
     }
   }
-  return dst;
-}
+
+  T sum(int i)
+  {
+    T ans = 0;
+    for (int idx = i + 1; idx > 0; idx -= idx & (-idx))
+    {
+      ans += bit[idx - 1];
+    }
+    return ans;
+  }
+
+  T sum(int l, int r)
+  {
+    return sum(r) - sum(l - 1);
+  }
+};
 
 int main()
 {
-  int n, m;
-  cin >> n >> m;
-  V c(n);
-  vector<vector<edge>> ed(n);
-  vector<set<int>> ed2(n);
-  vector<map<int, int>> ed3(n);
-  V my(n, IINF);
-  REP(i, m)
+
+  ll n, k;
+  cin >> n >> k;
+  Vl a(n);
+  REP(i, n)
   {
-    int a, b, c;
-    cin >> a >> b;
-    cin >> c;
-
-    if (a == b)
-    {
-      my[a - 1] = min(my[a - 1], c);
-      continue;
-    }
-
-    if (ed2[b - 1].count(a - 1) == false)
-    {
-      ed3[a - 1][b - 1] = c;
-      ed2[b - 1].insert(a - 1);
-      continue;
-    }
-
-    if (ed2[b - 1].count(a - 1) == true && ed3[a - 1][b - 1] > c)
-    {
-      ed3[a - 1][b - 1] = c;
-      ed2[b - 1].insert(a - 1);
-    }
+    cin >> a[i];
   }
+
+  vector<pair<ll, int>> b(n);
 
   REP(i, n)
   {
-    for (auto p : ed3[i])
+    b[i].first = a[i];
+    b[i].second = i;
+  }
+
+  sort(b.begin(), b.end());
+
+  Vl sa(n);
+  sa[0] = b[0].first;
+  REP(i, n - 1)
+  {
+    sa[i + 1] = b[i + 1].first - b[i].first;
+  }
+
+  ll sum = 0;
+  ll sasa = 0;
+  int i = 0;
+  for (i = 0; i < n; i++)
+  {
+    sum += sa[i] * (n - i);
+    sasa += sa[i];
+    if (k < sum)
     {
-      edge t;
-      t.to = p.first;
-      t.cost = p.second;
-      ed[i].push_back(t);
+      break;
     }
   }
 
-  REP(i, n)
-  {
-    V ds = dijkstra(ed, n, i);
-    int ans = my[i];
-    for (int p : ed2[i])
-    {
-      ans = min(ds[p] + ed3[p][i], ans);
-    }
-    if (ans == IINF)
-    {
-      cout << -1 << endl;
-    }
-    else
-      cout << ans << endl;
+  sasa -= sa[i];
+  sum -= sa[i] * (n - i);
+
+int c = 1;
+  if(i == 0 || sa[i - 1] == 0){
+    c--;
   }
+
+  ll wa = (k - sum) / (n - i + c);
+  ll ama = (k - sum) % (n - i + c);
+
+  REP(j, i)
+  {
+    a[b[j].second] = 0;
+  }
+
+  REP(j, n)
+  {
+    if (a[j] > 0)
+    {
+      a[j] -= sasa + wa;
+    }
+  }
+  int cnt = 0;
+  int ii = 0;
+  while (cnt != ama)
+  {
+    if (a[ii] > 0)
+    {
+      {
+        a[ii]--;
+        cnt++;
+      }
+    }
+    ii++;
+  }
+
+  REP(j, n)
+  {
+    cout << a[j] << " ";
+  }
+  cout << endl;
 
   return 0;
 }

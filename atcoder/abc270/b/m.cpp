@@ -61,51 +61,103 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
+/* Euclid  */
+template <class X>
+X gcd(X a, X b)
+{
+  if (b == 0)
+    return a;
+  else
+    return gcd(b, a % b);
+}
+
+/* pow  */
+template <class X>
+X pow(X x, X n)
+{
+  X ret = 1;
+  while (n > 0)
+  {
+    if (n & 1)
+      ret *= x;
+    x *= x;
+    n >>= 1;
+  }
+  return ret;
+}
+
+/* fenick tree */
+template <typename T>
+class Fenick
+{
+  vector<T> bit;
+
+public:
+  Fenick(int n)
+  {
+    bit.resize(n);
+  }
+
+  void add(int i, T x)
+  {
+    for (int idx = i + 1; idx <= bit.size(); idx += idx & (-idx))
+    {
+      bit[idx - 1] += x;
+    }
+  }
+
+  T sum(int i)
+  {
+    T ans = 0;
+    for (int idx = i + 1; idx > 0; idx -= idx & (-idx))
+    {
+      ans += bit[idx - 1];
+    }
+    return ans;
+  }
+
+  T sum(int l, int r)
+  {
+    return sum(r) - sum(l - 1);
+  }
+};
+
 int main()
 {
-  int n, m;
-  cin >> n >> m;
+  int x, y, z;
+  cin >> x >> y >> z;
 
-  vector<set<int>> ed(n);
-  REP(i, m)
+  if (x < 0)
   {
-    int s, t;
-    cin >> s >> t;
-
-    ed[s - 1].insert(t - 1);
-    ed[t - 1].insert(s - 1);
+    x = -x;
+    y = -y;
+    z = -z;
   }
 
-  dsu d(n);
-  V ans;
-  int cnt = 0;
-  REPR(i, n)
+  if (x * y < 0)
   {
-    if (ed[i].size() > 0)
-    {
-      auto it = ed[i].end();
-      it--;
-      for (; i < *it; it--)
-      {
-        if (d.same(i, *it) == false)
-        {
-          d.merge(i, *it);
-          cnt++;
-        }
-
-        if (it == ed[i].begin())
-          break;
-      }
-    }
-
-    ans.push_back(n - i - cnt);
+    cout << x << endl;
+    return 0;
   }
 
-  for (int i = n - 2; 0 <= i; i--)
+  if (x < y)
   {
-    cout << ans[i] << endl;
+    cout << x << endl;
+    return 0;
   }
 
-  cout << 0 << endl;
+  if (z < 0)
+  {
+    cout << abs(2 * z) + x << endl;
+    return 0;
+  }
+
+  if (z < y)
+  {
+    cout << x << endl;
+    return 0;
+  }
+
+  cout << -1 << endl;
   return 0;
 }

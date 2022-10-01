@@ -61,51 +61,109 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
+/* Euclid  */
+template <class X>
+X gcd(X a, X b)
+{
+  if (b == 0)
+    return a;
+  else
+    return gcd(b, a % b);
+}
+
+/* pow  */
+template <class X>
+X pow(X x, X n)
+{
+  X ret = 1;
+  while (n > 0)
+  {
+    if (n & 1)
+      ret *= x;
+    x *= x;
+    n >>= 1;
+  }
+  return ret;
+}
+
+/* fenick tree */
+template <typename T>
+class Fenick
+{
+  vector<T> bit;
+
+public:
+  Fenick(int n)
+  {
+    bit.resize(n);
+  }
+
+  void add(int i, T x)
+  {
+    for (int idx = i + 1; idx <= bit.size(); idx += idx & (-idx))
+    {
+      bit[idx - 1] += x;
+    }
+  }
+
+  T sum(int i)
+  {
+    T ans = 0;
+    for (int idx = i + 1; idx > 0; idx -= idx & (-idx))
+    {
+      ans += bit[idx - 1];
+    }
+    return ans;
+  }
+
+  T sum(int l, int r)
+  {
+    return sum(r) - sum(l - 1);
+  }
+};
+
 int main()
 {
-  int n, m;
-  cin >> n >> m;
 
-  vector<set<int>> ed(n);
-  REP(i, m)
+  int n, kk;
+  cin >> n >> kk;
+
+  V a(n);
+
+  REP(i, kk)
   {
-    int s, t;
-    cin >> s >> t;
-
-    ed[s - 1].insert(t - 1);
-    ed[t - 1].insert(s - 1);
+    cin >> a[i];
   }
 
-  dsu d(n);
-  V ans;
-  int cnt = 0;
-  REPR(i, n)
-  {
-    if (ed[i].size() > 0)
-    {
-      auto it = ed[i].end();
-      it--;
-      for (; i < *it; it--)
-      {
-        if (d.same(i, *it) == false)
-        {
-          d.merge(i, *it);
-          cnt++;
-        }
+  VP dp(n + 1);
 
-        if (it == ed[i].begin())
+  int ans = -1;
+
+  REP(i, n)
+  {
+    REP2(j, 1, n)
+    {
+      REP(k, kk)
+      {
+        if (a[k] < j)
+        {
+          if (i % 2 == 0)
+          {
+            dp[j].first = max(dp[j - a[k]].first + a[k], dp[j].first);
+          }
+          else
+          {
+            dp[j].second = max(dp[j - a[k]].second + a[k], dp[j].second);
+          }
+        }
+        else{
           break;
+        }
       }
     }
-
-    ans.push_back(n - i - cnt);
   }
 
-  for (int i = n - 2; 0 <= i; i--)
-  {
-    cout << ans[i] << endl;
-  }
+  cout << dp[n].first << endl;
 
-  cout << 0 << endl;
   return 0;
 }
