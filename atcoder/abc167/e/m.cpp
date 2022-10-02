@@ -87,56 +87,42 @@ X pow(X x, X n)
 }
 
 /* fenick tree */
-class fenick
+template <typename T>
+class Fenick
 {
-  vector<ll> bit;
-  fenick(int n)
+  vector<T> bit;
+
+public:
+  Fenick(int n)
   {
     bit.resize(n);
   }
 
-public:
-  void add(int i, ll x)
+  void add(int i, T x)
   {
-    i++;
-    for (int idx = i; idx <= bit.size(); idx += (idx & -idx))
+    for (int idx = i + 1; idx <= bit.size(); idx += idx & (-idx))
     {
       bit[idx - 1] += x;
     }
   }
 
-  ll sum(int i)
+  T sum(int i)
   {
-    ll ans = 0;
-    for (int idx = i; idx > 0; idx -= (idx & -idx))
+    T ans = 0;
+    for (int idx = i + 1; idx > 0; idx -= idx & (-idx))
     {
       ans += bit[idx - 1];
     }
     return ans;
   }
 
-  ll sum(int a, int b)
+  T sum(int l, int r)
   {
-    return sum(b) - sum(a - 1);
+    return sum(r) - sum(l - 1);
   }
 };
 
 int main()
 {
-
-  ll n;
-  cin >> n;
-  ll ans = 0;
-  int i = 1;
-  while (n / i != 1)
-  {
-    ans += n / i;
-    n--;
-    i++;
-    cout << n / i << endl;
-  }
-
-  cout << ans + n << endl;
-
   return 0;
 }
