@@ -63,5 +63,60 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+  int n;
+  cin >> n;
+
+  ll ans = 0;
+
+  REP2(i, 1, 10)
+  {
+    REP2(j, 1, 10)
+    {
+
+      int ii = i;
+      int jj = j;
+      V base(2);
+
+      REP(o, 2)
+      {
+        int d = 10;
+
+
+        while (1)
+        {
+          int g = jj + d * ii;
+          if (g > n)
+          {
+            break;
+          }
+          base[o] += d / 100;
+          d *= 10;
+        }
+
+        REP(k, d / 100)
+        {
+          int g = jj + d / 10 * ii + 10 * k;
+          if (g > n)
+          {
+            break;
+          }
+          base[o]++;
+        }
+
+        swap(ii, jj);
+      }
+
+      if (i == j && i <= n)
+      {
+        ans += (base[0] + 1) * (base[0] + 1);
+      }
+      else
+      {
+        ans += base[0] * base[1];
+      }
+    }
+  }
+
+  cout << ans << endl;
   return 0;
 }
