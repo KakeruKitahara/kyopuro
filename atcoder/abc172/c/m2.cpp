@@ -61,105 +61,55 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
-/* Euclid  */
-template <class X>
-X gcd(X a, X b)
-{
-  if (b == 0)
-    return a;
-  else
-    return gcd(b, a % b);
-}
-
-/* pow  */
-template <class X>
-X pow(X x, X n)
-{
-  X ret = 1;
-  while (n > 0)
-  {
-    if (n & 1)
-      ret *= x;
-    x *= x;
-    n >>= 1;
-  }
-  return ret;
-}
-
-/* fenick tree */
-class fenick
-{
-  vector<ll> bit;
-  fenick(int n)
-  {
-    bit.resize(n);
-  }
-
-public:
-  void add(int i, ll x)
-  {
-    i++;
-    for (int idx = i; idx <= bit.size(); idx += (idx & -idx))
-    {
-      bit[idx - 1] += x;
-    }
-  }
-
-  ll sum(int i)
-  {
-    ll ans = 0;
-    for (int idx = i; idx > 0; idx -= (idx & -idx))
-    {
-      ans += bit[idx - 1];
-    }
-    return ans;
-  }
-
-  ll sum(int a, int b)
-  {
-    return sum(b) - sum(a - 1);
-  }
-};
-
 int main()
 {
   int n, m, k;
   cin >> n >> m >> k;
-  V a(n), b(m);
+
+  VP a, b;
+
   REP(i, n)
   {
-    cin >> a[i];
+    int aa;
+    cin >> aa;
+    if (a.size() == 0 || a.back().first != aa)
+    {
+      a.push_back(make_pair(aa, 1));
+    }
+    else
+    {
+      a.back().second++;
+    }
   }
+
   REP(i, m)
   {
-    cin >> b[i];
-  }
-
-  Vl sa(n + 1), sb(m);
-  sa[0] = 0;
-  sb[0] = b[0];
-  REP2(i, 1, m)
-  {
-    sb[i] = b[i] + sb[i - 1];
-  }
-  REP2(i, 1, n + 1)
-  {
-    sa[i] = a[i - 1] + sa[i - 1];
-  }
-  int ans = -1;
-  REP(i, n + 1)
-  {
-    if (k - sa[i] < 0)
+    int bb;
+    cin >> bb;
+    if (b.size() == 0 || b.back().first != bb)
     {
-      continue;
+      b.push_back(make_pair(bb, 1));
     }
-    auto it = upper_bound(sb.begin(), sb.end(), k - sa[i]);
-    int idx = it - sb.begin();
-
-    ans = max(idx + i, ans);
+    else
+    {
+      b.back().second++;
+    }
   }
 
-  cout << ans << endl;
+  ll g = 0;
+  int i = 0, j = 0;
+  while (1)
+  {
+    if (a[i].first == b[j].first)
+    {
+      if (i + 1 != a.size() - 1 && j + 1 != b.size() - 1)
+      {
+        if(a[i + 1].first < b[j + 1].first){
+          
+        }
+      }
+    }
+  }
 
   return 0;
 }
