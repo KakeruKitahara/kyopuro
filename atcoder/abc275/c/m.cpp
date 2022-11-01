@@ -61,7 +61,121 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
+/* Euclid  */
+template <class X>
+X gcd(X a, X b)
+{
+  if (b == 0)
+    return a;
+  else
+    return gcd(b, a % b);
+}
+
+/* pow  */
+template <class X>
+X pow(X x, X n)
+{
+  X ret = 1;
+  while (n > 0)
+  {
+    if (n & 1)
+      ret *= x;
+    x *= x;
+    n >>= 1;
+  }
+  return ret;
+}
+
+/* fenick tree */
+template <typename T>
+class Fenick
+{
+  vector<T> bit;
+
+public:
+  Fenick(int n)
+  {
+    bit.resize(n);
+  }
+
+  void add(int i, T x)
+  {
+    for (int idx = i + 1; idx <= bit.size(); idx += idx & (-idx))
+    {
+      bit[idx - 1] += x;
+    }
+  }
+
+  T sum(int i)
+  {
+    T ans = 0;
+    for (int idx = i + 1; idx > 0; idx -= idx & (-idx))
+    {
+      ans += bit[idx - 1];
+    }
+    return ans;
+  }
+
+  T sum(int l, int r)
+  {
+    return sum(r) - sum(l - 1);
+  }
+};
+
 int main()
 {
+  VS s(9);
+  REP(i, 9)
+  {
+    cin >> s[i];
+  }
+  int ans = 0;
+  REP(y1, 9)
+  {
+    REP(x1, 9)
+    {
+      REP(y2, 9)
+      {
+        REP(x2, 9)
+        {
+          REP(y3, 9)
+          {
+            REP(x3, 9)
+            {
+              REP(y4, 9)
+              {
+                REP(x4, 9)
+                {
+                  if (x1 == x2 && y1 == y2 || x3 == x2 && y3 == y2 || x3 == x4 && y3 == y4 || x1 == x4 && y1 == y4 || x1 == x3 && y1 == y3 || x2 == x4 && y2 == y4)
+                    continue;
+                  if (s[x1][y1] == s[x2][y2] && s[x3][y3] == s[x2][y2] && s[x3][y3] == s[x4][y4] && '#' == s[x4][y4])
+                  {
+                    int d1 = (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
+                    int d2 = (x2 - x4) * (x2 - x4) + (y2 - y4) * (y2 - y4);
+                    int d3 = (x3 - x4) * (x3 - x4) + (y3 - y4) * (y3 - y4);
+                    int d4 = (x3 - x1) * (x3 - x1) + (y3 - y1) * (y3 - y1);
+                    if (d1 == d2 && d2 == d3 && d3 == d4 && d1 != 0)
+                    {
+                      int ax = x2 - x1;
+                      int bx = x3 - x1;
+                      int ay = y2 - y1;
+                      int by = y3 - y1;
+
+                      if (ax * bx + ay * by == 0)
+                      {
+                        ans++;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  cout << ans / 8 << endl;
   return 0;
 }

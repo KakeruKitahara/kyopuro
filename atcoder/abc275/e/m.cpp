@@ -68,42 +68,38 @@ int main()
 
   vector<mint> predp(n + 1);
   vector<mint> dp(n + 1);
-  mint ans = 1;
+  dp[0] = 1;
+  mint ans = 0;
   REP(i, k)
   {
-    ans *= m;
     predp.clear();
     predp.resize(n + 1);
     swap(dp, predp);
 
-    if (i == 0)
-    {
-      REP2(l, 1, m + 1)
-      {
-        dp[l] = 1;
-      }
-      continue;
-    }
     REP(j, n + 1)
     {
+      if (j == n)
+      {
+        dp[j] += predp[j];
+        break;
+      }
       REP2(l, 1, m + 1)
       {
         if (j + l > n)
         {
-          dp[2 * n - (j + l)] += predp[j];
+          dp[2 * n - (j + l)] += predp[j] / m;
         }
         else
         {
-          dp[j + l] += predp[j];
+          dp[j + l] += predp[j] / m;
         }
       }
     }
   }
 
-  ans = ans.inv();
-  ans *= dp[n];
 
-  cout << ans.val() << endl;
 
+
+  cout << dp[n].val() << endl;
   return 0;
 }

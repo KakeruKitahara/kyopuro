@@ -22,7 +22,7 @@ using VVS = vector<vector<string>>;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint1000000007;
+using mint = modint998244353;
 
 /* pair operator */
 template <class X>
@@ -61,7 +61,78 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
+/* Euclid  */
+template <class X>
+X gcd(X a, X b)
+{
+  if (b == 0)
+    return a;
+  else
+    return gcd(b, a % b);
+}
+
+/* pow  */
+template <class X>
+X pow(X x, X n)
+{
+  X ret = 1;
+  while (n > 0)
+  {
+    if (n & 1)
+      ret *= x;
+    x *= x;
+    n >>= 1;
+  }
+  return ret;
+}
+
+/* fenick tree */
+template <typename T>
+class Fenick
+{
+  vector<T> bit;
+
+public:
+  Fenick(int n)
+  {
+    bit.resize(n);
+  }
+
+  void add(int i, T x)
+  {
+    for (int idx = i + 1; idx <= bit.size(); idx += idx & (-idx))
+    {
+      bit[idx - 1] += x;
+    }
+  }
+
+  T sum(int i)
+  {
+    T ans = 0;
+    for (int idx = i + 1; idx > 0; idx -= idx & (-idx))
+    {
+      ans += bit[idx - 1];
+    }
+    return ans;
+  }
+
+  T sum(int l, int r)
+  {
+    return sum(r) - sum(l - 1);
+  }
+};
+
 int main()
 {
+  vector<mint> a(6);
+  REP(i, 6)
+  {
+    ll b;
+    cin >> b;
+    a[i] = b;
+  }
+
+  mint aa = a[0] * a[1] * a[2] - (a[3] * a[4] * a[5]);
+  cout << aa.val() << endl;
   return 0;
 }

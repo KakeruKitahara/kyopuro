@@ -61,7 +61,89 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
+/* Euclid  */
+template <class X>
+X gcd(X a, X b)
+{
+  if (b == 0)
+    return a;
+  else
+    return gcd(b, a % b);
+}
+
+/* pow  */
+template <class X>
+X pow(X x, X n)
+{
+  X ret = 1;
+  while (n > 0)
+  {
+    if (n & 1)
+      ret *= x;
+    x *= x;
+    n >>= 1;
+  }
+  return ret;
+}
+
+/* fenick tree */
+template <typename T>
+class Fenick
+{
+  vector<T> bit;
+
+public:
+  Fenick(int n)
+  {
+    bit.resize(n);
+  }
+
+  void add(int i, T x)
+  {
+    for (int idx = i + 1; idx <= bit.size(); idx += idx & (-idx))
+    {
+      bit[idx - 1] += x;
+    }
+  }
+
+  T sum(int i)
+  {
+    T ans = 0;
+    for (int idx = i + 1; idx > 0; idx -= idx & (-idx))
+    {
+      ans += bit[idx - 1];
+    }
+    return ans;
+  }
+
+  T sum(int l, int r)
+  {
+    return sum(r) - sum(l - 1);
+  }
+};
+
+map<ll, ll> mp;
+
+ll f(ll a)
+{
+
+  if (mp.count(a) == 1)
+  {
+    return mp[a];
+  }
+  if (a == 0)
+  {
+    mp[a] = 1;
+    return 1;
+  }
+  mp[a] = f(a / 2) + f(a / 3);
+  return f(a / 2) + f(a / 3);
+}
+
 int main()
 {
+  ll n;
+  cin >> n;
+  cout << f(n) << endl;
   return 0;
 }
