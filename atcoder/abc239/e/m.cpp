@@ -128,7 +128,7 @@ V x;
 
 multiset<int> dfs(int p)
 {
-  used[p] == 0;
+  used[p] = 1;
   lis[p].insert(x[p]);
   REP(i, edge[p].size())
   {
@@ -195,6 +195,15 @@ int main()
   lis.resize(n);
 
   dfs(0);
+
+  REP(i, q){
+    auto it = lis[v[i] - 1].end();
+    REP(j, k[i]){
+      it--;
+    }
+
+    cout << *it << endl;
+  }
 
   return 0;
 }
