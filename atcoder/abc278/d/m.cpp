@@ -63,5 +63,50 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+  int n;
+  cin >> n;
+  map<pair<int, int>, ll> a;
+  REP(i, n)
+  {
+    cin >> a[make_pair(0, i)];
+  }
+
+  int q;
+  cin >> q;
+  VV que(q, V(3));
+  REP(i, q)
+  {
+    cin >> que[i][0];
+    if (que[i][0] == 2)
+    {
+      cin >> que[i][1] >> que[i][2];
+    }
+    else
+    {
+      cin >> que[i][1];
+    }
+  }
+
+  ll al = 0;
+  int f = 0;
+
+  REP(i, q)
+  {
+    if (que[i][0] == 1)
+    {
+      al = que[i][1];
+      f++;
+    }
+    else if (que[i][0] == 2)
+    {
+      a[make_pair(f, que[i][1] - 1)] += que[i][2];
+    }
+    else
+    {
+      cout << a[make_pair(f, que[i][1] - 1)] + al << endl;
+      
+    }
+  }
+
   return 0;
 }
