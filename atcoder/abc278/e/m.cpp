@@ -63,5 +63,65 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+  int h, w, n, h2, w2;
+  cin >> h >> w >> n >> h2 >> w2;
+
+  VV a(h, V(w));
+  map<int, int> cnt, tmp;
+
+  REP(i, h)
+  {
+    REP(j, w)
+    {
+      cin >> a[i][j];
+      cnt[a[i][j]]++;
+    }
+  }
+
+  tmp = cnt;
+
+  REP(i, h - h2 + 1)
+  {
+    cnt = tmp;
+
+    REP2(k, i, h2 + i)
+    {
+      REP(j, w2)
+      {
+        cnt[a[k][j]]--;
+        if (cnt[a[k][j]] == 0)
+        {
+          cnt.erase(a[k][j]);
+        }
+      }
+    }
+
+    cout << cnt.size();
+
+    if (w == w2)
+    {
+      cout << endl;
+    }
+    else
+    {
+      cout << " ";
+    }
+
+    REP(j, w - w2)
+    {
+      REP2(k, i, h2 + i)
+      {
+        cnt[a[k][j]]++;
+        cnt[a[k][j + w2]]--;
+        if (cnt[a[k][j + w2]] == 0)
+        {
+          cnt.erase(a[k][j + w2]);
+        }
+      }
+      cout << cnt.size() << " ";
+    }
+    cout << endl;
+  }
+
   return 0;
 }
