@@ -203,15 +203,6 @@ int main()
     v[i]--;
   }
 
-  REP(i, n)
-  {
-    if (e[i].size() != 2)
-    {
-      cout << 0 << endl;
-      return 0;
-    }
-  }
-
   V h(n);
   dsu ds(n);
   int cnt = 0;
@@ -220,16 +211,26 @@ int main()
   {
     if (ds.same(u[i], v[i]))
     {
-      if (h[ds.leader(u[i])] == 1)
+      int p = u[i];
+      while (p != v[i])
       {
-        cout << 0 << endl;
-        return 0;
+        h[p] = 1;
+        REP(i, e[p].size())
+        {
+          if (h[e[p][i]] == 1 && e[p][i] != v[i])
+          {
+            cout << 0 << endl;
+            return 0;
+          }
+          else
+          {
+            p = e[p][i];
+            break;
+          }
+        }
       }
-      else
-      {
-        h[ds.leader(u[i])] = 1;
-        cnt++;
-      }
+      h[p] = 1;
+      cnt++;
     }
     else
     {
@@ -237,14 +238,10 @@ int main()
     }
   }
 
-  VV tmp = ds.groups();
-  REP(i, tmp.size())
+  if (cnt == 0)
   {
-    if (h[ds.leader(tmp[i][0])] == 0)
-    {
-      cout << 0 << endl;
-      return 0;
-    }
+    cout << 0 << endl;
+    return 0;
   }
 
   mint ans = 1;
