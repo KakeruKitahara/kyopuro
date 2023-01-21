@@ -11,6 +11,8 @@
     "limits": "cpp",
     "valarray": "cpp",
     "ratio": "cpp",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "string": "cpp",
+    "string_view": "cpp"
   }
 }

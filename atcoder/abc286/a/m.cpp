@@ -190,5 +190,37 @@ V get_dikstra_path(const V prev, int t)
 
 int main()
 {
+  int n, p, q, r, s;
+  cin >> n >> p >> q >> r >> s;
+  p--;
+  q--;
+  r--;
+  s--;
+  V a(n);
+  REP(i, n)
+  {
+    cin >> a[i];
+  }
+  int c = 0, cc = 0;
+
+  REP(i, n)
+  {
+    if (r <= i && i <= s)
+    {
+      cout << a[p + c] << " ";
+      c++;
+    }
+    else
+    if (p <= i && i <= q)
+    {
+      cout << a[r + cc] << " ";
+      cc++;
+    }
+    else
+    {
+      cout << a[i] << " ";
+    }
+  }
+  cout << endl;
   return 0;
 }

@@ -190,5 +190,24 @@ V get_dikstra_path(const V prev, int t)
 
 int main()
 {
+  ll n, a, b;
+  cin >> n >> a >> b;
+  S s;
+  cin >> s;
+
+  ll ans = LINF;
+  ll tmp =0;
+  REP(i, n){
+    tmp =a * i;
+    REP(j, n / 2){
+      if(s[j] != s[n - j - 1]){
+        tmp += b;
+      }
+    }
+    ans = min(tmp, ans);
+    s = s.substr(1, n) + s[0];
+  }
+
+  cout << ans << endl;
   return 0;
 }

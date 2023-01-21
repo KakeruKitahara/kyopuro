@@ -190,5 +190,20 @@ V get_dikstra_path(const V prev, int t)
 
 int main()
 {
+  int n;
+  cin >> n;
+  S s;
+  cin >> s;
+
+  REP2(i, 1, s.size())
+  {
+    if (s[i - 1] == 'n' && s[i] == 'a')
+    {
+      s.insert(i, "y");
+      i++;
+    }
+  }
+
+  cout << s << endl;
   return 0;
 }
