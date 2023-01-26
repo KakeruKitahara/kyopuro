@@ -1,3 +1,4 @@
+// BFSだとO(N+M)なり，1クエリ9x10e4となり，最大9x10e4クエリあるので，10e9を超えてしまう．
 #include <bits/stdc++.h>
 #include <atcoder/all>
 using namespace std;
@@ -192,7 +193,7 @@ int main()
 {
   int n;
   cin >> n;
-  V a(n);
+  Vl a(n);
 
   REP(i, n)
   {
@@ -231,7 +232,7 @@ int main()
   {
 
     V dist(n, -1);
-    V value(n);
+    Vl value(n);
     queue<int> que;
     dist[u[i]] = 0;
     que.push(u[i]);
@@ -245,7 +246,6 @@ int main()
       {
         if (dist[nv] == dist[v2] + 1)
         {
-          cout << nv << " " << v2 << endl;
           value[nv] = max(value[nv], value[v2] + a[v2]);
         }
         if (dist[nv] != -1)
