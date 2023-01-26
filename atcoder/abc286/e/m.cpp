@@ -190,5 +190,81 @@ V get_dikstra_path(const V prev, int t)
 
 int main()
 {
+  int n;
+  cin >> n;
+  V a(n);
+
+  REP(i, n)
+  {
+    cin >> a[i];
+  }
+  VS s(n);
+  REP(i, n)
+  {
+    cin >> s[i];
+  }
+
+  VV edge(n);
+
+  REP(i, n)
+  {
+    REP(j, n)
+    {
+      if (s[i][j] == 'Y' && i != j)
+      {
+        edge[i].push_back(j);
+      }
+    }
+  }
+  int q;
+  cin >> q;
+
+  V u(q), v(q);
+  REP(i, q)
+  {
+    cin >> u[i] >> v[i];
+    u[i]--;
+    v[i]--;
+  }
+
+  REP(i, q)
+  {
+
+    V dist(n, -1);
+    V value(n);
+    queue<int> que;
+    dist[u[i]] = 0;
+    que.push(u[i]);
+    while (!que.empty())
+    {
+      int v2 = que.front();
+      que.pop();
+
+
+      for (int nv : edge[v2])
+      {
+        if (dist[nv] == dist[v2] + 1)
+        {
+          cout << nv << " " << v2 << endl;
+          value[nv] = max(value[nv], value[v2] + a[v2]);
+        }
+        if (dist[nv] != -1)
+          continue;
+
+        dist[nv] = dist[v2] + 1;
+        value[nv] = value[v2] + a[v2];
+        que.push(nv);
+      }
+    }
+    if (dist[v[i]] == -1)
+    {
+      cout << "Impossible" << endl;
+    }
+    else
+    {
+      cout << dist[v[i]] << ' ' << value[v[i]] + a[v[i]] << endl;
+    }
+  }
+
   return 0;
 }

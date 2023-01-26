@@ -190,5 +190,38 @@ V get_dikstra_path(const V prev, int t)
 
 int main()
 {
+  int n, x;
+  cin >> n >> x;
+  V a(n), b(n);
+  REP(i, n)
+  {
+    cin >> a[i] >> b[i];
+  }
+  VV dp(51, V(10001));
+  dp[0][0] = 1;
+
+  REP2(i, 1, n + 1)
+  {
+    REP2(j, 1, b[i - 1] + 1)
+    {
+      REP(k, 10001)
+      {
+        if (k - a[i - 1] * j >= 0)
+        {
+          dp[i][k] = max(dp[i][k], max(dp[i - 1][k], dp[i - 1][k - a[i - 1] * j]));
+        }
+        else{
+          dp[i][k] = max(dp[i - 1][k], dp[i][k]);
+        }
+      }
+    }
+  }
+
+  if (dp[n][x] == 1)
+  {
+    cout << "Yes" << endl;
+    return 0;
+  }
+  cout << "No" << endl;
   return 0;
 }
