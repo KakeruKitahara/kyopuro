@@ -75,7 +75,8 @@ void dfs(int p, int c)
   {
     if (used[edge[p][i]] == used[p])
     {
-      flag[p] = -1;
+      cout << 0 << endl;
+      exit(0);
     }
     if (used[edge[p][i]] == -1)
     {
@@ -154,10 +155,6 @@ int main()
     else
     {
       ans1[leader[i]] += sum[leader[i]][(used[i] + 1) % 2] - vcnt[i][(used[i] + 1) % 2];
-      if (i != leader[i])
-      {
-        ans1[i] = -LINF;
-      }
     }
   }
 
@@ -178,7 +175,7 @@ int main()
     }
   }
 
-  cout << ans + ansa / 2 << endl;
+  cout << ans + ansa / 2  << endl;
 
   return 0;
 }
