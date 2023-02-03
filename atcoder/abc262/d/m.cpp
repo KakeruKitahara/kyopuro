@@ -70,37 +70,33 @@ int main()
   {
     cin >> a[i];
   }
+  mint ans = 0;
 
-  vector<vector<vector<int>>> dp(n + 1, vector<vector<int>>(n + 1, vector<int>(n)));
-
-  dp[0][0][0] = 1;
-  REP2(i, 1, n + 1)
+  REP2(l, 1, n + 1)
   {
-    REP(j, i + 1)
+    vector<vector<vector<mint>>> dp(n + 1, vector<vector<mint>>(n + 1, vector<mint>(n)));
+    dp[0][0][0] = 1;
+    REP2(i, 1, n + 1)
     {
-      if (j == 0)
+      REP(j, i + 1)
       {
-        dp[i][j][0] = dp[i - 1][j][0];
-        continue;
-      }
-      REP(k, n)
-      {
-        int indk = k - a[i];
-        while (indk < 0)
+        if (j == 0)
         {
-          indk += j;
+          dp[i][j][0] = dp[i - 1][j][0];
+          continue;
         }
-        indk %= j;
+        REP(k, n)
+        {
+          ll indk = k - a[i];
+          indk += l * (ll)IINF;
+          indk %= l;
 
-        dp[i][j][k] = dp[i - 1][j][k] + dp[i - 1][j - 1][indk];
+          dp[i][j][k] = dp[i - 1][j][k] + dp[i - 1][j - 1][indk];
+        }
       }
     }
-  }
 
-  mint ans = 0;
-  REP2(j, 1, n + 1)
-  {
-    ans += dp[n][j][0];
+    ans += dp[n][l][0];
   }
 
   cout << ans.val() << endl;
