@@ -188,7 +188,72 @@ V get_dikstra_path(const V prev, int t)
   return path;
 }
 
+vector<map<S, int>> ts;
+map<S, V> s;
+V anss;
+
+void dfs(int n, S str, P now, P pre)
+{
+  if (s.count(str) == 1)
+  {
+    V inds = s[str];
+    int ans = pre.first;
+    if (inds.size() > 1)
+    {
+      ans = n;
+    }
+
+    REP(i, inds.size())
+    {
+      anss[inds[i]] = max(ans, anss[inds[i]]);
+    }
+  }
+
+  REP(i, 26)
+  {
+    S nes = str + (char)('a' + i);
+    if (ts[n + 1].count(nes) == 1)
+    {
+      if (ts[n + 1][nes] != now.second)
+      {
+        P tp = now;
+        P tn;
+        tn.second = ts[n + 1][nes];
+        tn.first = n;
+        dfs(n + 1, nes, tn, tp);
+      }
+    }
+  }
+}
+
 int main()
 {
+  int n;
+  cin >> n;
+
+  ts.resize(500001);
+  REP(i, n)
+  {
+    S t;
+    cin >> t;
+    S t2;
+    s[t].push_back(i);
+    REP(j, t.size())
+    {
+      t2 += t[j];
+      ts[j][t2]++;
+    }
+  }
+
+  anss.resize(n);
+
+  P t = make_pair(-1, -1);
+  dfs(-1, "", t, t);
+
+  REP(i, n)
+  {
+    cout << anss[i] + 1 << endl;
+  }
+
   return 0;
 }

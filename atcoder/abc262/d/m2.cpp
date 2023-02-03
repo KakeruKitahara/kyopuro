@@ -65,45 +65,37 @@ int main()
 {
   int n;
   cin >> n;
-  V a(n + 1);
-  REP2(i, 1, n + 1)
+  V a(n);
+  int al = 0;
+  REP(i, n)
   {
     cin >> a[i];
+    al += a[i];
   }
+  int ans1 = 0, ans2 = 0;
 
-  vector<vector<vector<int>>> dp(n + 1, vector<vector<int>>(n + 1, vector<int>(n)));
-
-  dp[0][0][0] = 1;
-  REP2(i, 1, n + 1)
+  for (int bit = 0; bit < (1 << n); bit++) // 1 << n = 2^n通り.
   {
-    REP(j, i + 1)
+    int sum = 0;
+    int c = 0;
+    for (int i = 0; i < n; i++)
+    { // bit桁までi桁を調べる.
+      if (bit & (1 << i))
+      {
+        sum += a[i];
+        c++;
+      } // case1 i桁が1かどうか.
+    }
+    if (n - c != 0 && (al - sum) % (n - c) == 0)
     {
-      if (j == 0)
-      {
-        dp[i][j][0] = dp[i - 1][j][0];
-        continue;
-      }
-      REP(k, n)
-      {
-        int indk = k - a[i];
-        while (indk < 0)
-        {
-          indk += j;
-        }
-        indk %= j;
-
-        dp[i][j][k] = dp[i - 1][j][k] + dp[i - 1][j - 1][indk];
-      }
+      ans1++;
+    }
+    if (c != 0 &&sum % c == 0)
+    {
+      ans2++;
     }
   }
-
-  mint ans = 0;
-  REP2(j, 1, n + 1)
-  {
-    ans += dp[n][j][0];
-  }
-
-  cout << ans.val() << endl;
+  cout << ans1 << "  " << ans2 << endl;
 
   return 0;
 }
