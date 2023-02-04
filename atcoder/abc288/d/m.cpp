@@ -190,34 +190,76 @@ V get_dikstra_path(const V prev, int t)
 
 int main()
 {
-  ll x, y, a, b;
-  cin >> x >> y >> a >> b;
-
-  int cnt = 0;
-  ll fa = x;
-  while (fa * a <= fa + b && fa < LINF / a)
+  int n, k;
+  cin >> n >> k;
+  V a(n);
+  REP(i, n)
   {
-    cnt++;
-    fa *= a;
+    cin >> a[i];
   }
-
-
-  if (fa >= y)
+  int q;
+  cin >> q;
+  V l(q), r(q);
+  REP(i, q)
   {
-    int cnt2 = 1;
-    ll fa2 = x * a;
-    while (fa2 < y)
+    cin >> l[i] >> r[i];
+    l[i]--;
+    r[i]--;
+  }
+  V b = a;
+  VV c2(n);
+  REP(j, n - k + 1)
+  {
+    int g = b[j];
+    REP(l, k)
     {
-      cnt2++;
-      fa2 *= a;
+      b[l + j] -= g;
+      c2[l + j].push_back(-g);
     }
-    cout << cnt2 - 1 << endl;
-  }
-  else
-  {
-    ll cnt2 = (y - fa - 1) / b;
-    cout << cnt2 + cnt << endl;
   }
 
+  REP(i, q)
+  {
+    int c = 0;
+    V sum(k);
+    REP2(j, 1, k)
+    {
+      int ind = r[i] - k + j + 1;
+      int cc = 1;
+      if (ind - (k - 1) < l[i])
+      {
+        REP2(l, cc, k)
+        {
+          sum[j] += c2[ind][l];
+        }
+        cc++;
+      }
+      else
+      {
+        REP(l, k)
+        {
+          sum[j] += c2[ind][l];
+        }
+      }
+    }
+
+    REP2(j, 1, k)
+    {
+      int ind = r[i] - k + j + 1;
+      if (sum[j] + a[ind] == 0)
+      {
+        c++;
+      }
+    }
+
+    if (c == k - 1)
+    {
+      cout << "Yes" << endl;
+    }
+    else
+    {
+      cout << "No" << endl;
+    }
+  }
   return 0;
 }

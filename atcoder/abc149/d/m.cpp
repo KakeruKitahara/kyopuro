@@ -190,34 +190,77 @@ V get_dikstra_path(const V prev, int t)
 
 int main()
 {
-  ll x, y, a, b;
-  cin >> x >> y >> a >> b;
-
-  int cnt = 0;
-  ll fa = x;
-  while (fa * a <= fa + b && fa < LINF / a)
+  int n, k, p, r, s;
+  cin >> n >> k >> r >> s >> p;
+  S s2;
+  cin >> s2;
+  vector<dsu> g(3, dsu(n));
+  ll sum = 0;
+  REP(i, n - k)
   {
-    cnt++;
-    fa *= a;
-  }
-
-
-  if (fa >= y)
-  {
-    int cnt2 = 1;
-    ll fa2 = x * a;
-    while (fa2 < y)
+    if (s2[i] == s2[i + k])
     {
-      cnt2++;
-      fa2 *= a;
+      if (s2[i] == 'r')
+      {
+        g[0].merge(i, i + k);
+      }
+      else if (s2[i] == 's')
+      {
+        g[1].merge(i, i + k);
+      }
+      else
+      {
+        g[2].merge(i, i + k);
+      }
     }
-    cout << cnt2 - 1 << endl;
+    if (s2[i] == 'r')
+    {
+      sum += p;
+    }
+    else if (s2[i] == 's')
+    {
+      sum += r;
+    }
+    else
+    {
+      sum += s;
+    }
   }
-  else
+  REP2(i, n - k, n)
   {
-    ll cnt2 = (y - fa - 1) / b;
-    cout << cnt2 + cnt << endl;
+    if (s2[i] == 'r')
+    {
+      sum += p;
+    }
+    else if (s2[i] == 's')
+    {
+      sum += r;
+    }
+    else
+    {
+      sum += s;
+    }
   }
+
+  VV gp = g[0].groups();
+  REP(i, gp.size())
+  {
+    sum -= gp[i].size() / 2 * p;
+  }
+
+  gp = g[1].groups();
+  REP(i, gp.size())
+  {
+    sum -= gp[i].size() / 2 * r;
+  }
+
+  gp = g[2].groups();
+  REP(i, gp.size())
+  {
+    sum -= gp[i].size() / 2 * s;
+  }
+
+  cout << sum << endl;
 
   return 0;
 }

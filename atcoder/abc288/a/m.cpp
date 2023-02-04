@@ -189,35 +189,15 @@ V get_dikstra_path(const V prev, int t)
 }
 
 int main()
-{
-  ll x, y, a, b;
-  cin >> x >> y >> a >> b;
+{int n;
+cin >> n;
+Vl a(n), b(n);
+REP(i, n){
+  cin >> a[i] >> b[i];
+}
 
-  int cnt = 0;
-  ll fa = x;
-  while (fa * a <= fa + b && fa < LINF / a)
-  {
-    cnt++;
-    fa *= a;
-  }
-
-
-  if (fa >= y)
-  {
-    int cnt2 = 1;
-    ll fa2 = x * a;
-    while (fa2 < y)
-    {
-      cnt2++;
-      fa2 *= a;
-    }
-    cout << cnt2 - 1 << endl;
-  }
-  else
-  {
-    ll cnt2 = (y - fa - 1) / b;
-    cout << cnt2 + cnt << endl;
-  }
-
+REP(i, n){
+  cout << a[i] + b[i] << endl;
+}
   return 0;
 }
