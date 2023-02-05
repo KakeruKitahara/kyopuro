@@ -71,72 +71,115 @@ int main()
     cin >> a[i];
   }
 
-  Vl sum(n);
-
-  sum[0] = a[0];
+  Vl sumx(n), sumy(n);
+  ll bx = l, by = r;
+  sumx[0] = a[0];
   REP2(i, 1, n)
   {
-    sum[i] = sum[i - 1] + a[i];
+    sumx[i] = sumx[i - 1] + a[i];
   }
 
-  Vl x(n), y(n);
+  ll x = -1, y = -1;
+  Vl minsumx(n, sumx[n - 1]);
+
   REP(i, n)
   {
-    x[i] = l * (i + 1);
-    y[i] = r * (i + 1);
-  }
 
-  ll maxs = 0;
-  Vl suml(n + 1);
-  REP2(i, 1, n + 1)
-  {
-    if (maxs < sum[i - 1] - x[i - 1])
+    if (i == 0)
     {
-      suml[i] = x[i - 1];
-      maxs = sum[i - 1] - x[i - 1];
+      if (sumx[n - 1] - sumx[i] + bx < minsumx[0])
+      {
+        minsumx[i] = sumx[n - 1] - sumx[i] + bx;
+        x = i;
+      }
+      continue;
+    }
+    if (sumx[n - 1] - sumx[i] + bx < minsumx[i - 1])
+    {
+      minsumx[i] = sumx[n - 1] - sumx[i] + bx;
+      x = i;
     }
     else
     {
-      suml[i] = suml[i - 1] + a[i - 1];
+      minsumx[i] = minsumx[i - 1];
     }
-  }
 
+    bx += l;
+  }
   reverse(a.begin(), a.end());
-
-  Vl sum2(n);
-  sum2[0] = a[0];
-  REP2(i, 1, n)
+  x = n - x - 1;
+  if (x == 0)
   {
-    sum2[i] = sum2[i - 1] + a[i];
+    sumy[0] = l;
+  }
+  else
+  {
+    sumy[0] = a[0];
   }
 
-  maxs = 0;
-  int ind = -1;
-
-  Vl sumr(n + 1);
-  REP2(i, 1, n + 1)
+  REP2(i, 1, n)
   {
-    if (maxs < sum2[i - 1] - y[i - 1])
+    if (i >= x)
     {
-      sumr[i] = y[i - 1];
-      maxs = sum2[i - 1] - y[i - 1];
+      sumy[i] = sumy[i - 1] + l;
     }
     else
     {
-      sumr[i] = sumr[i - 1] + a[i - 1];
+      sumy[i] = sumy[i - 1] + a[i];
     }
   }
 
-  reverse(sumr.begin(), sumr.end());
+  Vl minsumy(n, sumy[n - 1]);
 
-
-  ll ans = LINF;
   REP(i, n)
   {
-    ans = min(ans, suml[i] + sumr[i]);
+    if (i == 0)
+    {
+      if (sumy[n - 1] - sumy[i] + by < minsumy[0])
+      {
+        minsumy[i] = sumy[n - 1] - sumy[i] + by;
+        y = i;
+      }
+      continue;
+    }
+    if (sumy[n - 1] - sumy[i] + by < minsumy[i - 1])
+    {
+      minsumy[i] = sumy[n - 1] - sumy[i] + by;
+      y = i;
+    }
+    else
+    {
+      minsumy[i] = minsumy[i - 1];
+    }
+
+    by += r;
   }
-
+  ll ans = 0;
+  REP(i, n)
+  {
+    if (i <= y)
+    {
+      ans += r;
+    }
+    else if (x <= i)
+    {
+      ans += l;
+    }
+    else
+    {
+      ans += a[i];
+    }
+  }
   cout << ans << endl;
-
   return 0;
 }
+
+/*
+3
+1 5 
+0 0 10
+-------
+3
+になるので，xとyのときでともに最小になるxとyを選出する解放は無理．
+逐次的におこなってminと比較するしかない．
+*/
