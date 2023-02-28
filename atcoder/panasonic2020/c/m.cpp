@@ -190,5 +190,22 @@ V get_dikstra_path(const V prev, int t)
 
 int main()
 {
+  ll a, b, c;
+  cin >> a >> b >> c;
+  ll x = 4 * a * b;
+  ll y = c - (a + b);
+  if (y < 0)
+  {
+    cout << "No" << endl;
+    return 0;
+  }
+  if (x < y * y)
+  {
+    cout << "Yes" << endl;
+  }
+  else
+  {
+    cout << "No" << endl;
+  }
   return 0;
 }
