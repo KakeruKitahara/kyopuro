@@ -63,5 +63,25 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+  ll n;
+  cin >> n;
+
+  if (n % 2 == 1)
+  {
+    cout << 0 << endl;
+  }
+  else
+  {
+    ll ans = 0;
+    ll di = 2;
+    while (n / di != 0)
+    {
+      di *= 5;
+      ans += n / di;
+
+    }
+
+    cout << ans << endl;
+  }
   return 0;
 }
