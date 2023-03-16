@@ -67,9 +67,71 @@ int main()
   cin >> n >> k;
   S s;
   cin >> s;
+  S t;
+  t.push_back(s[0]);
+  int d = 0;
+  int ans = 0;
+  REP(i, n - 1)
+  {
 
+    if (s[i] != s[i + 1])
+    {
+      t.push_back(s[i + 1]);
+      ans += d;
+      d = 0;
+    }
+    else
+    {
+      d++;
+    }
+  }
+  ans += d;
 
-  
+  int tmp = 0;
+  REP(i, t.size())
+  {
+    if (t[i] == 'L')
+    {
+      tmp++;
+    }
+  }
+  int l = 0;
+  if (tmp * 2 <= t.size())
+  {
+    l = 1;
+  }
+  else{
+    tmp = t.size() - tmp;
+  }
+
+  S lr = "RL";
+
+  int cnt = 0;
+  if (t[0] == lr[l])
+  {
+    cnt++;
+  }
+  if (t.back() == lr[l])
+  {
+    cnt++;
+  }
+
+  int dd = min(k, tmp - cnt);
+
+  ans += dd * 2;
+
+  k -= dd;
+
+  REP(j, cnt)
+  {
+    if (k > 0)
+    {
+      ans++;
+    }
+    k--;
+  }
+
+  cout << ans << endl;
 
   return 0;
 }
