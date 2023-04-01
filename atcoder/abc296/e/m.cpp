@@ -205,22 +205,15 @@ int main()
   {
     if (b.same(i, a[i] - 1))
     {
-      dd.push_back(b.leader(i));
-    }
-    b.merge(i, a[i] - 1);
-  }
-
-  set<int> f;
-  REP(i, dd.size())
-  {
-    if (!f.count(b.leader(dd[i])))
-    {
-      if (b.size(dd[i]) != 1)
+      int z = a[i] - 1;
+      ans++;
+      while (z != i)
       {
-        ans += b.size(dd[i]);
-        f.insert(b.leader(dd[i]));
+        z = a[z] - 1;
+        ans++;
       }
     }
+    b.merge(i, a[i] - 1);
   }
 
   cout << ans << endl;
