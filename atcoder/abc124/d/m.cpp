@@ -177,7 +177,7 @@ void dijkstra(VVP graph, int s, Vl dis, V &prev)
       {
         dis[e.first] = dis[v] + e.second;
         prev[e.first] = v;
-        pq.emplace(dis[e.first], e.second);
+        pq.emplace(dis[e.first], e.first);
       }
     }
   }
@@ -198,64 +198,82 @@ int main()
 {
   int n, k;
   cin >> n >> k;
-  V a(n);
-  REP(i, n)
-  {
-    cin >> a[i];
-  }
+  S s;
+  cin >> s;
 
-  if (k == 1)
+  V sum;
+  int c = 1;
+  int f = 0;
+  REP(i, n - 1)
   {
-    cout << 0 << endl;
-    return 0;
-  }
-
-  mint ans1 = 0, ans2 = 0, nc = 1, ck = 1, nc2, ck2, gk = 1;
-  ;
-
-  REP2(i, 1, n)
-  {
-    nc *= i;
-  }
-  REP2(i, 1, n - k + 1)
-  {
-    ck *= i;
-  }
-  REP2(i, 1, k)
-  {
-    gk *= i;
-  }
-  nc2 = nc;
-  ck2 = ck;
-
-  sort(a.begin(), a.end());
-
-  REP(i, n - k + 1)
-  {
-    ans2 += a[i] * nc / ck / gk;
-    if (i == n - k)
+    if (i == 0)
     {
-      break;
+      if (s[0] == 0)
+      {
+        f = 0;
+      }
+      else
+      {
+        f = 0;
+      }
     }
-    nc /= (n - 1 - i);
-    ck /= (n - k - i);
-  }
-
-  sort(a.rbegin(), a.rend());
-
-  REP(i, n - k + 1)
-  {
-    ans1 += a[i] * nc2 / ck2 / gk;
-    if (i == n - k)
+    if (s[i] != s[i + 1])
     {
-      break;
+      sum.push_back(c);
+      c = 1;
     }
-    nc2 /= (n - 1 - i);
-    ck2 /= (n - k - i);
+    else
+    {
+      c++;
+    }
+  }
+  sum.push_back(c);
+  int r;
+    r = min(2 * k + 1, (int)sum.size());
+  ll ans = 0;
+  REP(i, r)
+  {
+    ans += sum[i];
   }
 
-  mint ans = ans1 - ans2;
-  cout << ans.val() << endl;
+  ll sums = ans;
+
+  if (f == 0)
+  {
+    REP(i, sum.size())
+    {
+      if (0 <= i - k)
+      {
+        sums -= sum[i - k];
+      }
+      if (i + k + 1 < sum.size())
+      {
+        sums += sum[i + k + 1];
+      }
+
+      if (i % 2 == 1)
+        chmax(ans, sums);
+    }
+  }
+  else
+  {
+    REP(i, sum.size())
+    {
+      if (0 <= i - k)
+      {
+        sums -= sum[i - k];
+      }
+      if (i + k + 1 < sum.size())
+      {
+        sums += sum[i + k + 1];
+      }
+
+      if (i % 2 == 0)
+        chmax(ans, sums);
+    }
+  }
+
+  cout << ans << endl;
 
   return 0;
 }

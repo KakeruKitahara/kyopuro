@@ -27,9 +27,9 @@ using mint = modint1000000007;
 
 /* change function */
 template <class X>
-void chmin(X &a, X b) { a = min(a, b); }
+void chmin(X &a, X b) {a = min(a, b);}
 template <class X>
-void chmax(X &a, X b) { a = max(a, b); }
+void chmax(X &a, X b) {a = max(a, b);}
 
 /* pair operator */
 template <class X>
@@ -177,7 +177,7 @@ void dijkstra(VVP graph, int s, Vl dis, V &prev)
       {
         dis[e.first] = dis[v] + e.second;
         prev[e.first] = v;
-        pq.emplace(dis[e.first], e.second);
+        pq.emplace(dis[e.first], e.first);
       }
     }
   }
@@ -196,66 +196,5 @@ V get_dikstra_path(const V prev, int t)
 
 int main()
 {
-  int n, k;
-  cin >> n >> k;
-  V a(n);
-  REP(i, n)
-  {
-    cin >> a[i];
-  }
-
-  if (k == 1)
-  {
-    cout << 0 << endl;
-    return 0;
-  }
-
-  mint ans1 = 0, ans2 = 0, nc = 1, ck = 1, nc2, ck2, gk = 1;
-  ;
-
-  REP2(i, 1, n)
-  {
-    nc *= i;
-  }
-  REP2(i, 1, n - k + 1)
-  {
-    ck *= i;
-  }
-  REP2(i, 1, k)
-  {
-    gk *= i;
-  }
-  nc2 = nc;
-  ck2 = ck;
-
-  sort(a.begin(), a.end());
-
-  REP(i, n - k + 1)
-  {
-    ans2 += a[i] * nc / ck / gk;
-    if (i == n - k)
-    {
-      break;
-    }
-    nc /= (n - 1 - i);
-    ck /= (n - k - i);
-  }
-
-  sort(a.rbegin(), a.rend());
-
-  REP(i, n - k + 1)
-  {
-    ans1 += a[i] * nc2 / ck2 / gk;
-    if (i == n - k)
-    {
-      break;
-    }
-    nc2 /= (n - 1 - i);
-    ck2 /= (n - k - i);
-  }
-
-  mint ans = ans1 - ans2;
-  cout << ans.val() << endl;
-
   return 0;
 }
