@@ -63,12 +63,5 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int n, c;
-  V t(n), a(n);
-  REP(i, n)
-  {
-    cin >> t[i] >> a[i];
-  }
-
   return 0;
 }

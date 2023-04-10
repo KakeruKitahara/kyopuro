@@ -63,12 +63,44 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int n, c;
-  V t(n), a(n);
-  REP(i, n)
+  S s;
+  cin >> s;
+
+  reverse(s.begin(), s.end());
+
+  V d(s.size());
+  vector<vector<mint>> dp(s.size(), vector<mint>(13, 0));
+
+  d[0] = 0;
+  d[1] = 10;
+  REP2(i, 2, s.size())
   {
-    cin >> t[i] >> a[i];
+    d[i] = (d[i - 1] * 10) % 13;
   }
+
+  dp[0][s[0] - '0'][s[0] - '0'] = 1;
+  REP2(i, 1, s.size())
+  {
+    if (s[i] == '?')
+    {
+      REP(j, 13)
+      {
+        REP(k, 13)
+        {
+          dp[i][j] += dp[i - 1][(k + d[i]) % 13];
+        }
+      }
+    }
+    else
+    {
+      REP(k, 13)
+      {
+        dp[i][k] = dp[i - 1][(k + d[i]) % 13];
+      }
+    }
+  }
+
+  cout << dp[s.size() - 1][5].val() << endl;
 
   return 0;
 }

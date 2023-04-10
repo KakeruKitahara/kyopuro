@@ -63,12 +63,108 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int n, c;
-  V t(n), a(n);
+
+  int n;
+  cin >> n;
+
+  V d = {3, 5, 7};
+
+  V dd;
+
+  REP(i, 3)
+  {
+    REP(j, 3)
+    {
+      REP(k, 3)
+      {
+
+        dd.push_back(d[i] * 100 + d[j] * 10 + d[k]);
+      }
+    }
+  }
+
+  REP(i, 3)
+  {
+    REP(j, 3)
+    {
+      REP(k, 3)
+      {
+        REP(l, 3)
+        {
+          dd.push_back(d[i] * 1000 + d[j] * 100 + 10 * d[k] + d[l]);
+        }
+      }
+    }
+  }
+
+  REP(i, 3)
+  {
+    REP(j, 3)
+    {
+      REP(k, 3)
+      {
+        REP(l, 3)
+        {
+          REP(m, 3)
+          {
+            dd.push_back(d[i] * 10000 + d[j] * 1000 + 100 * d[k] + 10 * d[l] + d[m]);
+          }
+        }
+      }
+    }
+  }
+
+  sort(dd.begin(), dd.end());
+  int ans = 0;
   REP(i, n)
   {
-    cin >> t[i] >> a[i];
+    int f = 0;
+
+    REP(j, dd.size())
+    {
+      ll num = i * 100000 + dd[j];
+      if (n < num)
+      {
+        f = 1;
+        break;
+      }
+      V nc(10);
+      while (num != 0)
+      {
+        nc[num % 10]++;
+        num /= 10;
+      }
+      int cnt = 0;
+      REP(k, 10)
+      {
+        if (k == 3 || k == 5 || k == 7)
+        {
+          if (nc[k] > 0)
+          {
+            cnt++;
+          }
+        }
+        else
+        {
+          if (nc[k] == 0)
+          {
+            cnt++;
+          }
+        }
+      }
+      if (cnt == 10)
+      {
+        ans++;
+      }
+    }
+
+    if (f == 1)
+    {
+      break;
+    }
   }
+
+  cout << ans << endl;
 
   return 0;
 }
