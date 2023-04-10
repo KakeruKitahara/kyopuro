@@ -71,16 +71,16 @@ int main()
   V d(s.size());
   vector<vector<mint>> dp(s.size(), vector<mint>(13, 0));
 
-  d[0] = 0;
-  d[1] = 10;
-  REP2(i, 2, s.size())
-  {
-    d[i] = (d[i - 1] * 10) % 13;
-  }
-
-  dp[0][s[0] - '0'][s[0] - '0'] = 1;
+  d[0] = s[0] - '0';
   REP2(i, 1, s.size())
   {
+    d[i] = (d[i - 1] + (s[i] - '0') * 10) % 13;
+  }
+
+  dp[0][s[0] - '0'] = 1;
+  REP2(i, 1, s.size())
+  {
+    int num = s[i] - '0';
     if (s[i] == '?')
     {
       REP(j, 13)
@@ -95,7 +95,7 @@ int main()
     {
       REP(k, 13)
       {
-        dp[i][k] = dp[i - 1][(k + d[i]) % 13];
+        dp[i][num] = dp[i - 1][(num + d[i]) % 13];
       }
     }
   }
