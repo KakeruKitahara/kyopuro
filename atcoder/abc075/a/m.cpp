@@ -63,59 +63,5 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-
-  int n;
-  cin >> n;
-  V a(n);
-  VVP xy;
-
-  REP(i, n)
-  {
-    cin >> a[i];
-    xy[i].resize(a[i]);
-    REP(j, a[i])
-    {
-      cin >> xy[i][j].first >> xy[i][j].second;
-    }
-  }
-
-  int ans = 0;
-
-  for (int bit = 0; bit < (1 << n); bit++)
-  {
-    int f = 0;
-    int cnt = 0;
-    for (int i = 0; i < n; i++)
-    {
-      VP gen = xy[i];
-      if (bit & (1 << i))
-      {
-        cnt++;
-      }
-      else
-      {
-
-        REP(j, a[i])
-        {
-          gen[j] ^= 1;
-        }
-      }
-
-      REP(j, a[i])
-      {
-        if (bit & (1 << gen[j].first) != gen[j].second)
-        {
-          f = 1;
-        }
-      }
-    }
-
-    if (f == 0)
-    {
-      ans = max(ans, cnt);
-    }
-  }
-  cout << ans << endl;
-
   return 0;
 }
