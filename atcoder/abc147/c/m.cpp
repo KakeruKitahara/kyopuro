@@ -67,7 +67,7 @@ int main()
   int n;
   cin >> n;
   V a(n);
-  VVP xy;
+  VVP xy(n);
 
   REP(i, n)
   {
@@ -81,31 +81,23 @@ int main()
 
   int ans = 0;
 
-  for (int bit = 0; bit < (1 << n); bit++)
+  for (ll bit = 0; bit < (1 << n); bit++)
   {
     int f = 0;
     int cnt = 0;
+    VVP gen = xy;
     for (int i = 0; i < n; i++)
     {
-      VP gen = xy[i];
+
       if (bit & (1 << i))
       {
         cnt++;
-      }
-      else
-      {
-
         REP(j, a[i])
         {
-          gen[j] ^= 1;
-        }
-      }
-
-      REP(j, a[i])
-      {
-        if (bit & (1 << gen[j].first) != gen[j].second)
-        {
-          f = 1;
+          if ((bit & (1 << (gen[i][j].first - 1))) != (gen[i][j].second * (1 << (gen[i][j].first - 1))))
+          {
+            f = 1;
+          }
         }
       }
     }
