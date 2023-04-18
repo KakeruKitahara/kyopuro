@@ -23,7 +23,7 @@ using VVS = vector<vector<string>>;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint998244353;
+using mint = modint1000000007;
 
 /* change function */
 template <class X>
@@ -86,8 +86,8 @@ X pow(X x, X n)
   while (n > 0)
   {
     if (n & 1)
-      ret = ret * x % 998244353;
-    x = x * x % 998244353;
+      ret *= x;
+    x *= x;
     n >>= 1;
   }
   return ret;
@@ -196,38 +196,26 @@ V get_dikstra_path(const V prev, int t)
 
 int main()
 {
-  int q;
-  cin >> q;
-  mint ans = 1;
-  queue<int> s;
-  s.push(1);
-  int di = 1;
-  REP(i, q)
+  ll a, b;
+  cin >> a >> b;
+
+  if (a < b)
   {
-    int a;
-    cin >> a;
-    if (a == 1)
-    {
-      int b;
-      cin >> b;
-      ans = ans * 10 + b;
-      s.push(b);
-      di++;
-    }
-    else if (a == 2)
-    {
-      int b = s.front();
-      s.pop();
-      mint x = b;
-      mint z = 10;
-      x = b * z.pow(di - 1);
-      ans -= x;
-      di--;
-    }
-    else
-    {
-      cout << ans.val() << endl;
-    }
+    swap(a, b);
   }
+  ll r = a % b;
+
+  ll ans = 0;
+  ans = a / b;
+  while (r != 0)
+  {
+    a = b;
+    b = r;
+    r = a % b;
+    ans += a / b;
+  }
+
+  cout << ans - 1 << endl;
+
   return 0;
 }
