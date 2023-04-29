@@ -221,9 +221,9 @@ int main()
   ll n;
   cin >> n;
 
-  V so;
+  Vl so;
 
-  REP2(i, 2, 300000)
+  REP2(i, 2, 500000)
   {
     if (prime(i))
     {
