@@ -60,8 +60,45 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   res.second = ob1.second / ob2.second;
   return res;
 }
- 
-int main(){
 
-return 0;
+int main()
+{
+  S s, t;
+  cin >> s >> t;
+
+  int n = s.size();
+  dsu ds(n);
+  dsu dt(n);
+  V al(26, -1);
+  REP(i, n)
+  {
+    if (al[s[i] - 'a'] != -1)
+    {
+      ds.merge(i, al[s[i] - 'a']);
+    }
+    al[s[i] - 'a'] = i;
+  }
+  V bl(26, -1);
+  REP(i, n)
+  {
+    if (bl[t[i] - 'a'] != -1)
+    {
+      dt.merge(i, bl[t[i] - 'a']);
+    }
+    bl[t[i] - 'a'] = i;
+  }
+
+  VV gd = ds.groups();
+  VV gt = dt.groups();
+
+  if (gd == gt)
+  {
+    cout << "Yes" << endl;
+  }
+  else
+  {
+    cout << "No" << endl;
+  }
+
+  return 0;
 }

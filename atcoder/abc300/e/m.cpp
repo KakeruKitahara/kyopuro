@@ -23,7 +23,13 @@ using VVS = vector<vector<string>>;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint1000000007;
+using mint = modint998244353;
+
+/* change function */
+template <class X>
+void chmin(X &a, X b) { a = min(a, b); }
+template <class X>
+void chmax(X &a, X b) { a = max(a, b); }
 
 /* pair operator */
 template <class X>
@@ -143,7 +149,7 @@ void dijkstra(VVP graph, int s, Vl &dis)
       if (dis[e.first] > dis[v] + e.second)
       {
         dis[e.first] = dis[v] + e.second;
-        pq.emplace(dis[e.first], e.second);
+        pq.emplace(dis[e.first], e.first);
       }
     }
   }
@@ -188,7 +194,96 @@ V get_dikstra_path(const V prev, int t)
   return path;
 }
 
+map<int, int> so;
+
+int f(ll x)
+{
+
+  int s = 1;
+  if (x == 1)
+  {
+    return 0;
+  }
+  if (x % 2 == 0)
+  {
+    so[2]++;
+    s = f(x / 2);
+  }
+  else if (x % 3 == 0)
+  {
+    so[3]++;
+    s = f(x / 3);
+  }
+  else if (x % 5 == 0)
+  {
+    so[5]++;
+    s = f(x / 5);
+  }
+
+  return s;
+}
+
 int main()
 {
+  ll n;
+  cin >> n;
+
+  if (f(n))
+  {
+    cout << 0 << endl;
+    return 0;
+  }
+
+  set<ll> line;
+
+  ll p2 = 1, p3 = 1, p5 = 1;
+  REP(i2, so[2] + 1)
+  {
+    p3 = 1;
+    REP(i3, so[3] + 1)
+    {
+      p5 = 1;
+      REP(i5, so[5] + 1)
+      {
+        line.insert(p2 * p3 * p5);
+        if (i5 < so[5])
+          p5 *= 5;
+      }
+      if (i3 < so[3])
+        p3 *= 3;
+    }
+    if (i2 < so[2])
+      p2 *= 2;
+  }
+
+  vector<pair<ll, mint>> dp;
+  Vl dp2;
+
+  mint a = 0;
+  for (auto p : line)
+  {
+    dp.push_back(make_pair(p, a));
+    dp2.push_back(p);
+  }
+
+  dp[0].second = 1;
+
+  V b = {2, 3, 4, 5, 6};
+  REP(i, dp.size())
+  {
+    REP(k, b.size())
+    {
+      ll tmp = dp[i].first * b[k];
+      if (line.count(tmp))
+      {
+        auto it = lower_bound(dp2.begin(), dp2.end(), tmp);
+        int ind = it - dp2.begin();
+        dp[ind].second += dp[i].second / 5;
+      }
+    }
+  }
+
+  cout << dp.back().second.val() << endl;
+
   return 0;
 }
