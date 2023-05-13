@@ -2,6 +2,7 @@
 
 ## サンプルケースDLから提出の流れ
 0. 2つのツールを使うためにどちら共にログインしておく．`acc session`でログイン状況を確認している．
+**`acc login`だけでも問題ケースは拾えるが，本番の際にもテストケースを拾うようにするときは必ず`oj login`もする．**
   ```
   acc login
   oj login https://beta.atcoder.jp/
