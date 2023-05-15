@@ -194,37 +194,36 @@ V get_dikstra_path(const V prev, int t)
   return path;
 }
 
+V Eratosthenes(int N)
+{
+  V sum(N + 1);
+
+  for (int p = 2; p <= N; ++p)
+  {
+    sum[p]++;
+    for (int q = p * 2; q <= N; q += p)
+    {
+      sum[q]++;
+    }
+  }
+
+  return sum;
+}
+
 int main()
 {
+  int n;
+  cin >> n;
 
-  int n, k;
-  cin >> n >> k;
-  V a(n);
-  REP(i, n)
+  V ans = Eratosthenes(n);
+
+  ll sum = 0;
+  REP2(i, 1, n + 1)
   {
-    cin >> a[i];
+    sum += (ans[i] + 1ll) * (i);
   }
 
-  int ans = IINF;
-
-  REP2(i, k, n + 1)
-  {
-    if (a[i - 1] <= 0)
-    {
-      chmin(ans, -a[i - k]);
-    }
-    else if (a[i - 1] > 0 && a[i - k] < 0)
-    {
-      int mi = min(a[i - 1], -a[i - k]);
-      int ma = max(a[i - 1], -a[i - k]);
-      chmin(ans, mi * 2 + ma);
-    }
-    else if (a[i - k] >= 0)
-    {
-      chmin(ans, a[i - 1]);
-    }
-  }
-  cout << ans << endl;
+  cout << sum << endl;
 
   return 0;
 }
