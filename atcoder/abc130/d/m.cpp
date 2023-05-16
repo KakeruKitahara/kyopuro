@@ -260,14 +260,30 @@ Vl divisor(ll n)
 
 int main()
 {
-  int n, p;
-  cin >> n >> p;
-
-  vector<mint> dp1(n), dp2(n);
-
-  REP(i, n){
-    
+  int n;
+  ll k;
+  cin >> n >> k;
+  Vl a(n);
+  REP(i, n)
+  {
+    cin >> a[i];
   }
+
+  ll ans = 0;
+  ll sum = 0;
+  int l = -1;
+  REP(r, n)
+  {
+    sum += a[r];
+    while (sum >= k && r >= l)
+    {
+      l++;
+      sum -= a[l];
+    }
+    ans += l + 1;
+  }
+
+  cout << ans << endl;
 
   return 0;
 }
