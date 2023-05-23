@@ -63,5 +63,19 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+  ll w, h, x, y;
+  cin >> w >> h >> x >> y;
+
+  double ans = w * h / 2.0;
+  cout << fixed << setprecision(13) << ans << " ";
+
+  if (w == x * 2 && h == y * 2)
+  {
+    cout << 1 << endl;
+  }
+  else
+  {
+    cout << 0 << endl;
+  }
   return 0;
 }
