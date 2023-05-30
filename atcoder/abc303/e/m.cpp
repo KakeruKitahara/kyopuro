@@ -27,9 +27,9 @@ using mint = modint1000000007;
 
 /* change function */
 template <class X>
-void chmin(X &a, X b) {a = min(a, b);}
+void chmin(X &a, X b) { a = min(a, b); }
 template <class X>
-void chmax(X &a, X b) {a = max(a, b);}
+void chmax(X &a, X b) { a = max(a, b); }
 
 /* pair operator */
 template <class X>
@@ -194,7 +194,108 @@ V get_dikstra_path(const V prev, int t)
   return path;
 }
 
+VV ed;
+V used;
+V used2;
+
+void dfs1(int p)
+{
+  used[p] = 1;
+  if (ed[p].size() == 1)
+  {
+    used2[p] = 1;
+  }
+  REP(i, ed[p].size())
+  {
+    if (used[ed[p][i]] == 0)
+    {
+      dfs1(ed[p][i]);
+    }
+  }
+}
+
+int s;
+void dfs2(int p)
+{
+  used2[p] = 1;
+  int c = 0;
+  REP(i, ed[p].size())
+  {
+    if (used2[ed[p][i]] == 0)
+    {
+      dfs2(ed[p][i]);
+      c++;
+    }
+  }
+
+  if (c == 0)
+  {
+    s = p;
+  }
+}
+
+V ans;
+V used3;
+
+void dfs3(int p)
+{
+  used3[p] = 1;
+  ans.push_back(ed[p].size());
+  REP(i, ed[p].size())
+  {
+    if (used3[ed[p][i]] == 0)
+    {
+      dfs3(ed[p][i]);
+    }
+  }
+}
+
 int main()
 {
+
+  int n;
+  cin >> n;
+  ed.resize(n);
+  used.resize(n);
+  used2.resize(n);
+  REP(i, n - 1)
+  {
+    int a, b;
+    cin >> a >> b;
+    ed[a - 1].push_back(b - 1);
+    ed[b - 1].push_back(a - 1);
+  }
+
+  dfs1(0);
+
+  used3 = used2;
+
+  REP(i, n)
+  {
+    if (used2[i] == 0)
+    {
+      dfs2(0);
+      break;
+    }
+  }
+
+  dfs3(s);
+
+  V ans2;
+  REP(i, ans.size())
+  {
+    if (i % 3 == 0)
+    {
+      ans2.push_back(ans[i]);
+    }
+  }
+
+  sort(ans2.begin(), ans2.end());
+
+  REP(i, ans2.size())
+  {
+    cout << ans2[i] << " ";
+  }
+  cout << endl;
   return 0;
 }
