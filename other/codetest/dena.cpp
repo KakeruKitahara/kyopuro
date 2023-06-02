@@ -1,7 +1,5 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
 using namespace std;
-using namespace atcoder;
 
 /* macro */
 #define REP(i, n) for (int i = 0; i < n; i++)
@@ -23,7 +21,6 @@ using VVS = vector<vector<string>>;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
-using mint = modint1000000007;
 
 /* change function */
 template <class X>
@@ -258,7 +255,154 @@ Vl divisor(ll n)
   return ret;
 }
 
+void f1()
+{
+  int m;
+  cin >> m;
+  map<int, int> mp;
+
+  REP(i, m)
+  {
+    int a, b, c;
+    cin >> a >> b >> c;
+    mp[a] = b;
+  }
+
+  cin.ignore();
+  S line;
+  while (!cin.eof())
+  {
+    getline(cin, line);
+    if (line.empty())
+    {
+      break;
+    }
+    stringstream ss(line);
+    S a;
+    int b, c, d;
+    ss >> a >> b >> c >> d;
+
+    if (mp[c] < d)
+    {
+      cout << "sold out " << b << endl;
+    }
+    else
+    {
+      REP(j, d)
+      {
+        cout << "received order " << b << " " << c << endl;
+        mp[c]--;
+      }
+    }
+  }
+}
+
+void f2()
+{
+
+  int m, k;
+  cin >> m >> k;
+  map<int, int> mp;
+
+  REP(i, m)
+  {
+    int a, b, c;
+    cin >> a >> b >> c;
+    mp[a] = b;
+  }
+
+  cin.ignore();
+  S line;
+
+  multiset<int> cook;
+  queue<int> wait;
+  while (!cin.eof()) // 標準入力で行数していないならこのフォーマット
+  {
+    getline(cin, line);
+    if (line.empty())
+    {
+      break;
+    }
+    stringstream ss(line);
+    S a, a2;
+    int b, c;
+    ss >> a;
+    if (a == "received")
+    {
+      ss >> a2 >> b >> c;
+      if (cook.size() < k)
+      {
+        cout << c << endl;
+        cook.insert(c);
+      }
+      else
+      {
+        wait.push(c);
+      }
+            if (wait.size() >= 1)
+          {
+            cout << "wait" << endl;
+          }
+        }
+    else
+    {
+      ss >> b;
+      if (!cook.count(b))
+      {
+        cout << "unexpected input" << endl;
+      }
+      else
+      {
+        cout << "ok";
+        cook.erase(b);
+        if (wait.size() != 0)
+        {
+          int p = wait.front();
+          wait.pop();
+          cout << " " << p << endl;
+          cook.insert(p);
+
+          if (wait.size() >= 1)
+          {
+            cout << "wait" << endl;
+          }
+        }
+        else
+        {
+          cout << endl;
+        }
+      }
+    }
+  }
+}
+
+void f3()
+{
+}
+
+void f4()
+{
+}
+
 int main()
 {
+  int n;
+  cin >> n;
+  if (n == 1)
+  {
+    f1();
+  }
+  else if (n == 2)
+  {
+    f2();
+  }
+  else if (n == 3)
+  {
+    f3();
+  }
+  else
+  {
+    f4();
+  }
   return 0;
 }
