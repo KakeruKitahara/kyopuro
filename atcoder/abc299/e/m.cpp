@@ -265,6 +265,7 @@ int main()
           }
           if (used[edge[p.first][j]] == 0 && p.second + 1 == d[i])
           {
+            used[edge[p.first][j]] = 1;
             if (ans[edge[p.first][j]] == 0)
             {
               ans[edge[p.first][j]] = 1;
@@ -275,32 +276,66 @@ int main()
     }
   }
 
-  int c = 0;
-  REP(i, n)
+  REP(i, k)
   {
-    if (ans[i] == 1)
+    int s = p[i] - 1;
+    int c = 0;
+    V used(n);
+
+    queue<P> q;
+
+    q.push({s, 0});
+    used[s] = 1;
+
+    if (d[i] == 0)
     {
-      c++;
+      if (ans[s] == 1)
+      {
+        c++;
+      }
+    }
+    else
+    {
+      while (q.size() != 0)
+      {
+        P p = q.front();
+        q.pop();
+
+        REP(j, edge[p.first].size())
+        {
+          if (used[edge[p.first][j]] == 0 && p.second + 1 < d[i])
+          {
+            q.push({edge[p.first][j], p.second + 1});
+            used[edge[p.first][j]] = 1;
+          }
+          if (used[edge[p.first][j]] == 0 && p.second + 1 == d[i])
+          {
+            if (ans[edge[p.first][j]] == 1)
+            {
+              c++;
+            }
+          }
+        }
+      }
+    }
+
+    if (c == 0)
+    {
+      cout << "No" << endl;
+      return 0;
     }
   }
 
-  if (c == 0)
+  cout << "Yes" << endl;
+  REP(i, n)
   {
-    cout << "No" << endl;
-  }
-  else
-  {
-    cout << "Yes" << endl;
-    REP(i, n)
+    if (ans[i] == 2)
     {
-      if (ans[i] == 2)
-      {
-        ans[i] = 0;
-      }
-      cout << ans[i];
+      ans[i] = 0;
     }
-    cout << endl;
+    cout << ans[i];
   }
+  cout << endl;
 
   return 0;
 }

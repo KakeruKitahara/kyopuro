@@ -177,7 +177,7 @@ void dijkstra(VVP graph, int s, Vl dis, V &prev)
       {
         dis[e.first] = dis[v] + e.second;
         prev[e.first] = v;
-        pq.emplace(dis[e.first], e.first);
+        pq.emplace(dis[e.first], e.second);
       }
     }
   }
@@ -194,56 +194,104 @@ V get_dikstra_path(const V prev, int t)
   return path;
 }
 
-int n, m;
-
-V used;
-
-void dfs(int p)
+/* divisor */
+vector<bool> eratosthenes(int N)
 {
-  used[p] = 1;
+  vector<bool> isprime(N + 1, true);
 
-  if (p == n)
-  {
-    S s;
-    cin >> s;
-    exit(0);
-  }
+  isprime[0] = isprime[1] = false;
 
-  int k;
-  cin >> k;
-  if (k == -1)
-    exit(0);
-  V v(k);
-  REP(i, k)
+  for (int p = 2; p <= N; ++p)
   {
-    cin >> v[i];
-  }
-
-  REP(i, k)
-  {
-    if (used[v[i]] == 0)
+    if (!isprime[p]) // しなくてもO(nlogn)
+      continue;
+    for (int q = p * 2; q <= N; q += p)
     {
-      cout << v[i] << endl;
-      dfs(v[i]);
-      cout << p << endl;
-
-      int x;
-      cin >> x;
-      if (x == -1)
-        exit(0);
-      REP(i, x)
-      {
-        int z;
-        cin >> z;
-      }
+      isprime[q] = false;
     }
   }
+
+  return isprime;
+}
+
+vector<Pl> factorize(ll N)
+{
+  vector<Pl> res;
+
+  for (long long p = 2; p * p <= N; ++p)
+  {
+    if (N % p != 0)
+    {
+      continue;
+    }
+
+    int e = 0;
+    while (N % p == 0)
+    {
+      ++e;
+      N /= p;
+    }
+
+    res.emplace_back(p, e);
+  }
+
+  if (N != 1)
+  {
+    res.emplace_back(N, 1);
+  }
+  return res;
+}
+
+Vl divisor(ll n)
+{
+  Vl ret;
+  for (ll i = 1; i * i <= n; i++)
+  {
+    if (n % i == 0)
+    {
+      ret.push_back(i);
+      if (i * i != n)
+        ret.push_back(n / i);
+    }
+  }
+  sort(ret.begin(), ret.end());
+  return ret;
 }
 
 int main()
 {
-  cin >> n >> m;
-  used.resize(n + 1);
-  dfs(1);
+  int h, w;
+
+  cin >> h >> w;
+  VVP edge(10);
+  REP(i, 10)
+  {
+    REP(j, 10)
+    {
+      int c;
+      cin >> c;
+      if (i == j)
+        continue;
+      edge[i].push_back({j, c});
+    }
+  }
+
+  int ans = 0;
+  REP(i, h)
+  {
+    REP(j, w)
+    {
+      int a;
+      cin >> a;
+      if (a != -1)
+      {
+        Vl dis;
+        dijkstra(edge, a, dis);
+        ans += dis[1];
+      }
+    }
+  }
+
+  cout << ans << endl;
   return 0;
 }
