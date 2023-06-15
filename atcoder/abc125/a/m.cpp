@@ -63,24 +63,5 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int n, m;
-  cin >> n >> m;
-  dsu d(n);
-  REP(i, m)
-  {
-    int a, b;
-    cin >> a >> b;
-    a--;
-    b--;
-    if (!d.same(a, b))
-    {
-      d.merge(a, b);
-    }
-    int c;
-    cin >> c;
-  }
-
-  VV g = d.groups();
-  cout << g.size() << endl;
   return 0;
 }
