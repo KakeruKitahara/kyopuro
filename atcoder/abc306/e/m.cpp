@@ -27,7 +27,6 @@ using mint = modint1000000007;
 
 /* change function */
 template <class X>
-
 void chmin(X &a, X b) { a = min(a, b); }
 template <class X>
 void chmax(X &a, X b) { a = max(a, b); }
@@ -195,58 +194,92 @@ V get_dikstra_path(const V prev, int t)
   return path;
 }
 
-
-int n, m;
-
-V used;
-
-void dfs(int p)
-{
-  used[p] = 1;
-
-  if (p == n)
-  {
-    S s;
-    cin >> s;
-    exit(0);
-  }
-
-  int k;
-  cin >> k;
-  if (k == -1)
-    exit(0);
-  V v(k);
-  REP(i, k)
-  {
-    cin >> v[i];
-  }
-
-  REP(i, k)
-  {
-    if (used[v[i]] == 0)
-    {
-      cout << v[i] << endl;
-      dfs(v[i]);
-      cout << p << endl;
-
-      int x;
-      cin >> x;
-      if (x == -1)
-        exit(0);
-      REP(i, x)
-      {
-        int z;
-        cin >> z;
-      }
-    }
-  }
-}
-
 int main()
 {
-  cin >> n >> m;
-  used.resize(n + 1);
-  dfs(1);
+  int n, k, q;
+  cin >> n >> k >> q;
+
+  V x(q), y(q);
+  V a(n);
+  REP(i, q)
+  {
+    cin >> x[i] >> y[i];
+  }
+
+  multiset<P> g;
+  set<int> indg;
+  multiset<P> g2;
+  set<int> indg2;
+  REP(i, k)
+  {
+    indg.insert(i);
+    g.insert({0, i});
+  }
+  REP2(i, k, n)
+  {
+    indg2.insert(i);
+    g2.insert({0, i});
+  }
+  ll sum = 0;
+  REP(i, q)
+  {
+    int ind = x[i] - 1;
+    int now = a[ind];
+    int next = y[i];
+    a[x[i] - 1] = y[i];
+
+    if (indg.count(ind))
+    {
+      auto it = g2.end();
+      it--;
+      int min = it->first;
+      int minind = it->second;
+
+      g.erase({now, ind});
+      indg.erase(ind);
+
+      if (min > next)
+      {
+        g2.erase(it);
+
+        g2.insert({next, ind});
+        g.insert({min, minind});
+        indg.insert(minind);
+        sum += min  - now;
+      }
+      else
+      {
+        g.insert({next, ind});
+        indg.insert(ind);
+        sum += next  - now;
+      }
+    }
+    else
+    {
+      auto it = g.begin();
+      int min = it->first;
+      int minind = it->second;
+
+      g2.erase({now, ind});
+
+      if (min < next)
+      {
+        g.erase(it);
+        indg.erase(minind);
+
+        g.insert({next, ind});
+        indg.insert(ind);
+        g2.insert({min, minind});
+        sum += next - min;
+      }
+      else
+      {
+        g2.insert({next, ind});
+      }
+    }
+
+    cout << sum << endl;
+  }
 
   return 0;
 }

@@ -27,10 +27,9 @@ using mint = modint1000000007;
 
 /* change function */
 template <class X>
-
-void chmin(X &a, X b) { a = min(a, b); }
+void chmin(X &a, X b) {a = min(a, b);}
 template <class X>
-void chmax(X &a, X b) { a = max(a, b); }
+void chmax(X &a, X b) {a = max(a, b);}
 
 /* pair operator */
 template <class X>
@@ -195,58 +194,17 @@ V get_dikstra_path(const V prev, int t)
   return path;
 }
 
-
-int n, m;
-
-V used;
-
-void dfs(int p)
-{
-  used[p] = 1;
-
-  if (p == n)
-  {
-    S s;
-    cin >> s;
-    exit(0);
-  }
-
-  int k;
-  cin >> k;
-  if (k == -1)
-    exit(0);
-  V v(k);
-  REP(i, k)
-  {
-    cin >> v[i];
-  }
-
-  REP(i, k)
-  {
-    if (used[v[i]] == 0)
-    {
-      cout << v[i] << endl;
-      dfs(v[i]);
-      cout << p << endl;
-
-      int x;
-      cin >> x;
-      if (x == -1)
-        exit(0);
-      REP(i, x)
-      {
-        int z;
-        cin >> z;
-      }
-    }
-  }
-}
-
 int main()
 {
-  cin >> n >> m;
-  used.resize(n + 1);
-  dfs(1);
+  int n;
+  cin >> n;
+  S s;
+  cin >> s;
+  REP(i, n){
+    cout << s[i];
+    cout << s[i];
+  }
 
+  cout << endl;
   return 0;
 }

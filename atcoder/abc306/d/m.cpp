@@ -27,7 +27,6 @@ using mint = modint1000000007;
 
 /* change function */
 template <class X>
-
 void chmin(X &a, X b) { a = min(a, b); }
 template <class X>
 void chmax(X &a, X b) { a = max(a, b); }
@@ -195,58 +194,42 @@ V get_dikstra_path(const V prev, int t)
   return path;
 }
 
-
-int n, m;
-
-V used;
-
-void dfs(int p)
-{
-  used[p] = 1;
-
-  if (p == n)
-  {
-    S s;
-    cin >> s;
-    exit(0);
-  }
-
-  int k;
-  cin >> k;
-  if (k == -1)
-    exit(0);
-  V v(k);
-  REP(i, k)
-  {
-    cin >> v[i];
-  }
-
-  REP(i, k)
-  {
-    if (used[v[i]] == 0)
-    {
-      cout << v[i] << endl;
-      dfs(v[i]);
-      cout << p << endl;
-
-      int x;
-      cin >> x;
-      if (x == -1)
-        exit(0);
-      REP(i, x)
-      {
-        int z;
-        cin >> z;
-      }
-    }
-  }
-}
-
 int main()
 {
-  cin >> n >> m;
-  used.resize(n + 1);
-  dfs(1);
+  int n;
+  cin >> n;
+  V x(n);
+  Vl y(n);
 
+  REP(i, n)
+  {
+    cin >> x[i] >> y[i];
+  }
+  VVl dp(n + 1, Vl(2));
+  if (x[0] == 0)
+  {
+    dp[0][0] = max(y[0], 0ll);
+    dp[0][1] = 0;
+  }
+  else
+  {
+    dp[0][0] = 0;
+    dp[0][1] = max(y[0], 0ll);
+  }
+  REP(i, n - 1)
+  {
+    if (x[i + 1] == 0)
+    {
+      dp[i + 1][0] = max(dp[i][0] , max(dp[i][0] + y[i + 1], dp[i][1] + y[i + 1]));
+      dp[i + 1][1] = dp[i][1];
+    }
+    else
+    {
+      dp[i + 1][0] = dp[i][0];
+      dp[i + 1][1] = max(dp[i][1] , dp[i][0] + y[i + 1]);
+    }
+  }
+
+  cout << max(dp[n - 1][0], dp[n - 1][1]) << endl;
   return 0;
 }
