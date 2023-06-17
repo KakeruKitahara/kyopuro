@@ -230,10 +230,20 @@ int main()
 
     if (indg.count(ind))
     {
+
+      int minind, min;
       auto it = g2.end();
-      it--;
-      int min = it->first;
-      int minind = it->second;
+
+      if (g2.size() == 0)
+      {
+        min = -1;
+      }
+      else
+      {
+        it--;
+        min = it->first;
+        minind = it->second;
+      }
 
       g.erase({now, ind});
       indg.erase(ind);
@@ -245,13 +255,13 @@ int main()
         g2.insert({next, ind});
         g.insert({min, minind});
         indg.insert(minind);
-        sum += min  - now;
+        sum += min - now;
       }
       else
       {
         g.insert({next, ind});
         indg.insert(ind);
-        sum += next  - now;
+        sum += next - now;
       }
     }
     else
