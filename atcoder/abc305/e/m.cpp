@@ -247,12 +247,13 @@ int main()
             int m2 = m;
             if (pp.count(ed[p][i]))
             {
-              m2 = max(m, 1 + dis + hh[ed[p][i]]);
+              m2 = max(m2, 1 + dis + hh[ed[p][i]]);
             }
-            used[ed[p][i]] = 1;
-            ans.insert(ed[p][i]);
+
             if (dis + 1 <= m2)
             {
+              used[ed[p][i]] = 1;
+              ans.insert(ed[p][i]);
               V tmp2 = {ed[p][i], dis + 1, m2};
               que.push(tmp2);
             }
