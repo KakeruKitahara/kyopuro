@@ -22,250 +22,17 @@ using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
 
-/* change function */
-template <class X>
-void chmin(X &a, X b) { a = min(a, b); }
-template <class X>
-void chmax(X &a, X b) { a = max(a, b); }
-
-/* pair operator */
-template <class X>
-pair<X, X> operator+(pair<X, X> &ob1, pair<X, X> &ob2)
-{
-  pair<X, X> res;
-  res.first = ob1.first + ob2.first;
-  res.second = ob1.second + ob2.second;
-  return res;
-}
-
-template <class X>
-pair<X, X> operator-(pair<X, X> &ob1, pair<X, X> &ob2)
-{
-  pair<X, X> res;
-  res.first = ob1.first - ob2.first;
-  res.second = ob1.second - ob2.second;
-  return res;
-}
-
-template <class X>
-pair<X, X> operator*(pair<X, X> &ob1, pair<X, X> &ob2)
-{
-  pair<X, X> res;
-  res.first = ob1.first * ob2.first;
-  res.second = ob1.second * ob2.second;
-  return res;
-}
-
-template <class X>
-pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
-{
-  pair<X, X> res;
-  res.first = ob1.first / ob2.first;
-  res.second = ob1.second / ob2.second;
-  return res;
-}
-
-/* Euclid  */
-template <class X>
-X gcd(X a, X b)
-{
-  if (b == 0)
-    return a;
-  else
-    return gcd(b, a % b);
-}
-
-/* pow  */
-template <class X>
-X pow(X x, X n)
-{
-  X ret = 1;
-  while (n > 0)
-  {
-    if (n & 1)
-      ret *= x;
-    x *= x;
-    n >>= 1;
-  }
-  return ret;
-}
-
-/* fenick tree */
-class fenick
-{
-  vector<ll> bit;
-  fenick(int n)
-  {
-    bit.resize(n);
-  }
-
-public:
-  void add(int i, ll x)
-  {
-    i++;
-    for (int idx = i; idx <= bit.size(); idx += (idx & -idx))
-    {
-      bit[idx - 1] += x;
-    }
-  }
-
-  ll sum(int i)
-  {
-    ll ans = 0;
-    for (int idx = i; idx > 0; idx -= (idx & -idx))
-    {
-      ans += bit[idx - 1];
-    }
-    return ans;
-  }
-
-  ll sum(int a, int b)
-  {
-    return sum(b) - sum(a - 1);
-  }
-};
-
-/* dikstra */
-void dijkstra(VVP graph, int s, Vl &dis)
-{
-  dis.resize(graph.size(), LINF);
-  priority_queue<Pl, vector<Pl>, greater<Pl>> pq;
-  dis[s] = 0;
-  pq.emplace(dis[s], s);
-  while (!pq.empty())
-  {
-    P p = pq.top();
-    pq.pop();
-    int v = p.second;
-    if (dis[v] < p.first)
-    {
-      continue;
-    }
-    for (auto &e : graph[v])
-    { // first : to, second : cost
-      if (dis[e.first] > dis[v] + e.second)
-      {
-        dis[e.first] = dis[v] + e.second;
-        pq.emplace(dis[e.first], e.first);
-      }
-    }
-  }
-}
-
-void dijkstra(VVP graph, int s, Vl dis, V &prev)
-{
-  dis.resize(graph.size(), LINF);
-  prev.resize(graph.size(), -1);
-  priority_queue<Pl, vector<Pl>, greater<Pl>> pq;
-  dis[s] = 0;
-  pq.emplace(dis[s], s);
-  while (!pq.empty())
-  {
-    P p = pq.top();
-    pq.pop();
-    int v = p.second;
-    if (dis[v] < p.first)
-    {
-      continue;
-    }
-    for (auto &e : graph[v])
-    {
-      if (dis[e.first] > dis[v] + e.second)
-      {
-        dis[e.first] = dis[v] + e.second;
-        prev[e.first] = v;
-        pq.emplace(dis[e.first], e.second);
-      }
-    }
-  }
-}
-
-V get_dikstra_path(const V prev, int t)
-{
-  V path;
-  for (int cur = t; cur != -1; cur = prev[cur])
-  {
-    path.push_back(cur);
-  }
-  reverse(path.begin(), path.end());
-  return path;
-}
-
-/* divisor */
-vector<bool> eratosthenes(int N)
-{
-  vector<bool> isprime(N + 1, true);
-
-  isprime[0] = isprime[1] = false;
-
-  for (int p = 2; p <= N; ++p)
-  {
-    if (!isprime[p]) // しなくてもO(nlogn)
-      continue;
-    for (int q = p * 2; q <= N; q += p)
-    {
-      isprime[q] = false;
-    }
-  }
-
-  return isprime;
-}
-
-vector<Pl> factorize(ll N)
-{
-  vector<Pl> res;
-
-  for (long long p = 2; p * p <= N; ++p)
-  {
-    if (N % p != 0)
-    {
-      continue;
-    }
-
-    int e = 0;
-    while (N % p == 0)
-    {
-      ++e;
-      N /= p;
-    }
-
-    res.emplace_back(p, e);
-  }
-
-  if (N != 1)
-  {
-    res.emplace_back(N, 1);
-  }
-  return res;
-}
-
-Vl divisor(ll n)
-{
-  Vl ret;
-  for (ll i = 1; i * i <= n; i++)
-  {
-    if (n % i == 0)
-    {
-      ret.push_back(i);
-      if (i * i != n)
-        ret.push_back(n / i);
-    }
-  }
-  sort(ret.begin(), ret.end());
-  return ret;
-}
-
 void f1()
 {
   int m;
   cin >> m;
-  map<int, int> mp;
+  map<int, int> store;
 
   REP(i, m)
   {
     int a, b, c;
     cin >> a >> b >> c;
-    mp[a] = b;
+    store[a] = b;
   }
 
   cin.ignore();
@@ -282,7 +49,7 @@ void f1()
     int b, c, d;
     ss >> a >> b >> c >> d;
 
-    if (mp[c] < d)
+    if (store[c] < d)
     {
       cout << "sold out " << b << endl;
     }
@@ -291,7 +58,7 @@ void f1()
       REP(j, d)
       {
         cout << "received order " << b << " " << c << endl;
-        mp[c]--;
+        store[c]--;
       }
     }
   }
@@ -302,13 +69,11 @@ void f2()
 
   int m, k;
   cin >> m >> k;
-  map<int, int> mp;
 
   REP(i, m)
   {
     int a, b, c;
     cin >> a >> b >> c;
-    mp[a] = b;
   }
 
   cin.ignore();
@@ -316,7 +81,7 @@ void f2()
 
   multiset<int> cook;
   queue<int> wait;
-  while (!cin.eof()) // 標準入力で行数していないならこのフォーマット
+  while (!cin.eof())
   {
     getline(cin, line);
     if (line.empty())
@@ -339,11 +104,11 @@ void f2()
       {
         wait.push(c);
       }
-            if (wait.size() >= 1)
-          {
-            cout << "wait" << endl;
-          }
-        }
+      if (wait.size() >= 1)
+      {
+        cout << "wait" << endl;
+      }
+    }
     else
     {
       ss >> b;
@@ -354,18 +119,13 @@ void f2()
       else
       {
         cout << "ok";
-        cook.erase(b);
+        cook.erase(cook.find(b));
         if (wait.size() != 0)
         {
           int p = wait.front();
           wait.pop();
           cout << " " << p << endl;
           cook.insert(p);
-
-          if (wait.size() >= 1)
-          {
-            cout << "wait" << endl;
-          }
         }
         else
         {
@@ -378,10 +138,112 @@ void f2()
 
 void f3()
 {
+  int m;
+  cin >> m;
+
+  REP(i, m)
+  {
+    int a, b, c;
+    cin >> a >> b >> c;
+  }
+
+  cin.ignore();
+  S line;
+
+  map<int, queue<int>> recive;
+
+  while (!cin.eof())
+  {
+    getline(cin, line);
+    if (line.empty())
+    {
+      break;
+    }
+    stringstream ss(line);
+    S a, a2;
+    int b, c;
+    ss >> a;
+    if (a == "received")
+    {
+      ss >> a2 >> b >> c;
+      recive[c].push(b);
+    }
+    else
+    {
+      ss >> b;
+      if (recive[b].size() > 0)
+      {
+        int num = recive[b].front();
+        recive[b].pop();
+        cout << "ready"
+             << " " << num << " " << b << endl;
+      }
+    }
+  }
 }
 
 void f4()
 {
+  int m;
+  cin >> m;
+  map<int, int> item;
+
+  REP(i, m)
+  {
+    int a, b, c;
+    cin >> a >> b >> c;
+    item[a] = c;
+  }
+
+  cin.ignore();
+  S line;
+
+  map<int, multiset<int>> wait;
+  map<int, int> sum;
+
+  while (!cin.eof())
+  {
+    getline(cin, line);
+    if (line.empty())
+    {
+      break;
+    }
+    stringstream ss(line);
+    S a, a2;
+    int b, c;
+    ss >> a;
+    if (a == "received")
+    {
+      ss >> a2 >> b >> c;
+      wait[b].insert(c);
+    }
+    else if (a == "ready")
+    {
+      ss >> b >> c;
+      wait[b].erase(wait[b].find(c));
+      if (!sum.count(b))
+      {
+        sum[b] = item[c];
+      }
+      else
+      {
+        sum[b] += item[c];
+      }
+    }
+    else
+    {
+      ss >> b;
+      if (wait[b].size() == 0)
+      {
+        cout << sum[b] << endl;
+        sum.erase(b);
+      }
+      else
+      {
+        cout << "please wait"  << endl;
+      }
+    }
+  }
 }
 
 int main()
