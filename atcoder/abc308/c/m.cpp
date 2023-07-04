@@ -258,56 +258,47 @@ Vl divisor(ll n)
   return ret;
 }
 
-S s;
-int n;
+bool comp(pair<int, Pl> &a, pair<int, Pl> &b)
+{
+  if (a.second.first * (b.second.first + b.second.second) < b.second.first * (a.second.first + a.second.second))
+  {
+    return 0;
+  }
+  else if (a.second.first * (b.second.first + b.second.second) > b.second.first * (a.second.first + a.second.second))
+  {
+    return 1;
+  }
+  else
+  {
+    if (a.first > b.first)
+    {
+      return 0;
+    }
+    else
+    {
+      return 1;
+    }
+  }
+}
 
 int main()
 {
   int n;
-  S s;
   cin >> n;
-  cin >> s;
-  vector<pair<int, char>> ans;
-
-  int p = 0;
-  stack<int> st;
-  REP(p, n)
+  vector<pair<int, Pl>> ab(n);
+  REP(i, n)
   {
-    if (s[p] == '(')
-    {
-      st.push(p);
-      ans.push_back({p, s[p]});
-    }
-    else if (s[p] == ')')
-    {
-      if (st.size() != 0)
-      {
-        int f = st.top();
-        pair<int, char> pp = {f, 0};
-        auto it = lower_bound(ans.begin(), ans.end(), pp);
-        st.pop();
-        int z = it - ans.begin();
-        int size = ans.size();
-        REP2(i2, z, size)
-        {
-          ans.pop_back();
-        }
-      }
-      else
-      {
-        ans.push_back({p, s[p]});
-      }
-    }
-    else
-    {
-      ans.push_back({p, s[p]});
-    }
+    cin >> ab[i].second.first >> ab[i].second.second;
+    ab[i].first = i + 1;
   }
 
-  REP(i, ans.size())
+  sort(ab.begin(), ab.end(), comp);
+
+  REP(i, n)
   {
-    cout << ans[i].second;
+    cout << ab[i].first << " ";
   }
   cout << endl;
+
   return 0;
 }

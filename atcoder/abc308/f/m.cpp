@@ -258,56 +258,44 @@ Vl divisor(ll n)
   return ret;
 }
 
-S s;
-int n;
-
 int main()
 {
-  int n;
-  S s;
-  cin >> n;
-  cin >> s;
-  vector<pair<int, char>> ans;
-
-  int p = 0;
-  stack<int> st;
-  REP(p, n)
+  int n, m;
+  cin >> n >> m;
+  multiset<int> p;
+  ll ans = 0;
+  REP(i, n)
   {
-    if (s[p] == '(')
-    {
-      st.push(p);
-      ans.push_back({p, s[p]});
-    }
-    else if (s[p] == ')')
-    {
-      if (st.size() != 0)
-      {
-        int f = st.top();
-        pair<int, char> pp = {f, 0};
-        auto it = lower_bound(ans.begin(), ans.end(), pp);
-        st.pop();
-        int z = it - ans.begin();
-        int size = ans.size();
-        REP2(i2, z, size)
-        {
-          ans.pop_back();
-        }
-      }
-      else
-      {
-        ans.push_back({p, s[p]});
-      }
-    }
-    else
-    {
-      ans.push_back({p, s[p]});
-    }
+    int pp;
+    cin >> pp;
+    p.insert(pp);
+    ans += pp;
   }
 
-  REP(i, ans.size())
+  VP dl(m);
+  REP(i, m)
   {
-    cout << ans[i].second;
+    cin >> dl[i].second;
   }
-  cout << endl;
+
+  REP(i, m)
+  {
+    cin >> dl[i].first;
+  }
+
+  sort(dl.rbegin(), dl.rend());
+
+  REP(i, m)
+  {
+    auto it = p.lower_bound(dl[i].second);
+    if (it == p.end())
+      continue;
+
+    p.erase(it);
+    ans -= dl[i].first;
+  }
+
+  cout << ans << endl;
+
   return 0;
 }

@@ -258,56 +258,53 @@ Vl divisor(ll n)
   return ret;
 }
 
-S s;
-int n;
+S snuke;
+VV used;
+VS mp;
+int h, w;
+
+void dfs(P now, int m)
+{
+  P g = {h - 1, w - 1};
+  mp[now.first][now.second] = 'z';
+  if (now == g)
+  {
+    cout << "Yes" << endl;
+    exit(0);
+  }
+
+  P wk[4] = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+  REP(i, 4)
+  {
+    P next = now + wk[i];
+    if (0 <= next.first && next.first < h && 0 <= next.second && next.second < w)
+    {
+      if (snuke[(m + 1) % 5] == mp[next.first][next.second])
+      {
+        dfs(next, m + 1);
+      }
+    }
+  }
+}
 
 int main()
 {
-  int n;
-  S s;
-  cin >> n;
-  cin >> s;
-  vector<pair<int, char>> ans;
-
-  int p = 0;
-  stack<int> st;
-  REP(p, n)
+  snuke = "snuke";
+  cin >> h >> w;
+  used.resize(h);
+  mp.resize(h);
+  REP(i, h)
   {
-    if (s[p] == '(')
-    {
-      st.push(p);
-      ans.push_back({p, s[p]});
-    }
-    else if (s[p] == ')')
-    {
-      if (st.size() != 0)
-      {
-        int f = st.top();
-        pair<int, char> pp = {f, 0};
-        auto it = lower_bound(ans.begin(), ans.end(), pp);
-        st.pop();
-        int z = it - ans.begin();
-        int size = ans.size();
-        REP2(i2, z, size)
-        {
-          ans.pop_back();
-        }
-      }
-      else
-      {
-        ans.push_back({p, s[p]});
-      }
-    }
-    else
-    {
-      ans.push_back({p, s[p]});
-    }
+    cin >> mp[i];
+    used.resize(w);
   }
 
-  REP(i, ans.size())
+  if (mp[0][0] == 's')
   {
-    cout << ans[i].second;
+    dfs({0, 0}, 0);
   }
-  cout << endl;
+  cout << "No" << endl;
+
   return 0;
 }
