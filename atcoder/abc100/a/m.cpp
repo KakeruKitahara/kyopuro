@@ -63,29 +63,5 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
-  int n;
-  cin >> n;
-  map<S, int> mp;
-  REP(i, n)
-  {
-    S s;
-    cin >> s;
-    sort(s.begin(), s.end());
-    mp[s]++;
-  }
-
-  ll ans = 0;
-  for (auto k : mp)
-  {
-    ll kai = 0;
-    REP2(i, 1, k.second)
-    {
-      kai += i;
-    }
-
-    ans += kai;
-  }
-
-  cout << ans << endl;
   return 0;
 }
