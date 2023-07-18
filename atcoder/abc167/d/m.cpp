@@ -24,7 +24,6 @@ int main()
 	{
 		pnt = a[pnt - 1];
 		trace[0][pnt]++;
-					cout << pnt << "\n";
 		if (trace[0][pnt] == 2)
 		{
 			k %= trace[1][pnt];
@@ -48,6 +47,6 @@ int main()
 		pnt = a[pnt - 1];
 	}
 
-	cout << pnt;
+	cout << pnt << endl;
 	return 0;
 }
