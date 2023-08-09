@@ -260,5 +260,74 @@ Vl divisor(ll n)
 
 int main()
 {
+  int h, w;
+  cin >> h >> w;
+  VS s(h);
+  REP(i, h)
+  {
+    cin >> s[i];
+  }
+
+  int bl = 0;
+  REP(i, h)
+  {
+    REP(j, w)
+    {
+      if (s[i][j] == '#')
+      {
+        bl++;
+      }
+    }
+  }
+
+  queue<pair<P, int>> que;
+
+  que.push({{0, 0}, 1});
+  VV used(h, V(w));
+  used[0][0] = 1;
+
+  int mins = -1;
+
+  while (que.size() != 0)
+  {
+    P p = que.front().first;
+    int dis = que.front().second;
+    que.pop();
+    P w2[4] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    int f = 0;
+    REP(i, 4)
+    {
+
+      P ne = p + w2[i];
+      if (0 <= ne.first && ne.first < h && 0 <= ne.second && ne.second < w)
+      {
+        if (used[ne.first][ne.second] == 0 && s[ne.first][ne.second] == '.')
+        {
+          if (ne.first == h - 1 && ne.second == w - 1)
+          {
+            f = 1;
+            mins = dis + 1;
+            break;
+          }
+          used[ne.first][ne.second] = 1;
+          que.push({ne, dis + 1});
+        }
+      }
+    }
+    if (f == 1)
+    {
+      break;
+    }
+  }
+
+  if (mins == -1)
+  {
+    cout << -1 << endl;
+  }
+  else
+  {
+    cout << h * w - (bl + mins) << endl;
+  }
+
   return 0;
 }

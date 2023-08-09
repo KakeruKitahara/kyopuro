@@ -92,7 +92,7 @@ int main()
 
   REP(i, t.size())
   {
-    auto it = lower_bound(b.begin(), b.end(), t[i]);
+    auto it = lower_bound(b.begin(), b.end(), t[i]); // ここで二部探索する必要ない．カウントするだけでよい．（O(1)）
     auto it3 = upper_bound(a.begin(), a.end(), t[i]);
     int ind = it - b.begin();
     int ind3 = it3 - a.begin();

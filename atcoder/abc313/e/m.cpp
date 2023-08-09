@@ -63,49 +63,59 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
 
 int main()
 {
+  int n;
+  cin >> n;
   S s;
   cin >> s;
 
   int c = 0;
-  int n = s.size();
-  vector<vector<mint>> dp(n, vector<mint>(n + 10));
-  if (s[0] == ')')
+  REP(i, n)
   {
-    cout << 0 << endl;
-    return 0;
-  }
-
-  dp[0][1] = 1;
-  REP2(i, 1, n)
-  {
-    REP(j, n + 7)
+    if ('1' == s[i])
     {
-      if (s[i] == '(')
-      {
-        if (j == 0)
-        {
-          dp[i][j] = 0;
-        }
-        else
-        {
-          dp[i][j] = dp[i - 1][j - 1];
-        }
-      }
-      else if (s[i] == ')')
-      {
-        dp[i][j] = dp[i - 1][j + 1];
-      }
-      else
-      {
-        if (j == 0)
-        {
-          dp[i][j] = dp[i - 1][j + 1];
-        }
-        dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j + 1];
-      }
+      c = 0;
+    }
+    else
+    {
+      c++;
+    }
+
+    if (c == 2)
+    {
+      cout << -1 << endl;
+      return 0;
     }
   }
 
-  cout << dp[n - 1][0].val() << endl;
+  s[0] = '1';
+
+  mint ans = 0;
+  int one = 0;
+  mint sum = 0;
+  int num = 2;
+  REPR(i, n)
+  {
+    if (s[i] == '1')
+    {
+      one++;
+    }
+    else
+    {
+      ans += one + 1 + sum * (num - 1);
+      sum = one + 1 + sum * (num - 1);
+
+      num = s[i] - '0';
+      one = 0;
+    }
+
+    if (i == 0)
+    {
+      ans += one + sum * (num - 1);
+    }
+  }
+  ans--;
+
+  cout << ans.val() << endl;
+
   return 0;
 }
