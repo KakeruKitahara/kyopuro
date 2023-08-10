@@ -14,6 +14,10 @@ using Vl = vector<long long>;
 using VVl = vector<vector<long long>>;
 using VVVl = vector<vector<vector<long long>>>;
 using P = pair<int, int>;
+<<<<<<< Updated upstream
+=======
+using Pl = pair<long long, long long>;
+>>>>>>> Stashed changes
 using VP = vector<pair<int, int>>;
 using VVP = vector<vector<pair<int, int>>>;
 using S = string;
@@ -24,6 +28,15 @@ constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
 using mint = modint1000000007;
 
+<<<<<<< Updated upstream
+=======
+/* change function */
+template <class X>
+void chmin(X &a, X b) { a = min(a, b); }
+template <class X>
+void chmax(X &a, X b) { a = max(a, b); }
+
+>>>>>>> Stashed changes
 /* pair operator */
 template <class X>
 pair<X, X> operator+(pair<X, X> &ob1, pair<X, X> &ob2)
@@ -61,7 +74,223 @@ pair<X, X> operator/(pair<X, X> &ob1, pair<X, X> &ob2)
   return res;
 }
 
+<<<<<<< Updated upstream
 int main()
 {
+=======
+/* Euclid  */
+template <class X>
+X gcd(X a, X b)
+{
+  if (b == 0)
+    return a;
+  else
+    return gcd(b, a % b);
+}
+
+/* pow  */
+template <class X>
+X pow(X x, X n)
+{
+  X ret = 1;
+  while (n > 0)
+  {
+    if (n & 1)
+      ret *= x;
+    x *= x;
+    n >>= 1;
+  }
+  return ret;
+}
+
+/* fenick tree */
+class fenick
+{
+  vector<ll> bit;
+  fenick(int n)
+  {
+    bit.resize(n);
+  }
+
+public:
+  void add(int i, ll x)
+  {
+    i++;
+    for (int idx = i; idx <= bit.size(); idx += (idx & -idx))
+    {
+      bit[idx - 1] += x;
+    }
+  }
+
+  ll sum(int i)
+  {
+    ll ans = 0;
+    for (int idx = i; idx > 0; idx -= (idx & -idx))
+    {
+      ans += bit[idx - 1];
+    }
+    return ans;
+  }
+
+  ll sum(int a, int b)
+  {
+    return sum(b) - sum(a - 1);
+  }
+};
+
+/* dikstra */
+void dijkstra(VVP graph, int s, Vl &dis)
+{
+  dis.resize(graph.size(), LINF);
+  priority_queue<Pl, vector<Pl>, greater<Pl>> pq;
+  dis[s] = 0;
+  pq.emplace(dis[s], s);
+  while (!pq.empty())
+  {
+    P p = pq.top();
+    pq.pop();
+    int v = p.second;
+    if (dis[v] < p.first)
+    {
+      continue;
+    }
+    for (auto &e : graph[v])
+    { // first : to, second : cost
+      if (dis[e.first] > dis[v] + e.second)
+      {
+        dis[e.first] = dis[v] + e.second;
+        pq.emplace(dis[e.first], e.first);
+      }
+    }
+  }
+}
+
+void dijkstra(VVP graph, int s, Vl dis, V &prev)
+{
+  dis.resize(graph.size(), LINF);
+  prev.resize(graph.size(), -1);
+  priority_queue<Pl, vector<Pl>, greater<Pl>> pq;
+  dis[s] = 0;
+  pq.emplace(dis[s], s);
+  while (!pq.empty())
+  {
+    P p = pq.top();
+    pq.pop();
+    int v = p.second;
+    if (dis[v] < p.first)
+    {
+      continue;
+    }
+    for (auto &e : graph[v])
+    {
+      if (dis[e.first] > dis[v] + e.second)
+      {
+        dis[e.first] = dis[v] + e.second;
+        prev[e.first] = v;
+        pq.emplace(dis[e.first], e.first);
+      }
+    }
+  }
+}
+
+V get_dikstra_path(const V prev, int t)
+{
+  V path;
+  for (int cur = t; cur != -1; cur = prev[cur])
+  {
+    path.push_back(cur);
+  }
+  reverse(path.begin(), path.end());
+  return path;
+}
+
+int main()
+{
+  int n, k;
+  cin >> n >> k;
+
+  int i = 0, j = 1;
+  map<P, int> diff;
+  while (j < n)
+  {
+    cout << "? " << i;
+    REP2(l, j, j + k - 1)
+    {
+      cout << l << " ";
+    }
+    cout << endl;
+
+    int ans1;
+    cin >> ans1;
+
+    cout << "? " << j;
+    REP2(l, j, j + k - 1)
+    {
+      cout << l << " ";
+    }
+    cout << endl;
+
+    int ans2;
+    cin >> ans2;
+
+    if (ans1 == ans2)
+    {
+      diff[{i, j}] = 0;
+    }
+    else
+    {
+      diff[{i, j}] = 1;
+    }
+
+    i += 2;
+    j += 2;
+  }
+
+  i = 0, j = 1;
+  while (j < n)
+  {
+    cout << "? " << i;
+    int c = 0;
+    int sum = 0;
+    int tmp1;
+    REP2(l, j, j + k - 1)
+    {
+      cout << l << " ";
+      if(c % 2 == 0){
+        tmp1 = l;
+      }
+      else{
+        sum += diff[{tmp1, l}];
+      }
+    }
+    cout << endl;
+
+    int ans1;
+    cin >> ans1;
+
+    cout << "? " << j;
+    REP2(l, j, j + k - 1)
+    {
+      cout << l << " ";
+    }
+    cout << endl;
+
+    int ans2;
+    cin >> ans2;
+
+    if (ans1 == ans2)
+    {
+      diff[{i, j}] = 0;
+    }
+    else
+    {
+      diff[{i, j}] = 1;
+    }
+
+    i += 2;
+    j += 2;
+  }
+
+>>>>>>> Stashed changes
   return 0;
 }

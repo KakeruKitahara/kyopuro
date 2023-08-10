@@ -14,6 +14,10 @@ using Vl = vector<long long>;
 using VVl = vector<vector<long long>>;
 using VVVl = vector<vector<vector<long long>>>;
 using P = pair<int, int>;
+<<<<<<< Updated upstream
+=======
+using Pl = pair<long long, long long>;
+>>>>>>> Stashed changes
 using VP = vector<pair<int, int>>;
 using VVP = vector<vector<pair<int, int>>>;
 using S = string;
@@ -22,7 +26,17 @@ using VVS = vector<vector<string>>;
 using ll = long long;
 constexpr int IINF = 1000000000 + 8;
 constexpr long long LINF = 1000000000000000000LL + 8;
+<<<<<<< Updated upstream
 using mint = modint998244353;
+=======
+using mint = modint1000000007;
+
+/* change function */
+template <class X>
+void chmin(X &a, X b) {a = min(a, b);}
+template <class X>
+void chmax(X &a, X b) {a = max(a, b);}
+>>>>>>> Stashed changes
 
 /* pair operator */
 template <class X>
