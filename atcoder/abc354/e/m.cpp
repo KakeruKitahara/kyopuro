@@ -194,61 +194,37 @@ V get_dikstra_path(const V prev, int t)
   return path;
 }
 
-VV edge;
-V used;
-int dis;
-int dfs(int p)
-{
-}
-
 int main()
 {
   int n;
   cin >> n;
-  edge.resize(n);
-  map<int, V> u, o;
+  V a(n), b(n);
+
   REP(i, n)
   {
-    int a, b;
-    cin >> a >> b;
-    u[a].push_back(i);
-    o[b].push_back(i);
+    cin >> a[i] >> b[i];
   }
-
-  for (auto p : u)
+  for (int bit = 0; bit < (1 << n); bit++) // 1 << n = 2^n通り.
   {
-    REP(i, p.second.size())
+    V del;
+    for (int i = 0; i < n; i++)
     {
-      REP(j, p.second.size())
+      if (bit & (1 << i))
       {
-        if (i != j)
-        {
-          edge[p.second[i]].push_back(p.second[j]);
-          edge[p.second[j]].push_back(p.second[i]);
+        del.push_back(i);
+      }
+    }
+    int cnt = 0;
+    V used(n);
+    REP(i, del.size())
+    {
+      REP2(j, i + 1, del.size())
+      {
+        if (a[del[i]] == a[del[j]])
+        {used[]
         }
       }
     }
-  }
-
-  for (auto p : o)
-  {
-    REP(i, p.second.size())
-    {
-      REP(j, p.second.size())
-      {
-        if (i != j)
-        {
-          edge[p.second[i]].push_back(p.second[j]);
-          edge[p.second[j]].push_back(p.second[i]);
-        }
-      }
-    }
-  }
-
-  dis = 0;
-  REP(i, n)
-  {
-    dfs(i);
   }
 
   if (dis % 2)
